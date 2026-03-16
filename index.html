@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slim TOUABTI — BTS SIO SISR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIABLES & RESET
+   ============================================================ */
+:root {
+  --black: #0a0a0a;
+  --white: #f5f2ed;
+  --cream: #ede8e0;
+  --accent: #c8ff00;       /* electric lime */
+  --accent2: #ff4d2e;      /* vermilion red */
+  --mid: #1e1e1e;
+  --border: rgba(245,242,237,0.12);
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --display: 'Syne', sans-serif;
+  --r: 4px;
+  --trans: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.4s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: difference;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  z-index: 1000;
+  padding: 1.4rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--white);
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex; gap: 2.4rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: rgba(245,242,237,0.5);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--trans);
+  position: relative;
+}
+.nav-links a::after {
+  content:'';
+  position: absolute; bottom:-3px; left:0;
+  width:0; height:1px;
+  background: var(--accent);
+  transition: width var(--trans);
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-status {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.72rem;
+  color: rgba(245,242,237,0.4);
+}
+.status-dot {
+  width:7px; height:7px;
+  background: var(--accent);
+  border-radius:50%;
+  animation: blink 1.8s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 3rem 4rem;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid-bg {
+  position: absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at 60% 50%, black 30%, transparent 80%);
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  animation: slideUp 0.8s 0.2s forwards;
+}
+
+.hero-name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: slideUp 0.8s 0.4s forwards;
+}
+.hero-name .line2 { color: var(--accent); }
+
+.hero-desc {
+  font-size: 1.05rem;
+  color: rgba(245,242,237,0.55);
+  line-height: 1.75;
+  max-width: 440px;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  animation: slideUp 0.8s 0.6s forwards;
+}
+
+.hero-ctas {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0;
+  animation: slideUp 0.8s 0.8s forwards;
+}
+
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  background: var(--accent);
+  color: var(--black);
+  border: none; border-radius: var(--r);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--trans);
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary:hover { background: #d4ff1a; transform: translateY(-2px); }
+
+.btn-outline {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  text-decoration: none;
+  transition: var(--trans);
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-outline:hover { border-color: rgba(245,242,237,0.4); transform: translateY(-2px); }
+
+.hero-right {
+  display: flex; flex-direction: column; gap: 1.2rem;
+  opacity: 0;
+  animation: slideUp 0.8s 0.6s forwards;
+}
+
+.hero-card {
+  background: var(--mid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--trans);
+}
+.hero-card::before {
+  content:'';
+  position: absolute; top:0; left:0;
+  width:3px; height:100%;
+  background: var(--accent);
+}
+.hero-card:hover { border-color: rgba(200,255,0,0.3); }
+.hero-card-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.hero-card-value {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.hero-card-sub {
+  font-size: 0.82rem;
+  color: rgba(245,242,237,0.45);
+  margin-top: 0.2rem;
+}
+
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 2px;
+  background: rgba(200,255,0,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(200,255,0,0.25);
+}
+.tag.red {
+  background: rgba(255,77,46,0.1);
+  color: var(--accent2);
+  border-color: rgba(255,77,46,0.25);
+}
+.tag.gray {
+  background: rgba(245,242,237,0.05);
+  color: rgba(245,242,237,0.5);
+  border-color: rgba(245,242,237,0.1);
+}
+
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SECTIONS COMMUNES
+   ============================================================ */
+section:not(#hero) {
+  padding: 7rem 3rem;
+  position: relative;
+}
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+}
+
+.section-desc {
+  color: rgba(245,242,237,0.5);
+  max-width: 520px;
+  line-height: 1.75;
+  font-size: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.divider {
+  width: 100%; height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ============================================================
+   COMPÉTENCES
+   ============================================================ */
+#competences { background: var(--mid); }
+
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.comp-card {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: border-color var(--trans), transform var(--trans);
+}
+.comp-card:hover {
+  border-color: rgba(200,255,0,0.35);
+  transform: translateY(-4px);
+}
+
+.comp-icon {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.comp-title {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.comp-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.comp-list li {
+  font-size: 0.85rem;
+  color: rgba(245,242,237,0.55);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.comp-list li::before {
+  content: '→';
+  color: var(--accent);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   EXPÉRIENCES
+   ============================================================ */
+#experiences { background: var(--black); }
+
+.exp-timeline {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative;
+  max-width: 900px;
+}
+.exp-timeline::before {
+  content:'';
+  position: absolute;
+  left: 0; top:0; bottom:0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  margin-left: 0px;
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 2.5rem;
+  padding: 2.5rem 0 2.5rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.exp-item::before {
+  content:'';
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  left: -4px; top: 2.8rem;
+  box-shadow: 0 0 12px var(--accent);
+}
+.exp-item:last-child { border-bottom: none; }
+
+.exp-date {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: rgba(245,242,237,0.4);
+  letter-spacing: 0.06em;
+  padding-top: 0.3rem;
+  line-height: 1.6;
+}
+
+.exp-company {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.exp-role {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.exp-desc {
+  font-size: 0.9rem;
+  color: rgba(245,242,237,0.55);
+  line-height: 1.75;
+}
+.exp-desc ul { padding-left: 1.2rem; margin-top: 0.5rem; }
+.exp-desc li { margin-bottom: 0.4rem; }
+
+/* ============================================================
+   PROJETS
+   ============================================================ */
+#projets { background: var(--mid); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.proj-card {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: border-color var(--trans), transform var(--trans);
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.proj-card::after {
+  content: '';
+  position: absolute; bottom:0; left:0; right:0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--trans);
+}
+.proj-card:hover {
+  border-color: rgba(200,255,0,0.25);
+  transform: translateY(-4px);
+}
+.proj-card:hover::after { transform: scaleX(1); }
+
+.proj-number {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: rgba(245,242,237,0.25);
+  letter-spacing: 0.12em;
+}
+
+.proj-title {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.proj-desc {
+  font-size: 0.88rem;
+  color: rgba(245,242,237,0.5);
+  line-height: 1.7;
+  flex-grow: 1;
+}
+
+.proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* ============================================================
+   FORMATION & CERTIFICATIONS
+   ============================================================ */
+#formation { background: var(--black); }
+
+.formation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.formation-block h3 {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-item {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.form-item:last-child { border-bottom: none; }
+
+.form-item-title {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+.form-item-org {
+  font-size: 0.82rem;
+  color: rgba(245,242,237,0.45);
+}
+.form-item-date {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   VEILLE TECHNO
+   ============================================================ */
+#veille { background: var(--mid); }
+
+.veille-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.veille-card {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: border-color var(--trans), transform var(--trans);
+}
+.veille-card:hover {
+  border-color: rgba(200,255,0,0.3);
+  transform: translateY(-3px);
+}
+
+.veille-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+.veille-title {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.veille-desc {
+  font-size: 0.88rem;
+  color: rgba(245,242,237,0.5);
+  line-height: 1.75;
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+#contact { background: var(--black); }
+
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.contact-links {
+  display: flex; flex-direction: column; gap: 1rem;
+  margin-top: 2rem;
+}
+
+.contact-link {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--mid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--white);
+  transition: border-color var(--trans), transform var(--trans), background var(--trans);
+}
+.contact-link:hover {
+  border-color: rgba(200,255,0,0.4);
+  background: rgba(200,255,0,0.05);
+  transform: translateX(6px);
+}
+
+.cl-icon {
+  width: 38px; height: 38px;
+  background: rgba(200,255,0,0.12);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.cl-info strong {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+.cl-info span {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: rgba(245,242,237,0.45);
+}
+
+/* Contact form */
+.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.form-field {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.form-field label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245,242,237,0.45);
+}
+.form-field input,
+.form-field textarea {
+  background: var(--mid);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 0.9rem 1rem;
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  transition: border-color var(--trans);
+  outline: none;
+  width: 100%;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,255,0,0.08);
+}
+.form-field textarea { min-height: 140px; resize: vertical; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--mid);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1rem;
+}
+.footer-logo span { color: var(--accent); }
+
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(245,242,237,0.35);
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ============================================================
+   SCROLL TO TOP
+   ============================================================ */
+.scroll-top {
+  position: fixed; bottom: 2rem; right: 2rem;
+  width: 44px; height: 44px;
+  background: var(--accent);
+  color: var(--black);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 20px rgba(200,255,0,0.3);
+  opacity: 0; visibility: hidden;
+  transition: var(--trans);
+  z-index: 900;
+}
+.scroll-top.show { opacity:1; visibility:visible; }
+.scroll-top:hover { transform: translateY(-3px); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-status { display: none; }
+
+  #hero {
+    grid-template-columns: 1fr;
+    padding: 7rem 1.5rem 4rem;
+    gap: 2.5rem;
+  }
+  .hero-name { font-size: clamp(2.8rem, 12vw, 5rem); }
+
+  section:not(#hero) { padding: 5rem 1.5rem; }
+
+  .formation-grid,
+  .contact-wrapper,
+  .veille-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  .exp-date { padding-top: 0; }
+
+  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .comp-grid,
+  .projects-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#hero" class="nav-logo">S.<span>T</span></a>
+  <ul class="nav-links">
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#experiences">Expériences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#veille">Veille</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-status">
+    <span class="status-dot"></span>
+    Disponible · Stage terminé
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-left">
+    <div class="hero-label">Portfolio · BTS SIO SISR</div>
+    <h1 class="hero-name">
+      Slim<br>
+      <span class="line2">TOUABTI</span>
+    </h1>
+    <p class="hero-desc">
+      Étudiant en 2ᵉ année de BTS SIO option SISR au lycée Louis Armand de Nogent-sur-Marne. Passionné par l'administration systèmes &amp; réseaux, la cybersécurité et la virtualisation.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Me contacter →</a>
+      <a href="#experiences" class="btn-outline">Voir mes projets</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-card-label">Formation actuelle</div>
+      <div class="hero-card-value">BTS SIO — SISR</div>
+      <div class="hero-card-sub">Lycée Louis Armand · Nogent-sur-Marne · depuis 09/2024</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Localisation</div>
+      <div class="hero-card-value">Charenton-le-Pont</div>
+      <div class="hero-card-sub">94220 · Île-de-France · Permis B</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Disponibilité</div>
+      <div class="hero-card-value">Alternance / Emploi</div>
+      <div class="hero-card-sub">Stage Étranger effectué · Mai–Juillet 2025</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Stack technique</div>
+      <div class="hero-card-value" style="margin-bottom:0.8rem">Systèmes & Réseaux</div>
+      <div class="hero-tags">
+        <span class="tag">Windows Server</span>
+        <span class="tag">Linux</span>
+        <span class="tag">VMware</span>
+        <span class="tag">Proxmox</span>
+        <span class="tag">pfSense</span>
+        <span class="tag">GLPI</span>
+        <span class="tag">PowerShell</span>
+        <span class="tag">Zabbix</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     COMPÉTENCES
+     ============================================================ -->
+<section id="competences">
+  <div class="section-eyebrow">01 — Compétences</div>
+  <h2 class="section-title reveal">Ce que je<br>maîtrise</h2>
+  <p class="section-desc reveal reveal-delay-1">Un socle technique construit par la pratique, les projets personnels et les stages.</p>
+
+  <div class="comp-grid">
+    <div class="comp-card reveal reveal-delay-1">
+      <span class="comp-icon">🖥️</span>
+      <div class="comp-title">Administration Systèmes</div>
+      <ul class="comp-list">
+        <li>Windows Server : Active Directory, GPO, DNS, DHCP</li>
+        <li>Linux : Debian / Ubuntu (administration avancée)</li>
+        <li>Virtualisation : VMware, VirtualBox, Proxmox</li>
+        <li>Sauvegarde et restauration de données</li>
+        <li>Gestion des imprimantes et périphériques</li>
+      </ul>
+    </div>
+    <div class="comp-card reveal reveal-delay-2">
+      <span class="comp-icon">🔐</span>
+      <div class="comp-title">Sécurité Informatique</div>
+      <ul class="comp-list">
+        <li>Gestion des droits utilisateurs et groupes</li>
+        <li>Sécurisation des serveurs et postes clients</li>
+        <li>Politique de mot de passe et authentification</li>
+        <li>Pare-feu pfSense : segmentation réseau</li>
+        <li>Plan de sauvegarde et reprise d'activité</li>
+      </ul>
+    </div>
+    <div class="comp-card reveal reveal-delay-3">
+      <span class="comp-icon">⌨️</span>
+      <div class="comp-title">Scripts & Langages</div>
+      <ul class="comp-list">
+        <li>PowerShell (Windows) — automatisation</li>
+        <li>Bash (Linux) — scripts d'administration</li>
+        <li>SQL — bases de données</li>
+        <li>HTML — notions (admin serveurs web)</li>
+      </ul>
+    </div>
+    <div class="comp-card reveal reveal-delay-1">
+      <span class="comp-icon">🛠️</span>
+      <div class="comp-title">Outils & Logiciels</div>
+      <ul class="comp-list">
+        <li>GLPI — gestion de parc informatique</li>
+        <li>Zabbix — supervision et monitoring réseau</li>
+        <li>Outils de ticketing / helpdesk</li>
+        <li>Logiciels de monitoring et administration</li>
+        <li>VLANs &amp; configuration réseau avancée</li>
+      </ul>
+    </div>
+    <div class="comp-card reveal reveal-delay-2">
+      <span class="comp-icon">🤝</span>
+      <div class="comp-title">Soft Skills</div>
+      <ul class="comp-list">
+        <li>Sens du service client</li>
+        <li>Esprit d'équipe et collaboration</li>
+        <li>Autonomie et rigueur</li>
+        <li>Curiosité et veille permanente</li>
+      </ul>
+    </div>
+    <div class="comp-card reveal reveal-delay-3">
+      <span class="comp-icon">🌍</span>
+      <div class="comp-title">Langues</div>
+      <ul class="comp-list">
+        <li>Français — langue maternelle</li>
+        <li>Anglais — niveau intermédiaire (stage à l'étranger)</li>
+        <li>Espagnol — notions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     EXPÉRIENCES
+     ============================================================ -->
+<section id="experiences">
+  <div class="section-eyebrow">02 — Expériences</div>
+  <h2 class="section-title reveal">Parcours<br>professionnel</h2>
+  <p class="section-desc reveal reveal-delay-1">Expériences pratiques en environnements réels, en France et à l'étranger.</p>
+
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-date">05/2025 — 07/2025<br><span style="color:var(--accent);font-size:0.65rem">Stage · Étranger</span></div>
+      <div>
+        <div class="exp-company">High Technoly Network &amp; Security</div>
+        <div class="exp-role">Technicien Systèmes &amp; Réseaux</div>
+        <div class="exp-desc">
+          <ul>
+            <li>Gestion du parc informatique : recensement et mise à jour des ressources (matérielles, logicielles, habilitations, sauvegardes)</li>
+            <li>Veille technologique : suivi des nouveautés, auto-formation et mise en pratique de bonnes pratiques (normes, standards, sécurité)</li>
+            <li>Support utilisateurs : diagnostic, résolution d'incidents et traitement des demandes via GLPI</li>
+            <li>Participation à des projets informatiques : analyse des besoins, planification, suivi de tâches et reporting</li>
+          </ul>
+        </div>
+        <div class="hero-tags" style="margin-top:1rem">
+          <span class="tag">GLPI</span>
+          <span class="tag">Support N1/N2</span>
+          <span class="tag">Active Directory</span>
+          <span class="tag">Réseau</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">11/2024 — 01/2025<br><span style="color:var(--accent);font-size:0.65rem">Projet personnel</span></div>
+      <div>
+        <div class="exp-company">Infrastructure Réseau Virtualisée</div>
+        <div class="exp-role">Projet personnel — PME simulée (20 postes)</div>
+        <div class="exp-desc">
+          <ul>
+            <li>Mise en place d'un environnement virtualisé Proxmox simulant une PME de 20 postes</li>
+            <li>Installation et configuration d'un serveur Windows Server (AD, DHCP, DNS)</li>
+            <li>Déploiement d'un partage réseau avec gestion des droits NTFS et quotas utilisateurs</li>
+            <li>Création de VLANs et configuration d'un pare-feu pfSense pour segmenter et sécuriser le réseau</li>
+            <li>Supervision du réseau avec Zabbix et génération d'un rapport de maintenance</li>
+          </ul>
+        </div>
+        <div class="hero-tags" style="margin-top:1rem">
+          <span class="tag">Proxmox</span>
+          <span class="tag">Windows Server</span>
+          <span class="tag">pfSense</span>
+          <span class="tag">VLANs</span>
+          <span class="tag">Zabbix</span>
+          <span class="tag">NTFS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">08/2025<br><span style="color:var(--accent);font-size:0.65rem">Expérience</span></div>
+      <div>
+        <div class="exp-company">Phoenix Photo</div>
+        <div class="exp-role">Photographe / Vendeur — Paris 75007, Tour Eiffel</div>
+        <div class="exp-desc">
+          Travail en autonomie dans un environnement dynamique, développement du sens du contact client et de la relation commerciale.
+        </div>
+        <div class="hero-tags" style="margin-top:1rem">
+          <span class="tag gray">Relation client</span>
+          <span class="tag gray">Autonomie</span>
+          <span class="tag gray">Commerce</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     PROJETS
+     ============================================================ -->
+<section id="projets">
+  <div class="section-eyebrow">03 — Projets</div>
+  <h2 class="section-title reveal">Réalisations<br>techniques</h2>
+  <p class="section-desc reveal reveal-delay-1">Projets scolaires et personnels mettant en pratique mes compétences SISR.</p>
+
+  <div class="projects-grid">
+
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-number">PROJ — 01</div>
+      <div class="proj-title">Infrastructure PME Virtualisée</div>
+      <div class="proj-desc">
+        Simulation complète d'une infrastructure PME de 20 postes sous Proxmox : serveur Windows Server (AD, DHCP, DNS), partage réseau NTFS, VLANs, pare-feu pfSense et supervision Zabbix.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Proxmox</span>
+        <span class="tag">Windows Server</span>
+        <span class="tag">pfSense</span>
+        <span class="tag">Zabbix</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-2">
+      <div class="proj-number">PROJ — 02</div>
+      <div class="proj-title">Stage Systèmes & Réseaux à l'Étranger</div>
+      <div class="proj-desc">
+        Immersion professionnelle dans une structure internationale. Gestion de parc via GLPI, support utilisateurs N1/N2, résolution d'incidents, veille technologique et participation à des projets IT.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">GLPI</span>
+        <span class="tag">Support</span>
+        <span class="tag">Administration</span>
+        <span class="tag">Incidents</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-3">
+      <div class="proj-number">PROJ — 03</div>
+      <div class="proj-title">Déploiement Active Directory</div>
+      <div class="proj-desc">
+        Installation et configuration complète d'un contrôleur de domaine Windows Server : création d'unités organisationnelles, GPO, gestion centralisée des comptes et stratégies de sécurité.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Active Directory</span>
+        <span class="tag">GPO</span>
+        <span class="tag">DNS</span>
+        <span class="tag">DHCP</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-number">PROJ — 04</div>
+      <div class="proj-title">Segmentation Réseau & pfSense</div>
+      <div class="proj-desc">
+        Mise en place d'une architecture réseau segmentée avec VLANs et pare-feu pfSense : règles de filtrage, DMZ, isolation des flux entre segments (serveurs, postes, invités).
+      </div>
+      <div class="proj-tags">
+        <span class="tag">pfSense</span>
+        <span class="tag">VLANs</span>
+        <span class="tag">Firewall</span>
+        <span class="tag">Sécurité</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-2">
+      <div class="proj-number">PROJ — 05</div>
+      <div class="proj-title">Supervision avec Zabbix</div>
+      <div class="proj-desc">
+        Déploiement d'une solution de monitoring réseau : agents Zabbix sur serveurs et postes, tableaux de bord de supervision, alertes automatisées et génération de rapports de maintenance.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Zabbix</span>
+        <span class="tag">Monitoring</span>
+        <span class="tag">Alertes</span>
+        <span class="tag">Reporting</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-3">
+      <div class="proj-number">PROJ — 06</div>
+      <div class="proj-title">Automatisation PowerShell</div>
+      <div class="proj-desc">
+        Scripts PowerShell pour l'administration Windows : création en masse de comptes AD, rapport d'inventaire matériel, gestion des droits NTFS et automatisation des tâches de maintenance.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">PowerShell</span>
+        <span class="tag">Automatisation</span>
+        <span class="tag">AD</span>
+        <span class="tag">NTFS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     FORMATION
+     ============================================================ -->
+<section id="formation">
+  <div class="section-eyebrow">04 — Formation</div>
+  <h2 class="section-title reveal">Parcours<br>académique</h2>
+  <p class="section-desc reveal reveal-delay-1">Diplômes, certifications et formation continue.</p>
+
+  <div class="formation-grid">
+    <div class="formation-block reveal">
+      <h3>📚 Diplômes</h3>
+
+      <div class="form-item">
+        <div class="form-item-title">BTS SIO — Option SISR</div>
+        <div class="form-item-org">Lycée Louis Armand · Nogent-sur-Marne</div>
+        <div class="form-item-date">depuis 09/2024</div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">Baccalauréat STI2D — Option ITEC</div>
+        <div class="form-item-org">Lycée Edouard Branly · Créteil</div>
+        <div class="form-item-date">19/07/2022 — 07/07/2023</div>
+      </div>
+    </div>
+
+    <div class="formation-block reveal reveal-delay-1">
+      <h3>🏆 Certifications</h3>
+
+      <div class="form-item">
+        <div class="form-item-title">Maintenance Informatique — Niveau 1</div>
+        <div class="form-item-org">Google · Coursera</div>
+        <div class="form-item-date">01/2024 — 03/2024</div>
+        <div style="margin-top:0.5rem">
+          <span class="tag">Google IT Support</span>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">Python — Niveau 1</div>
+        <div class="form-item-org">Google · Coursera</div>
+        <div class="form-item-date">04/2024 — 05/2024</div>
+        <div style="margin-top:0.5rem">
+          <span class="tag">Python Automation</span>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">Centres d'intérêts</div>
+        <div class="form-item-org">Ce qui me définit en dehors du tech</div>
+        <div style="margin-top:0.6rem" class="hero-tags">
+          <span class="tag gray">🔐 Cybersécurité</span>
+          <span class="tag gray">🎵 Musique</span>
+          <span class="tag gray">⚽ Football</span>
+          <span class="tag gray">🎣 Pêche</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     VEILLE TECHNOLOGIQUE
+     ============================================================ -->
+<section id="veille">
+  <div class="section-eyebrow">05 — Veille Technologique</div>
+  <h2 class="section-title reveal">Rester à la<br>pointe</h2>
+  <p class="section-desc reveal reveal-delay-1">Ma veille porte sur les menaces émergentes et les nouvelles méthodes d'authentification.</p>
+
+  <div class="veille-grid">
+
+    <div class="veille-card reveal reveal-delay-1">
+      <span class="veille-emoji">🎣</span>
+      <div class="veille-title">Évolution des attaques de phishing</div>
+      <div class="veille-desc">
+        Suivi de l'évolution des techniques de phishing : faux sites, emails ciblés, spear-phishing, vishing et smishing. Analyse des campagnes récentes et des méthodes de détection (DMARC, SPF, DKIM). Étude de cas réels et outils de protection des utilisateurs finaux.
+      </div>
+      <div class="hero-tags" style="margin-top:1.2rem">
+        <span class="tag red">Phishing</span>
+        <span class="tag red">Spear-phishing</span>
+        <span class="tag red">DMARC/SPF</span>
+        <span class="tag red">Awareness</span>
+      </div>
+    </div>
+
+    <div class="veille-card reveal reveal-delay-2">
+      <span class="veille-emoji">🔑</span>
+      <div class="veille-title">Déploiement des Passkeys</div>
+      <div class="veille-desc">
+        Suivi de l'adoption des passkeys par Apple, Google et Microsoft comme alternative aux mots de passe. Analyse du standard FIDO2/WebAuthn, du fonctionnement des clés cryptographiques et de leur rôle dans la réduction des risques de phishing. Veille sur l'interopérabilité et les cas d'usage réels.
+      </div>
+      <div class="hero-tags" style="margin-top:1.2rem">
+        <span class="tag">Passkeys</span>
+        <span class="tag">FIDO2</span>
+        <span class="tag">WebAuthn</span>
+        <span class="tag">MFA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section id="contact">
+  <div class="section-eyebrow">06 — Contact</div>
+  <h2 class="section-title reveal">Travaillons<br>ensemble</h2>
+
+  <div class="contact-wrapper">
+    <div class="reveal">
+      <p class="section-desc" style="margin-bottom:0.5rem">
+        À la recherche d'une alternance ou d'une opportunité professionnelle dans l'administration systèmes, réseaux et cybersécurité. N'hésitez pas à me contacter !
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:slim.touabti.sio@gmail.com" class="contact-link">
+          <div class="cl-icon">✉️</div>
+          <div class="cl-info">
+            <strong>Email</strong>
+            <span>slim.touabti.sio@gmail.com</span>
+          </div>
+        </a>
+        <a href="tel:+33770091853" class="contact-link">
+          <div class="cl-icon">📱</div>
+          <div class="cl-info">
+            <strong>Téléphone</strong>
+            <span>07 70 09 18 53</span>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="cl-icon">📍</div>
+          <div class="cl-info">
+            <strong>Localisation</strong>
+            <span>Charenton-le-Pont, 94220 · Permis B</span>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="cl-icon">💼</div>
+          <div class="cl-info">
+            <strong>LinkedIn</strong>
+            <span>Slim TOUABTI</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <form class="contact-form reveal reveal-delay-2" id="contactForm">
+      <div class="form-field">
+        <label for="name">Nom complet</label>
+        <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="jean@entreprise.com" required>
+      </div>
+      <div class="form-field">
+        <label for="sujet">Sujet</label>
+        <input type="text" id="sujet" name="sujet" placeholder="Proposition d'alternance...">
+      </div>
+      <div class="form-field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="align-self:flex-start">
+        Envoyer →
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">S.<span>TOUABTI</span></div>
+  <div class="footer-copy">© 2026 · BTS SIO SISR · Lycée Louis Armand · Nogent-sur-Marne</div>
+  <div class="footer-copy" style="color:rgba(245,242,237,0.2)">slim.touabti.sio@gmail.com</div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<a href="#hero" class="scroll-top" id="scrollTop">↑</a>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* --- CURSOR --- */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a,button,.comp-card,.proj-card,.veille-card').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.style.transform += ' scale(1.6)');
+  el.addEventListener('mouseleave', () => {});
+});
+
+/* --- SCROLL REVEAL --- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => io.observe(el));
+
+/* --- SCROLL TO TOP --- */
+const scrollTop = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTop.classList.toggle('show', window.scrollY > 500);
+});
+
+/* --- CONTACT FORM --- */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button');
+  btn.textContent = 'Message envoyé ✓';
+  btn.style.background = '#10b981';
+  setTimeout(() => { btn.textContent = 'Envoyer →'; btn.style.background=''; this.reset(); }, 3000);
+});
+
+/* --- NAV ACTIVE --- */
+const sections = document.querySelectorAll('section[id]');
+const navAs    = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) cur = s.id; });
+  navAs.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--accent)' : '';
+  });
+});
+</script>
+</body>
+</html>
+
