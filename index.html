@@ -1,1348 +1,767 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slim TOUABTI — BTS SIO SISR</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-/* ============================================================
-   VARIABLES & RESET
-   ============================================================ */
-:root {
-  --black: #0a0a0a;
-  --white: #f5f2ed;
-  --cream: #ede8e0;
-  --accent: #c8ff00;       /* electric lime */
-  --accent2: #ff4d2e;      /* vermilion red */
-  --mid: #1e1e1e;
-  --border: rgba(245,242,237,0.12);
-  --mono: 'DM Mono', monospace;
-  --sans: 'DM Sans', sans-serif;
-  --display: 'Syne', sans-serif;
-  --r: 4px;
-  --trans: 0.35s cubic-bezier(0.4,0,0.2,1);
-}
-
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-
-body {
-  font-family: var(--sans);
-  background: var(--black);
-  color: var(--white);
-  overflow-x: hidden;
-  cursor: none;
-}
-
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
-.cursor {
-  width: 10px; height: 10px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s;
-  mix-blend-mode: difference;
-}
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.4s, width 0.3s, height 0.3s, opacity 0.3s;
-  mix-blend-mode: difference;
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-nav {
-  position: fixed; top:0; left:0; right:0;
-  z-index: 1000;
-  padding: 1.4rem 3rem;
-  display: flex; justify-content: space-between; align-items: center;
-  background: rgba(10,10,10,0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-  color: var(--white);
-}
-.nav-logo span { color: var(--accent); }
-
-.nav-links {
-  display: flex; gap: 2.4rem;
-  list-style: none;
-}
-.nav-links a {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: rgba(245,242,237,0.5);
-  text-decoration: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: color var(--trans);
-  position: relative;
-}
-.nav-links a::after {
-  content:'';
-  position: absolute; bottom:-3px; left:0;
-  width:0; height:1px;
-  background: var(--accent);
-  transition: width var(--trans);
-}
-.nav-links a:hover { color: var(--accent); }
-.nav-links a:hover::after { width: 100%; }
-
-.nav-status {
-  display: flex; align-items: center; gap: 0.5rem;
-  font-family: var(--mono); font-size: 0.72rem;
-  color: rgba(245,242,237,0.4);
-}
-.status-dot {
-  width:7px; height:7px;
-  background: var(--accent);
-  border-radius:50%;
-  animation: blink 1.8s ease infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-/* ============================================================
-   HERO
-   ============================================================ */
-#hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  padding: 8rem 3rem 4rem;
-  gap: 4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-grid-bg {
-  position: absolute; inset:0;
-  background-image:
-    linear-gradient(rgba(200,255,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200,255,0,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at 60% 50%, black 30%, transparent 80%);
-}
-
-.hero-label {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.4rem;
-  opacity: 0;
-  animation: slideUp 0.8s 0.2s forwards;
-}
-
-.hero-name {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(3.5rem, 8vw, 7rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  margin-bottom: 1.8rem;
-  opacity: 0;
-  animation: slideUp 0.8s 0.4s forwards;
-}
-.hero-name .line2 { color: var(--accent); }
-
-.hero-desc {
-  font-size: 1.05rem;
-  color: rgba(245,242,237,0.55);
-  line-height: 1.75;
-  max-width: 440px;
-  margin-bottom: 2.8rem;
-  opacity: 0;
-  animation: slideUp 0.8s 0.6s forwards;
-}
-
-.hero-ctas {
-  display: flex; gap: 1rem; flex-wrap: wrap;
-  opacity: 0;
-  animation: slideUp 0.8s 0.8s forwards;
-}
-
-.btn-primary {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.9rem 2rem;
-  background: var(--accent);
-  color: var(--black);
-  border: none; border-radius: var(--r);
-  text-decoration: none;
-  font-weight: 500;
-  transition: var(--trans);
-  display: inline-flex; align-items: center; gap: 0.5rem;
-}
-.btn-primary:hover { background: #d4ff1a; transform: translateY(-2px); }
-
-.btn-outline {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.9rem 2rem;
-  background: transparent;
-  color: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  text-decoration: none;
-  transition: var(--trans);
-  display: inline-flex; align-items: center; gap: 0.5rem;
-}
-.btn-outline:hover { border-color: rgba(245,242,237,0.4); transform: translateY(-2px); }
-
-.hero-right {
-  display: flex; flex-direction: column; gap: 1.2rem;
-  opacity: 0;
-  animation: slideUp 0.8s 0.6s forwards;
-}
-
-.hero-card {
-  background: var(--mid);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.4rem 1.6rem;
-  position: relative;
-  overflow: hidden;
-  transition: border-color var(--trans);
-}
-.hero-card::before {
-  content:'';
-  position: absolute; top:0; left:0;
-  width:3px; height:100%;
-  background: var(--accent);
-}
-.hero-card:hover { border-color: rgba(200,255,0,0.3); }
-.hero-card-label {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.4rem;
-}
-.hero-card-value {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-.hero-card-sub {
-  font-size: 0.82rem;
-  color: rgba(245,242,237,0.45);
-  margin-top: 0.2rem;
-}
-
-.hero-tags {
-  display: flex; flex-wrap: wrap; gap: 0.5rem;
-  margin-top: 0.4rem;
-}
-.tag {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  padding: 0.25rem 0.7rem;
-  border-radius: 2px;
-  background: rgba(200,255,0,0.1);
-  color: var(--accent);
-  border: 1px solid rgba(200,255,0,0.25);
-}
-.tag.red {
-  background: rgba(255,77,46,0.1);
-  color: var(--accent2);
-  border-color: rgba(255,77,46,0.25);
-}
-.tag.gray {
-  background: rgba(245,242,237,0.05);
-  color: rgba(245,242,237,0.5);
-  border-color: rgba(245,242,237,0.1);
-}
-
-@keyframes slideUp {
-  from { opacity:0; transform: translateY(24px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-/* ============================================================
-   SECTIONS COMMUNES
-   ============================================================ */
-section:not(#hero) {
-  padding: 7rem 3rem;
-  position: relative;
-}
-
-.section-eyebrow {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.8rem;
-}
-
-.section-title {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin-bottom: 1.2rem;
-}
-
-.section-desc {
-  color: rgba(245,242,237,0.5);
-  max-width: 520px;
-  line-height: 1.75;
-  font-size: 1rem;
-  margin-bottom: 3.5rem;
-}
-
-.divider {
-  width: 100%; height: 1px;
-  background: var(--border);
-  margin: 0;
-}
-
-/* ============================================================
-   COMPÉTENCES
-   ============================================================ */
-#competences { background: var(--mid); }
-
-.comp-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.comp-card {
-  background: var(--black);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2rem;
-  transition: border-color var(--trans), transform var(--trans);
-}
-.comp-card:hover {
-  border-color: rgba(200,255,0,0.35);
-  transform: translateY(-4px);
-}
-
-.comp-icon {
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.comp-title {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.comp-list {
-  list-style: none;
-  display: flex; flex-direction: column; gap: 0.4rem;
-}
-.comp-list li {
-  font-size: 0.85rem;
-  color: rgba(245,242,237,0.55);
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.comp-list li::before {
-  content: '→';
-  color: var(--accent);
-  font-size: 0.75rem;
-  flex-shrink: 0;
-}
-
-/* ============================================================
-   EXPÉRIENCES
-   ============================================================ */
-#experiences { background: var(--black); }
-
-.exp-timeline {
-  display: flex; flex-direction: column; gap: 0;
-  position: relative;
-  max-width: 900px;
-}
-.exp-timeline::before {
-  content:'';
-  position: absolute;
-  left: 0; top:0; bottom:0;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  margin-left: 0px;
-}
-
-.exp-item {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 2.5rem;
-  padding: 2.5rem 0 2.5rem 2.5rem;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-.exp-item::before {
-  content:'';
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: absolute;
-  left: -4px; top: 2.8rem;
-  box-shadow: 0 0 12px var(--accent);
-}
-.exp-item:last-child { border-bottom: none; }
-
-.exp-date {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: rgba(245,242,237,0.4);
-  letter-spacing: 0.06em;
-  padding-top: 0.3rem;
-  line-height: 1.6;
-}
-
-.exp-company {
-  font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
-}
-
-.exp-role {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.exp-desc {
-  font-size: 0.9rem;
-  color: rgba(245,242,237,0.55);
-  line-height: 1.75;
-}
-.exp-desc ul { padding-left: 1.2rem; margin-top: 0.5rem; }
-.exp-desc li { margin-bottom: 0.4rem; }
-
-/* ============================================================
-   PROJETS
-   ============================================================ */
-#projets { background: var(--mid); }
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-.proj-card {
-  background: var(--black);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2rem;
-  transition: border-color var(--trans), transform var(--trans);
-  display: flex; flex-direction: column; gap: 1rem;
-  position: relative;
-  overflow: hidden;
-}
-.proj-card::after {
-  content: '';
-  position: absolute; bottom:0; left:0; right:0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--trans);
-}
-.proj-card:hover {
-  border-color: rgba(200,255,0,0.25);
-  transform: translateY(-4px);
-}
-.proj-card:hover::after { transform: scaleX(1); }
-
-.proj-number {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: rgba(245,242,237,0.25);
-  letter-spacing: 0.12em;
-}
-
-.proj-title {
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.proj-desc {
-  font-size: 0.88rem;
-  color: rgba(245,242,237,0.5);
-  line-height: 1.7;
-  flex-grow: 1;
-}
-
-.proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-
-/* ============================================================
-   FORMATION & CERTIFICATIONS
-   ============================================================ */
-#formation { background: var(--black); }
-
-.formation-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-}
-
-.formation-block h3 {
-  font-family: var(--display);
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.form-item {
-  padding: 1.4rem 0;
-  border-bottom: 1px solid var(--border);
-}
-.form-item:last-child { border-bottom: none; }
-
-.form-item-title {
-  font-weight: 500;
-  font-size: 0.95rem;
-  margin-bottom: 0.2rem;
-}
-.form-item-org {
-  font-size: 0.82rem;
-  color: rgba(245,242,237,0.45);
-}
-.form-item-date {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  margin-top: 0.3rem;
-}
-
-/* ============================================================
-   VEILLE TECHNO
-   ============================================================ */
-#veille { background: var(--mid); }
-
-.veille-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-
-.veille-card {
-  background: var(--black);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2rem;
-  transition: border-color var(--trans), transform var(--trans);
-}
-.veille-card:hover {
-  border-color: rgba(200,255,0,0.3);
-  transform: translateY(-3px);
-}
-
-.veille-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
-
-.veille-title {
-  font-family: var(--display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-}
-
-.veille-desc {
-  font-size: 0.88rem;
-  color: rgba(245,242,237,0.5);
-  line-height: 1.75;
-}
-
-/* ============================================================
-   CONTACT
-   ============================================================ */
-#contact { background: var(--black); }
-
-.contact-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: start;
-}
-
-.contact-links {
-  display: flex; flex-direction: column; gap: 1rem;
-  margin-top: 2rem;
-}
-
-.contact-link {
-  display: flex; align-items: center; gap: 1.2rem;
-  padding: 1.2rem 1.4rem;
-  background: var(--mid);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--white);
-  transition: border-color var(--trans), transform var(--trans), background var(--trans);
-}
-.contact-link:hover {
-  border-color: rgba(200,255,0,0.4);
-  background: rgba(200,255,0,0.05);
-  transform: translateX(6px);
-}
-
-.cl-icon {
-  width: 38px; height: 38px;
-  background: rgba(200,255,0,0.12);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.cl-info strong {
-  display: block;
-  font-size: 0.9rem;
-  margin-bottom: 0.1rem;
-}
-.cl-info span {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: rgba(245,242,237,0.45);
-}
-
-/* Contact form */
-.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
-
-.form-field {
-  display: flex; flex-direction: column; gap: 0.5rem;
-}
-.form-field label {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(245,242,237,0.45);
-}
-.form-field input,
-.form-field textarea {
-  background: var(--mid);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 0.9rem 1rem;
-  color: var(--white);
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  transition: border-color var(--trans);
-  outline: none;
-  width: 100%;
-}
-.form-field input:focus,
-.form-field textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(200,255,0,0.08);
-}
-.form-field textarea { min-height: 140px; resize: vertical; }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer {
-  background: var(--mid);
-  border-top: 1px solid var(--border);
-  padding: 2.5rem 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-logo {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 1rem;
-}
-.footer-logo span { color: var(--accent); }
-
-.footer-copy {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: rgba(245,242,237,0.35);
-  letter-spacing: 0.06em;
-}
-
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-
-/* ============================================================
-   SCROLL TO TOP
-   ============================================================ */
-.scroll-top {
-  position: fixed; bottom: 2rem; right: 2rem;
-  width: 44px; height: 44px;
-  background: var(--accent);
-  color: var(--black);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  text-decoration: none;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 20px rgba(200,255,0,0.3);
-  opacity: 0; visibility: hidden;
-  transition: var(--trans);
-  z-index: 900;
-}
-.scroll-top.show { opacity:1; visibility:visible; }
-.scroll-top:hover { transform: translateY(-3px); }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 900px) {
-  nav { padding: 1.2rem 1.5rem; }
-  .nav-links { display: none; }
-  .nav-status { display: none; }
-
-  #hero {
-    grid-template-columns: 1fr;
-    padding: 7rem 1.5rem 4rem;
-    gap: 2.5rem;
-  }
-  .hero-name { font-size: clamp(2.8rem, 12vw, 5rem); }
-
-  section:not(#hero) { padding: 5rem 1.5rem; }
-
-  .formation-grid,
-  .contact-wrapper,
-  .veille-grid { grid-template-columns: 1fr; gap: 2rem; }
-
-  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-  .exp-date { padding-top: 0; }
-
-  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
-}
-
-@media (max-width: 480px) {
-  .comp-grid,
-  .projects-grid { grid-template-columns: 1fr; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Slim Touabti - BTS SIO SISR</title>
+    
+    <style>
+        /* ============================================================
+           PORTFOLIO SLIM TOUABTI - ONE-PAGE GLASSMORPHISM BLUE EDITION
+           ============================================================ */
+
+        :root {
+            --bg-dark: #020408;
+            --bg-panel: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-neon: #4d9fff;
+            --accent-glow: rgba(77, 159, 255, 0.3);
+            --accent-blue: #1e6fff;
+            --accent-white: #e0eeff;
+            --terminal-bg: rgba(5, 10, 20, 0.9);
+            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2; pointer-events: none;
+        }
+
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, transparent 0%, rgba(2, 4, 8, 0.85) 100%);
+            z-index: -1; pointer-events: none;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: rgba(77, 159, 255, 0.3); border-radius: 4px; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px; background-color: rgba(2, 4, 8, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            position: fixed; width: calc(100% - 40px); max-width: 1400px;
+            top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; border-radius: 100px;
+            border: 1px solid rgba(77, 159, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(77,159,255,0.05);
+        }
+
+        .logo {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.3rem; font-weight: 700;
+            letter-spacing: 0px; text-transform: lowercase; text-decoration: none;
+        }
+        .logo .user { color: #4d9fff; text-shadow: 0 0 10px rgba(77, 159, 255, 0.6); }
+        .logo .at { color: var(--text-primary); }
+        .logo .host { color: #a0c8ff; text-shadow: 0 0 8px rgba(160, 200, 255, 0.4); }
+        .logo .cursor-blink { color: var(--accent-neon); animation: blink 1s step-end infinite; }
+
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); text-shadow: 0 0 5px var(--accent-neon); }
+
+        /* --- HERO --- */
+        .hero { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; }
+        .hero::before { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(30, 111, 255, 0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: -1; }
+        .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; line-height: 1.1; }
+        .hero h1 span { background: linear-gradient(90deg, #4d9fff, #a0d4ff, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 0 20px rgba(77, 159, 255, 0.5)); }
+        .hero h2 { font-size: 1.5rem; font-weight: 500; color: var(--text-primary); margin-top: 10px; }
+        .hero p { margin: 25px auto; max-width: 680px; font-size: 1.05rem; color: var(--text-secondary); }
+
+        .btn { display: inline-block; padding: 12px 30px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); color: var(--accent-neon); text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--accent-neon); transition: var(--transition-smooth); cursor: pointer; }
+        .btn:hover { color: #020408; background-color: var(--accent-neon); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
+
+        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--accent-neon); text-decoration: none; animation: bounce 2s infinite; transition: 0.3s; opacity: 0.8; }
+        .scroll-down:hover { opacity: 1; text-shadow: 0 0 15px var(--accent-glow); }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); } 40% { transform: translateY(-15px) translateX(-50%); } 60% { transform: translateY(-7px) translateX(-50%); } }
+
+        /* --- SECTIONS --- */
+        .section { padding: 100px 20px 40px 20px; max-width: 1200px; margin: auto; min-height: 80vh; position: relative; }
+        .section-title { margin-bottom: 50px; font-size: 2.5rem; font-weight: 900; color: var(--text-primary); position: relative; padding-left: 20px; }
+        .section-title::before { content: ''; position: absolute; left: 0; top: 5px; height: 80%; width: 4px; background: linear-gradient(to bottom, var(--accent-blue), var(--accent-neon)); border-radius: 2px; }
+
+        /* --- A PROPOS --- */
+        .grid-about { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: stretch; }
+        .about-text { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 1px solid var(--border-glass); }
+        .about-text p { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.05rem; }
+
+        .terminal-window { background: var(--terminal-bg); border-radius: 12px; border: 1px solid rgba(77,159,255,0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.5); overflow: hidden; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; display: flex; flex-direction: column; }
+        .terminal-header { background: rgba(0,0,0,0.5); padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid rgba(77,159,255,0.1); }
+        .term-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .dot-red { background-color: #ff5f56; } .dot-yellow { background-color: #ffbd2e; } .dot-green { background-color: #27c93f; }
+        .term-title { margin-left: auto; margin-right: auto; color: #64748b; font-size: 0.85rem; padding-right: 60px; }
+        .terminal-body { padding: 20px; color: #e2e8f0; flex: 1; }
+        .prompt { color: #4d9fff; font-weight: bold; } .cmd { color: #a0d4ff; }
+        .output { color: #cbd5e1; margin-bottom: 15px; padding-left: 10px; border-left: 2px solid #1e3a5f; margin-top: 5px; }
+        .highlight-output { color: #4d9fff; font-weight: bold; }
+        .cursor { display: inline-block; width: 8px; height: 18px; background-color: #4d9fff; vertical-align: middle; animation: blink 1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* --- COMPETENCES --- */
+        .skill-item { margin-bottom: 20px; }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
+        .skill-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid var(--border-glass); overflow: hidden; }
+        .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-neon)); border-radius: 10px; box-shadow: 0 0 10px var(--accent-glow); }
+
+        /* Tool tags section */
+        .tools-section { margin-top: 40px; }
+        .tools-title { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; font-weight: 600; }
+        .tools-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tool-tag { background: rgba(77, 159, 255, 0.07); border: 1px solid rgba(77,159,255,0.2); color: var(--accent-neon); padding: 8px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; transition: 0.3s; }
+        .tool-tag:hover { background: rgba(77, 159, 255, 0.15); transform: translateY(-2px); }
+
+        /* --- PROJETS --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); position: relative; overflow: hidden; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
+        .card::after { content: ''; position: absolute; width: 100px; height: 100px; background: var(--accent-glow); border-radius: 50%; filter: blur(30px); opacity: 0; transition: var(--transition-smooth); top: -50px; right: -50px; z-index: -1; }
+        .card:hover { transform: translateY(-8px); border-color: rgba(77, 159, 255, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .card:hover::after { opacity: 1; }
+        .card h3 { margin-bottom: 20px; font-size: 1.2rem; color: var(--text-primary); }
+        .card p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; flex-grow: 1; }
+        .card .context { font-size: 0.8rem; color: rgba(77,159,255,0.7); margin-bottom: 15px; font-style: italic; }
+
+        .badge { display: inline-block; background-color: rgba(255,255,255,0.03); color: var(--text-secondary); padding: 6px 14px; border-radius: 40px; font-size: 0.75rem; font-weight: 500; margin: 0 6px 8px 0; border: 1px solid var(--border-glass); }
+        .card:hover .badge { border-color: rgba(77,159,255,0.25); color: var(--text-primary); }
+        .btn-view { margin-top: auto; align-self: flex-start; padding: 8px 20px; font-size: 0.8rem; }
+
+        /* --- CERTIFICATIONS --- */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .cert-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; text-align: center; opacity: 0; transform: translateY(30px); }
+        .cert-card:hover { transform: translateY(-8px); border-color: rgba(77,159,255,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .cert-icon { font-size: 3rem; margin-bottom: 15px; }
+        .cert-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+        .cert-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; flex-grow: 1; }
+        .cert-status-ok { color: #27c93f; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(39,201,63,0.3); padding: 4px 14px; border-radius: 20px; background: rgba(39,201,63,0.07); }
+        .cert-status-wip { color: #ffbd2e; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(255,189,46,0.3); padding: 4px 14px; border-radius: 20px; background: rgba(255,189,46,0.07); }
+
+        /* --- VEILLE --- */
+        .veille-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); opacity: 0; transform: translateY(30px); display: flex; flex-direction: column; }
+        .veille-card:hover { transform: translateY(-6px); border-color: rgba(77,159,255,0.25); }
+        .veille-card h3 { font-size: 1.15rem; margin-bottom: 15px; color: var(--text-primary); }
+        .veille-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 10px; }
+        .veille-card p strong { color: var(--text-primary); }
+        .veille-sources { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-glass); }
+        .veille-sources p { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .veille-sources a { color: var(--accent-neon); text-decoration: none; font-size: 0.82rem; line-height: 2; }
+        .veille-sources a:hover { text-decoration: underline; }
+
+        /* --- CONTACT --- */
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: var(--bg-panel); padding: 40px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); }
+        .contact-form { display: flex; flex-direction: column; gap: 20px; }
+        .contact-form div { display: flex; flex-direction: column; gap: 8px; }
+        .contact-form label { font-weight: 600; color: var(--text-secondary); font-size: 0.9rem; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid var(--border-glass); border-radius: 12px; background-color: rgba(0,0,0,0.4); color: var(--text-primary); font-size: 1rem; transition: var(--transition-smooth); }
+        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent-neon); box-shadow: 0 0 15px var(--accent-glow); }
+        .contact-form textarea { min-height: 150px; resize: vertical; }
+        .btn-submit { background: linear-gradient(90deg, var(--accent-blue), var(--accent-neon)); color: #020408; border: none; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1rem; }
+        .btn-submit:hover { box-shadow: 0 10px 30px var(--accent-glow); transform: translateY(-2px); }
+        .contact-info h3 { margin-bottom: 20px; color: var(--accent-neon); }
+        .contact-info p { color: var(--text-secondary); margin-bottom: 20px; }
+        .social-btn { display: block; text-align: center; margin-bottom: 15px; }
+
+        /* --- BACK TO TOP --- */
+        #backToTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: rgba(2,4,8,0.85); backdrop-filter: blur(10px); border: 1px solid var(--accent-neon); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--accent-neon); font-size: 1.5rem; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: var(--transition-smooth); opacity: 0; visibility: hidden; z-index: 999; }
+        #backToTop.show { opacity: 1; visibility: visible; }
+        #backToTop:hover { background-color: var(--accent-neon); color: #000; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-5px); }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border-glass); margin-top: 50px; color: #4b5563; font-size: 0.85rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            nav { padding: 15px 20px; flex-direction: column; gap: 10px; border-radius: 20px; }
+            .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .grid-about, .contact-container { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="bg-overlay"></div>
 
-<!-- NAVIGATION -->
-<nav>
-  <a href="#hero" class="nav-logo">S.<span>T</span></a>
-  <ul class="nav-links">
-    <li><a href="#competences">Compétences</a></li>
-    <li><a href="#experiences">Expériences</a></li>
-    <li><a href="#projets">Projets</a></li>
-    <li><a href="#formation">Formation</a></li>
-    <li><a href="#veille">Veille</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-status">
-    <span class="status-dot"></span>
-    Disponible · Stage terminé
-  </div>
-</nav>
-
-<!-- ============================================================
-     HERO
-     ============================================================ -->
-<section id="hero">
-  <div class="hero-grid-bg"></div>
-
-  <div class="hero-left">
-    <div class="hero-label">Portfolio · BTS SIO SISR</div>
-    <h1 class="hero-name">
-      Slim<br>
-      <span class="line2">TOUABTI</span>
-    </h1>
-    <p class="hero-desc">
-      Étudiant en 2ᵉ année de BTS SIO option SISR au lycée Louis Armand de Nogent-sur-Marne. Passionné par l'administration systèmes &amp; réseaux, la cybersécurité et la virtualisation.
-    </p>
-    <div class="hero-ctas">
-      <a href="#contact" class="btn-primary">Me contacter →</a>
-      <a href="#experiences" class="btn-outline">Voir mes projets</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-card">
-      <div class="hero-card-label">Formation actuelle</div>
-      <div class="hero-card-value">BTS SIO — SISR</div>
-      <div class="hero-card-sub">Lycée Louis Armand · Nogent-sur-Marne · depuis 09/2024</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Localisation</div>
-      <div class="hero-card-value">Charenton-le-Pont</div>
-      <div class="hero-card-sub">94220 · Île-de-France · Permis B</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Disponibilité</div>
-      <div class="hero-card-value">Alternance / Emploi</div>
-      <div class="hero-card-sub">Stage Étranger effectué · Mai–Juillet 2025</div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Stack technique</div>
-      <div class="hero-card-value" style="margin-bottom:0.8rem">Systèmes & Réseaux</div>
-      <div class="hero-tags">
-        <span class="tag">Windows Server</span>
-        <span class="tag">Linux</span>
-        <span class="tag">VMware</span>
-        <span class="tag">Proxmox</span>
-        <span class="tag">pfSense</span>
-        <span class="tag">GLPI</span>
-        <span class="tag">PowerShell</span>
-        <span class="tag">Zabbix</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     COMPÉTENCES
-     ============================================================ -->
-<section id="competences">
-  <div class="section-eyebrow">01 — Compétences</div>
-  <h2 class="section-title reveal">Ce que je<br>maîtrise</h2>
-  <p class="section-desc reveal reveal-delay-1">Un socle technique construit par la pratique, les projets personnels et les stages.</p>
-
-  <div class="comp-grid">
-    <div class="comp-card reveal reveal-delay-1">
-      <span class="comp-icon">🖥️</span>
-      <div class="comp-title">Administration Systèmes</div>
-      <ul class="comp-list">
-        <li>Windows Server : Active Directory, GPO, DNS, DHCP</li>
-        <li>Linux : Debian / Ubuntu (administration avancée)</li>
-        <li>Virtualisation : VMware, VirtualBox, Proxmox</li>
-        <li>Sauvegarde et restauration de données</li>
-        <li>Gestion des imprimantes et périphériques</li>
-      </ul>
-    </div>
-    <div class="comp-card reveal reveal-delay-2">
-      <span class="comp-icon">🔐</span>
-      <div class="comp-title">Sécurité Informatique</div>
-      <ul class="comp-list">
-        <li>Gestion des droits utilisateurs et groupes</li>
-        <li>Sécurisation des serveurs et postes clients</li>
-        <li>Politique de mot de passe et authentification</li>
-        <li>Pare-feu pfSense : segmentation réseau</li>
-        <li>Plan de sauvegarde et reprise d'activité</li>
-      </ul>
-    </div>
-    <div class="comp-card reveal reveal-delay-3">
-      <span class="comp-icon">⌨️</span>
-      <div class="comp-title">Scripts & Langages</div>
-      <ul class="comp-list">
-        <li>PowerShell (Windows) — automatisation</li>
-        <li>Bash (Linux) — scripts d'administration</li>
-        <li>SQL — bases de données</li>
-        <li>HTML — notions (admin serveurs web)</li>
-      </ul>
-    </div>
-    <div class="comp-card reveal reveal-delay-1">
-      <span class="comp-icon">🛠️</span>
-      <div class="comp-title">Outils & Logiciels</div>
-      <ul class="comp-list">
-        <li>GLPI — gestion de parc informatique</li>
-        <li>Zabbix — supervision et monitoring réseau</li>
-        <li>Outils de ticketing / helpdesk</li>
-        <li>Logiciels de monitoring et administration</li>
-        <li>VLANs &amp; configuration réseau avancée</li>
-      </ul>
-    </div>
-    <div class="comp-card reveal reveal-delay-2">
-      <span class="comp-icon">🤝</span>
-      <div class="comp-title">Soft Skills</div>
-      <ul class="comp-list">
-        <li>Sens du service client</li>
-        <li>Esprit d'équipe et collaboration</li>
-        <li>Autonomie et rigueur</li>
-        <li>Curiosité et veille permanente</li>
-      </ul>
-    </div>
-    <div class="comp-card reveal reveal-delay-3">
-      <span class="comp-icon">🌍</span>
-      <div class="comp-title">Langues</div>
-      <ul class="comp-list">
-        <li>Français — langue maternelle</li>
-        <li>Anglais — niveau intermédiaire (stage à l'étranger)</li>
-        <li>Espagnol — notions</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     EXPÉRIENCES
-     ============================================================ -->
-<section id="experiences">
-  <div class="section-eyebrow">02 — Expériences</div>
-  <h2 class="section-title reveal">Parcours<br>professionnel</h2>
-  <p class="section-desc reveal reveal-delay-1">Expériences pratiques en environnements réels, en France et à l'étranger.</p>
-
-  <div class="exp-timeline">
-
-    <div class="exp-item reveal">
-      <div class="exp-date">05/2025 — 07/2025<br><span style="color:var(--accent);font-size:0.65rem">Stage · Étranger</span></div>
-      <div>
-        <div class="exp-company">High Technoly Network &amp; Security</div>
-        <div class="exp-role">Technicien Systèmes &amp; Réseaux</div>
-        <div class="exp-desc">
-          <ul>
-            <li>Gestion du parc informatique : recensement et mise à jour des ressources (matérielles, logicielles, habilitations, sauvegardes)</li>
-            <li>Veille technologique : suivi des nouveautés, auto-formation et mise en pratique de bonnes pratiques (normes, standards, sécurité)</li>
-            <li>Support utilisateurs : diagnostic, résolution d'incidents et traitement des demandes via GLPI</li>
-            <li>Participation à des projets informatiques : analyse des besoins, planification, suivi de tâches et reporting</li>
-          </ul>
-        </div>
-        <div class="hero-tags" style="margin-top:1rem">
-          <span class="tag">GLPI</span>
-          <span class="tag">Support N1/N2</span>
-          <span class="tag">Active Directory</span>
-          <span class="tag">Réseau</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">11/2024 — 01/2025<br><span style="color:var(--accent);font-size:0.65rem">Projet personnel</span></div>
-      <div>
-        <div class="exp-company">Infrastructure Réseau Virtualisée</div>
-        <div class="exp-role">Projet personnel — PME simulée (20 postes)</div>
-        <div class="exp-desc">
-          <ul>
-            <li>Mise en place d'un environnement virtualisé Proxmox simulant une PME de 20 postes</li>
-            <li>Installation et configuration d'un serveur Windows Server (AD, DHCP, DNS)</li>
-            <li>Déploiement d'un partage réseau avec gestion des droits NTFS et quotas utilisateurs</li>
-            <li>Création de VLANs et configuration d'un pare-feu pfSense pour segmenter et sécuriser le réseau</li>
-            <li>Supervision du réseau avec Zabbix et génération d'un rapport de maintenance</li>
-          </ul>
-        </div>
-        <div class="hero-tags" style="margin-top:1rem">
-          <span class="tag">Proxmox</span>
-          <span class="tag">Windows Server</span>
-          <span class="tag">pfSense</span>
-          <span class="tag">VLANs</span>
-          <span class="tag">Zabbix</span>
-          <span class="tag">NTFS</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">08/2025<br><span style="color:var(--accent);font-size:0.65rem">Expérience</span></div>
-      <div>
-        <div class="exp-company">Phoenix Photo</div>
-        <div class="exp-role">Photographe / Vendeur — Paris 75007, Tour Eiffel</div>
-        <div class="exp-desc">
-          Travail en autonomie dans un environnement dynamique, développement du sens du contact client et de la relation commerciale.
-        </div>
-        <div class="hero-tags" style="margin-top:1rem">
-          <span class="tag gray">Relation client</span>
-          <span class="tag gray">Autonomie</span>
-          <span class="tag gray">Commerce</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     PROJETS
-     ============================================================ -->
-<section id="projets">
-  <div class="section-eyebrow">03 — Projets</div>
-  <h2 class="section-title reveal">Réalisations<br>techniques</h2>
-  <p class="section-desc reveal reveal-delay-1">Projets scolaires et personnels mettant en pratique mes compétences SISR.</p>
-
-  <div class="projects-grid">
-
-    <div class="proj-card reveal reveal-delay-1">
-      <div class="proj-number">PROJ — 01</div>
-      <div class="proj-title">Infrastructure PME Virtualisée</div>
-      <div class="proj-desc">
-        Simulation complète d'une infrastructure PME de 20 postes sous Proxmox : serveur Windows Server (AD, DHCP, DNS), partage réseau NTFS, VLANs, pare-feu pfSense et supervision Zabbix.
-      </div>
-      <div class="proj-tags">
-        <span class="tag">Proxmox</span>
-        <span class="tag">Windows Server</span>
-        <span class="tag">pfSense</span>
-        <span class="tag">Zabbix</span>
-      </div>
-    </div>
-
-    <div class="proj-card reveal reveal-delay-2">
-      <div class="proj-number">PROJ — 02</div>
-      <div class="proj-title">Stage Systèmes & Réseaux à l'Étranger</div>
-      <div class="proj-desc">
-        Immersion professionnelle dans une structure internationale. Gestion de parc via GLPI, support utilisateurs N1/N2, résolution d'incidents, veille technologique et participation à des projets IT.
-      </div>
-      <div class="proj-tags">
-        <span class="tag">GLPI</span>
-        <span class="tag">Support</span>
-        <span class="tag">Administration</span>
-        <span class="tag">Incidents</span>
-      </div>
-    </div>
-
-    <div class="proj-card reveal reveal-delay-3">
-      <div class="proj-number">PROJ — 03</div>
-      <div class="proj-title">Déploiement Active Directory</div>
-      <div class="proj-desc">
-        Installation et configuration complète d'un contrôleur de domaine Windows Server : création d'unités organisationnelles, GPO, gestion centralisée des comptes et stratégies de sécurité.
-      </div>
-      <div class="proj-tags">
-        <span class="tag">Active Directory</span>
-        <span class="tag">GPO</span>
-        <span class="tag">DNS</span>
-        <span class="tag">DHCP</span>
-      </div>
-    </div>
-
-    <div class="proj-card reveal reveal-delay-1">
-      <div class="proj-number">PROJ — 04</div>
-      <div class="proj-title">Segmentation Réseau & pfSense</div>
-      <div class="proj-desc">
-        Mise en place d'une architecture réseau segmentée avec VLANs et pare-feu pfSense : règles de filtrage, DMZ, isolation des flux entre segments (serveurs, postes, invités).
-      </div>
-      <div class="proj-tags">
-        <span class="tag">pfSense</span>
-        <span class="tag">VLANs</span>
-        <span class="tag">Firewall</span>
-        <span class="tag">Sécurité</span>
-      </div>
-    </div>
-
-    <div class="proj-card reveal reveal-delay-2">
-      <div class="proj-number">PROJ — 05</div>
-      <div class="proj-title">Supervision avec Zabbix</div>
-      <div class="proj-desc">
-        Déploiement d'une solution de monitoring réseau : agents Zabbix sur serveurs et postes, tableaux de bord de supervision, alertes automatisées et génération de rapports de maintenance.
-      </div>
-      <div class="proj-tags">
-        <span class="tag">Zabbix</span>
-        <span class="tag">Monitoring</span>
-        <span class="tag">Alertes</span>
-        <span class="tag">Reporting</span>
-      </div>
-    </div>
-
-    <div class="proj-card reveal reveal-delay-3">
-      <div class="proj-number">PROJ — 06</div>
-      <div class="proj-title">Automatisation PowerShell</div>
-      <div class="proj-desc">
-        Scripts PowerShell pour l'administration Windows : création en masse de comptes AD, rapport d'inventaire matériel, gestion des droits NTFS et automatisation des tâches de maintenance.
-      </div>
-      <div class="proj-tags">
-        <span class="tag">PowerShell</span>
-        <span class="tag">Automatisation</span>
-        <span class="tag">AD</span>
-        <span class="tag">NTFS</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     FORMATION
-     ============================================================ -->
-<section id="formation">
-  <div class="section-eyebrow">04 — Formation</div>
-  <h2 class="section-title reveal">Parcours<br>académique</h2>
-  <p class="section-desc reveal reveal-delay-1">Diplômes, certifications et formation continue.</p>
-
-  <div class="formation-grid">
-    <div class="formation-block reveal">
-      <h3>📚 Diplômes</h3>
-
-      <div class="form-item">
-        <div class="form-item-title">BTS SIO — Option SISR</div>
-        <div class="form-item-org">Lycée Louis Armand · Nogent-sur-Marne</div>
-        <div class="form-item-date">depuis 09/2024</div>
-      </div>
-
-      <div class="form-item">
-        <div class="form-item-title">Baccalauréat STI2D — Option ITEC</div>
-        <div class="form-item-org">Lycée Edouard Branly · Créteil</div>
-        <div class="form-item-date">19/07/2022 — 07/07/2023</div>
-      </div>
-    </div>
-
-    <div class="formation-block reveal reveal-delay-1">
-      <h3>🏆 Certifications</h3>
-
-      <div class="form-item">
-        <div class="form-item-title">Maintenance Informatique — Niveau 1</div>
-        <div class="form-item-org">Google · Coursera</div>
-        <div class="form-item-date">01/2024 — 03/2024</div>
-        <div style="margin-top:0.5rem">
-          <span class="tag">Google IT Support</span>
-        </div>
-      </div>
-
-      <div class="form-item">
-        <div class="form-item-title">Python — Niveau 1</div>
-        <div class="form-item-org">Google · Coursera</div>
-        <div class="form-item-date">04/2024 — 05/2024</div>
-        <div style="margin-top:0.5rem">
-          <span class="tag">Python Automation</span>
-        </div>
-      </div>
-
-      <div class="form-item">
-        <div class="form-item-title">Centres d'intérêts</div>
-        <div class="form-item-org">Ce qui me définit en dehors du tech</div>
-        <div style="margin-top:0.6rem" class="hero-tags">
-          <span class="tag gray">🔐 Cybersécurité</span>
-          <span class="tag gray">🎵 Musique</span>
-          <span class="tag gray">⚽ Football</span>
-          <span class="tag gray">🎣 Pêche</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     VEILLE TECHNOLOGIQUE
-     ============================================================ -->
-<section id="veille">
-  <div class="section-eyebrow">05 — Veille Technologique</div>
-  <h2 class="section-title reveal">Rester à la<br>pointe</h2>
-  <p class="section-desc reveal reveal-delay-1">Ma veille porte sur les menaces émergentes et les nouvelles méthodes d'authentification.</p>
-
-  <div class="veille-grid">
-
-    <div class="veille-card reveal reveal-delay-1">
-      <span class="veille-emoji">🎣</span>
-      <div class="veille-title">Évolution des attaques de phishing</div>
-      <div class="veille-desc">
-        Suivi de l'évolution des techniques de phishing : faux sites, emails ciblés, spear-phishing, vishing et smishing. Analyse des campagnes récentes et des méthodes de détection (DMARC, SPF, DKIM). Étude de cas réels et outils de protection des utilisateurs finaux.
-      </div>
-      <div class="hero-tags" style="margin-top:1.2rem">
-        <span class="tag red">Phishing</span>
-        <span class="tag red">Spear-phishing</span>
-        <span class="tag red">DMARC/SPF</span>
-        <span class="tag red">Awareness</span>
-      </div>
-    </div>
-
-    <div class="veille-card reveal reveal-delay-2">
-      <span class="veille-emoji">🔑</span>
-      <div class="veille-title">Déploiement des Passkeys</div>
-      <div class="veille-desc">
-        Suivi de l'adoption des passkeys par Apple, Google et Microsoft comme alternative aux mots de passe. Analyse du standard FIDO2/WebAuthn, du fonctionnement des clés cryptographiques et de leur rôle dans la réduction des risques de phishing. Veille sur l'interopérabilité et les cas d'usage réels.
-      </div>
-      <div class="hero-tags" style="margin-top:1.2rem">
-        <span class="tag">Passkeys</span>
-        <span class="tag">FIDO2</span>
-        <span class="tag">WebAuthn</span>
-        <span class="tag">MFA</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ============================================================
-     CONTACT
-     ============================================================ -->
-<section id="contact">
-  <div class="section-eyebrow">06 — Contact</div>
-  <h2 class="section-title reveal">Travaillons<br>ensemble</h2>
-
-  <div class="contact-wrapper">
-    <div class="reveal">
-      <p class="section-desc" style="margin-bottom:0.5rem">
-        À la recherche d'une alternance ou d'une opportunité professionnelle dans l'administration systèmes, réseaux et cybersécurité. N'hésitez pas à me contacter !
-      </p>
-
-      <div class="contact-links">
-        <a href="mailto:slim.touabti.sio@gmail.com" class="contact-link">
-          <div class="cl-icon">✉️</div>
-          <div class="cl-info">
-            <strong>Email</strong>
-            <span>slim.touabti.sio@gmail.com</span>
-          </div>
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#accueil" class="logo">
+            <span class="user">&gt;_ root</span><span class="at">@</span><span class="host">slim.t:~</span><span class="cursor-blink">_</span>
         </a>
-        <a href="tel:+33770091853" class="contact-link">
-          <div class="cl-icon">📱</div>
-          <div class="cl-info">
-            <strong>Téléphone</strong>
-            <span>07 70 09 18 53</span>
-          </div>
-        </a>
-        <a href="#" class="contact-link">
-          <div class="cl-icon">📍</div>
-          <div class="cl-info">
-            <strong>Localisation</strong>
-            <span>Charenton-le-Pont, 94220 · Permis B</span>
-          </div>
-        </a>
-        <a href="#" class="contact-link">
-          <div class="cl-icon">💼</div>
-          <div class="cl-info">
-            <strong>LinkedIn</strong>
-            <span>Slim TOUABTI</span>
-          </div>
-        </a>
-      </div>
-    </div>
+        <ul class="nav-links">
+            <li><a href="#about">À Propos</a></li>
+            <li><a href="#competences">Compétences</a></li>
+            <li><a href="#projets">Projets</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#veille">Veille</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-    <form class="contact-form reveal reveal-delay-2" id="contactForm">
-      <div class="form-field">
-        <label for="name">Nom complet</label>
-        <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
-      </div>
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="jean@entreprise.com" required>
-      </div>
-      <div class="form-field">
-        <label for="sujet">Sujet</label>
-        <input type="text" id="sujet" name="sujet" placeholder="Proposition d'alternance...">
-      </div>
-      <div class="form-field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
-      </div>
-      <button type="submit" class="btn-primary" style="align-self:flex-start">
-        Envoyer →
-      </button>
-    </form>
-  </div>
-</section>
+    <!-- HERO -->
+    <header id="accueil" class="hero">
+        <div>
+            <h1>Bonjour, je suis <span>Slim Touabti</span></h1>
+            <h2>Technicien Supérieur en Solutions d'Infrastructure, Systèmes et Réseaux.</h2>
+            <p>Étudiant en BTS SIO option SISR, passionné par la protection des infrastructures et la sécurisation des flux réseaux. Mon objectif : concevoir des architectures résilientes et automatiser la détection de vulnérabilités.</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="#projets" class="btn">Voir mes réalisations</a>
+                <a href="https://touabti.github.io/Portfolio-BTS-SIO-SISR/" target="_blank" class="btn" style="border-color: #a0c8ff; color: #a0c8ff;">🌐 Portfolio en ligne</a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down" title="Découvrir mon profil">↓</a>
+    </header>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">S.<span>TOUABTI</span></div>
-  <div class="footer-copy">© 2026 · BTS SIO SISR · Lycée Louis Armand · Nogent-sur-Marne</div>
-  <div class="footer-copy" style="color:rgba(245,242,237,0.2)">slim.touabti.sio@gmail.com</div>
-</footer>
+    <!-- À PROPOS -->
+    <section id="about" class="section">
+        <h2 class="section-title">À Propos de moi</h2>
+        <div class="grid-about">
+            <div class="about-text">
+                <p>Étudiant en BTS SIO option SISR, je me passionne pour la <strong style="color: var(--accent-neon);">protection des infrastructures</strong> et la sécurisation des flux réseaux.</p>
+                <p>Mon objectif est de concevoir des architectures résilientes, d'administrer des systèmes critiques et d'automatiser la détection de vulnérabilités pour garantir l'intégrité et la disponibilité des données.</p>
+                <p>À travers mes formations et expériences professionnelles, j'ai acquis des compétences solides en administration systèmes, réseaux, cybersécurité et automatisation — aussi bien en environnement Microsoft que Linux.</p>
+                <br>
+                <a href="#" class="btn">📄 Télécharger mon CV (PDF)</a>
+            </div>
 
-<!-- SCROLL TO TOP -->
-<a href="#hero" class="scroll-top" id="scrollTop">↑</a>
+            <div class="terminal-window" id="terminal-trigger">
+                <div class="terminal-header">
+                    <div class="term-dot dot-red"></div>
+                    <div class="term-dot dot-yellow"></div>
+                    <div class="term-dot dot-green"></div>
+                    <div class="term-title">root@slim-sec:~</div>
+                </div>
+                <div class="terminal-body" id="terminal-content"></div>
+            </div>
+        </div>
+    </section>
 
-<!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
-<script>
-/* --- CURSOR --- */
-const cursor = document.getElementById('cursor');
-const ring   = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
+    <!-- COMPÉTENCES -->
+    <section id="competences" class="section">
+        <h2 class="section-title">Mes Compétences</h2>
+        <div class="grid-container">
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.transform = `translate(${mx-5}px,${my-5}px)`;
-});
+            <div class="card">
+                <h3>🌐 Réseau & Infrastructure</h3>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Commutation & Routage (Cisco)</span><span>80%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Services TCP/IP (DNS, DHCP)</span><span>85%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>VLAN & Interconnexion</span><span>80%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Fortinet (UTM)</span><span>65%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+                </div>
+            </div>
 
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
-  requestAnimationFrame(animateRing);
-}
-animateRing();
+            <div class="card">
+                <h3>🖥️ Systèmes & Virtualisation</h3>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Windows Server & Active Directory</span><span>88%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 88%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Linux (Debian / Samba 4)</span><span>80%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Virtualisation (VMware / VirtualBox)</span><span>82%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 82%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Exchange (messagerie)</span><span>70%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 70%;"></div></div>
+                </div>
+            </div>
 
-document.querySelectorAll('a,button,.comp-card,.proj-card,.veille-card').forEach(el => {
-  el.addEventListener('mouseenter', () => ring.style.transform += ' scale(1.6)');
-  el.addEventListener('mouseleave', () => {});
-});
+            <div class="card">
+                <h3>🛡️ Sécurité & Supervision</h3>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Pare-feu Stormshield (NAT, VPN)</span><span>80%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Analyse réseau (Wireshark / Nmap)</span><span>75%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Supervision (Centreon / Graylog)</span><span>70%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 70%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Ticketing & Inventaire (GLPI)</span><span>92%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 92%;"></div></div>
+                </div>
+            </div>
 
-/* --- SCROLL REVEAL --- */
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.12 });
-revealEls.forEach(el => io.observe(el));
+        </div>
 
-/* --- SCROLL TO TOP --- */
-const scrollTop = document.getElementById('scrollTop');
-window.addEventListener('scroll', () => {
-  scrollTop.classList.toggle('show', window.scrollY > 500);
-});
+        <!-- Outils maîtrisés -->
+        <div class="tools-section">
+            <p class="tools-title">🔧 Autres outils maîtrisés :</p>
+            <div class="tools-grid">
+                <span class="tool-tag">Bitdefender</span>
+                <span class="tool-tag">Milestone (caméras IP)</span>
+                <span class="tool-tag">Centreon</span>
+                <span class="tool-tag">Graylog</span>
+                <span class="tool-tag">iParapheur</span>
+                <span class="tool-tag">XiVO (VoIP)</span>
+                <span class="tool-tag">TeamViewer</span>
+                <span class="tool-tag">Windows Backup</span>
+                <span class="tool-tag">PowerShell</span>
+                <span class="tool-tag">GPO</span>
+                <span class="tool-tag">OCS Inventory</span>
+                <span class="tool-tag">Atera (RMM)</span>
+            </div>
+        </div>
+    </section>
 
-/* --- CONTACT FORM --- */
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const btn = this.querySelector('button');
-  btn.textContent = 'Message envoyé ✓';
-  btn.style.background = '#10b981';
-  setTimeout(() => { btn.textContent = 'Envoyer →'; btn.style.background=''; this.reset(); }, 3000);
-});
+    <!-- PROJETS -->
+    <section id="projets" class="section">
+        <h2 class="section-title">Mes Projets Techniques</h2>
+        <div class="grid-container">
 
-/* --- NAV ACTIVE --- */
-const sections = document.querySelectorAll('section[id]');
-const navAs    = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let cur = '';
-  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) cur = s.id; });
-  navAs.forEach(a => {
-    a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--accent)' : '';
-  });
-});
-</script>
+            <div class="card">
+                <h3>🏗️ Infrastructure Active Directory</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Installation et configuration des rôles AD DS, DNS et DHCP sous Windows Server pour la gestion centralisée d'un domaine Windows et des utilisateurs.</p>
+                <div>
+                    <span class="badge">Windows Server</span>
+                    <span class="badge">AD DS</span>
+                    <span class="badge">DNS / DHCP</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🔥 Sécurisation Stormshield</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Mise en œuvre de politiques de filtrage (Firewall), translation d'adresses (NAT) et filtrage URL pour sécuriser le périmètre réseau d'une infrastructure.</p>
+                <div>
+                    <span class="badge">Stormshield</span>
+                    <span class="badge">NAT</span>
+                    <span class="badge">Filtrage URL</span>
+                    <span class="badge">Cybersécurité</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🐧 Interopérabilité Samba 4</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Configuration d'un contrôleur de domaine Active Directory sous Linux via Samba 4 pour gérer un parc hétérogène (Windows + Linux).</p>
+                <div>
+                    <span class="badge">Linux</span>
+                    <span class="badge">Samba 4</span>
+                    <span class="badge">Active Directory</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ Onboarding Automatisé</h3>
+                <p class="context">Stage 2ème année</p>
+                <p>Développement et mise en production d'un système d'onboarding progressif automatisé pour les nouveaux agents, via PowerShell, le registre local et Exchange.</p>
+                <div>
+                    <span class="badge">PowerShell</span>
+                    <span class="badge">Exchange</span>
+                    <span class="badge">Automatisation</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🔀 Configuration VLAN</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Segmentation du réseau pour isoler les flux administratifs, techniques et invités. Configuration de commutateurs Cisco pour une architecture multi-VLAN sécurisée.</p>
+                <div>
+                    <span class="badge">Cisco</span>
+                    <span class="badge">VLAN</span>
+                    <span class="badge">Segmentation</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🎥 Infrastructure Milestone (Caméras)</h3>
+                <p class="context">Stage 1ère / 2ème année</p>
+                <p>Installation et mise en place du système de vidéosurveillance Milestone : configuration des caméras IP, du serveur d'enregistrement et des flux vidéo.</p>
+                <div>
+                    <span class="badge">Milestone</span>
+                    <span class="badge">Caméras IP</span>
+                    <span class="badge">Réseau</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🖥️ Infrastructure Virtualisée</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Création et gestion de machines virtuelles (VM) sous VMware et VirtualBox pour optimiser les ressources matérielles et simuler des environnements de production.</p>
+                <div>
+                    <span class="badge">VMware</span>
+                    <span class="badge">VirtualBox</span>
+                    <span class="badge">Virtualisation</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+            <div class="card">
+                <h3>🎫 Support ITSM & Gestion de Parc</h3>
+                <p class="context">Stage 1ère année</p>
+                <p>Prise en charge des demandes via GLPI, diagnostic à distance, gestion des droits AD, déploiement GPO imprimantes et inventaire complet du parc via OCS Inventory.</p>
+                <div>
+                    <span class="badge">GLPI</span>
+                    <span class="badge">OCS Inventory</span>
+                    <span class="badge">Support N1/N2</span>
+                </div>
+                <a href="#" class="btn btn-view">Dossier Technique</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications" class="section">
+        <h2 class="section-title">Certifications IT</h2>
+        <div class="cert-grid">
+
+            <div class="cert-card">
+                <div class="cert-icon">🛡️</div>
+                <h3>Cisco — Introduction à la Cybersécurité</h3>
+                <p>Compétences fondamentales en sécurité des réseaux, protection des données et identification des cybermenaces.</p>
+                <span class="cert-status-ok">✅ Obtenue</span>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🎯</div>
+                <h3>Cisco — Ethical Hacker</h3>
+                <p>Sécurité offensive : identifier les vulnérabilités et cybermenaces avant les cybercriminels. Techniques de pentest et d'audit.</p>
+                <span class="cert-status-wip">⏳ En cours d'obtention</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VEILLE TECHNOLOGIQUE -->
+    <section id="veille" class="section">
+        <h2 class="section-title">Veille Technologique (2026)</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; max-width: 900px;">
+            Thème principal : <strong>Sécurisation et automatisation des infrastructures systèmes et réseaux face aux menaces émergentes.</strong>
+        </p>
+
+        <div class="grid-container">
+
+            <div class="veille-card">
+                <h3>🔐 ZTNA : La fin des VPN traditionnels</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Cybersécurité</span>
+                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Infrastructure</span>
+                </div>
+                <p><strong>L'actualité :</strong> Le Zero Trust Network Access (ZTNA) devient la norme en 2026 pour remplacer les VPN traditionnels jugés trop permissifs.</p>
+                <p><strong>Impact SISR :</strong> Contrairement au VPN qui ouvre l'accès à tout le réseau, le ZTNA n'autorise l'accès qu'à une application spécifique après vérification continue de l'identité et de l'état du poste — réduisant drastiquement les mouvements latéraux en cas d'attaque.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://messervices.cyber.gouv.fr/guides/zero-trust" target="_blank">ANSSI : Le modèle Zero Trust</a></li>
+                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank">Stormshield : ZTNA</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card">
+                <h3>⚡ PowerShell DSC : L'automatisation des configs</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Automatisation</span>
+                    <span class="badge" style="color: #39ff14; border-color: rgba(57,255,20,0.3);">Windows Server</span>
+                </div>
+                <p><strong>L'actualité :</strong> PowerShell DSC (Desired State Configuration) s'impose comme standard pour l'automatisation de la configuration d'infrastructures Windows à grande échelle.</p>
+                <p><strong>Impact SISR :</strong> Permet de garantir la conformité permanente des serveurs : si une configuration dérive, DSC la remet automatiquement à l'état souhaité. Idéal pour les déploiements AD et les onboardings automatisés.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://learn.microsoft.com/fr-fr/powershell/dsc/overview" target="_blank">Microsoft Learn : PowerShell DSC</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card">
+                <h3>📊 SIEM Nouvelle Génération (Graylog / Wazuh)</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Supervision</span>
+                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Cybersécurité</span>
+                </div>
+                <p><strong>L'actualité :</strong> Les solutions SIEM open-source comme Graylog et Wazuh s'imposent dans les PME et collectivités comme alternative accessible aux SIEM propriétaires coûteux.</p>
+                <p><strong>Impact SISR :</strong> Centralisation des logs de tous les équipements (serveurs, pare-feux, switches), corrélation d'événements et détection d'anomalies en temps réel. Un atout majeur pour la conformité RGPD et la réponse aux incidents.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://graylog.org/post/what-is-a-siem/" target="_blank">Graylog : What is a SIEM?</a></li>
+                        <li>🔗 <a href="https://wazuh.com/platform/siem/" target="_blank">Wazuh SIEM Platform</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card">
+                <h3>🐧 Samba 4 et l'AD sous Linux en production</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #fbbc04; border-color: rgba(251,188,4,0.3);">Système Libre</span>
+                    <span class="badge" style="color: #39ff14; border-color: rgba(57,255,20,0.3);">Interopérabilité</span>
+                </div>
+                <p><strong>L'actualité :</strong> Samba 4.x continue d'évoluer vers une compatibilité totale avec les dernières versions de Windows Server pour les environnements mixtes.</p>
+                <p><strong>Impact SISR :</strong> De plus en plus de DSI migrent leurs contrôleurs de domaine secondaires vers Linux/Samba pour réduire les coûts de licences Microsoft, tout en maintenant la compatibilité complète avec l'écosystème Active Directory.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://www.samba.org/samba/latest_news.html" target="_blank">Samba.org : Latest News</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card">
+                <h3>🎯 Ethical Hacking & Bug Bounty en France</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Cybersécurité</span>
+                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Offensive Security</span>
+                </div>
+                <p><strong>L'actualité :</strong> Le marché du Bug Bounty explose en France : l'ANSSI et de nombreuses grandes entreprises font appel à des hackers éthiques certifiés pour auditer leurs systèmes.</p>
+                <p><strong>Impact SISR :</strong> La maîtrise des outils offensifs (Nmap, Metasploit, Wireshark) devient une compétence attendue même côté défensif. Comprendre comment une attaque fonctionne permet de mieux protéger l'infrastructure.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://www.yeswehack.com/" target="_blank">YesWeHack : Bug Bounty France</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/" target="_blank">ANSSI : Sécurité Numérique</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card">
+                <h3>📡 Hyperconvergence & Proxmox VE</h3>
+                <div style="margin-bottom: 15px;">
+                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Virtualisation</span>
+                    <span class="badge" style="color: #a0c8ff; border-color: rgba(160,200,255,0.3);">Infrastructure</span>
+                </div>
+                <p><strong>L'actualité :</strong> Suite au rachat de VMware par Broadcom et la hausse massive des licences, Proxmox VE s'impose comme alternative open-source dans les collectivités et PME.</p>
+                <p><strong>Impact SISR :</strong> Les administrateurs système doivent désormais maîtriser plusieurs hyperviseurs. Proxmox offre clustering, haute disponibilité et sauvegarde intégrée — des fonctionnalités VMware Enterprise à coût quasi nul.</p>
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style: none;">
+                        <li>🔗 <a href="https://www.proxmox.com/en/news" target="_blank">Proxmox : Actualités</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Me Contacter</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Discutons de mon profil !</h3>
+                <p>Je suis à la recherche de nouvelles opportunités pour mettre en pratique mes compétences en infrastructure, sécurité et automatisation.</p>
+                <p>N'hésitez pas à me contacter pour une offre, un échange sur mes projets, ou toute question sur mon parcours.</p>
+                <br>
+                <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" class="btn social-btn">🔗 Mon profil LinkedIn</a>
+                <a href="https://github.com/Touabti" target="_blank" class="btn social-btn" style="border-color: #f1f5f9; color: #f1f5f9;">💻 Mon profil GitHub</a>
+                <div title="Cliquez pour sélectionner l'e-mail"
+                     onclick="window.getSelection().selectAllChildren(this);"
+                     style="display: block; text-align: center; margin-bottom: 15px; padding: 12px 30px;
+                            background: rgba(77,159,255,0.05); color: var(--accent-neon); border-radius: 50px;
+                            font-weight: 600; font-size: 0.9rem; font-family: 'Consolas', monospace;
+                            border: 1px solid rgba(77,159,255,0.3); cursor: pointer;
+                            transition: 0.3s; user-select: all; -webkit-user-select: all;">
+                    slim.touabti.sio@gmail.com
+                </div>
+            </div>
+
+            <form id="my-form" action="https://formspree.io/f/VOTRE_ID" method="POST" class="contact-form">
+                <div>
+                    <label for="name">Nom complet</label>
+                    <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                </div>
+                <div>
+                    <label for="email">Adresse E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                </div>
+                <div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
+                </div>
+                <button type="submit" id="my-form-button" class="btn-submit">Envoyer le message</button>
+                <p id="my-form-status" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            </form>
+        </div>
+    </section>
+
+    <a href="#accueil" id="backToTop" title="Retour en haut">↑</a>
+
+    <footer>
+        <p>© 2026 — Slim Touabti — Portfolio BTS SIO SISR — Lycée Louis Armand</p>
+    </footer>
+
+    <script>
+        // 0. ANIMATION CANVAS (PLUIE BINAIRE - TONS BLEUS)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = '01';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawRain() {
+            ctx.fillStyle = 'rgba(2, 4, 8, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = fontSize + 'px Consolas';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                const rand = Math.random();
+                if (rand > 0.7) ctx.fillStyle = 'rgba(77, 159, 255, 0.25)';
+                else if (rand > 0.4) ctx.fillStyle = 'rgba(160, 200, 255, 0.15)';
+                else ctx.fillStyle = 'rgba(224, 238, 255, 0.08)';
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawRain, 50);
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        // 1. SCROLL REVEAL
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .cert-card, .veille-card, .contact-container').forEach(el => revealObserver.observe(el));
+
+        // 2. TERMINAL ANIMÉ
+        const commands = [
+            { cmd: "whoami", output: "Slim Touabti — Admin Sys & Réseaux Junior" },
+            { cmd: "cat objectif.txt", output: "Concevoir des architectures résilientes.<br>Automatiser la détection de vulnérabilités.<br>Sécuriser les flux et les données critiques." },
+            { cmd: "nmap -sV localhost", output: "PORT     STATE  SERVICE<br>22/tcp   open   ssh (OpenSSH 9.x)<br>443/tcp  open   https<br><span class='highlight-output'>Résultat : Infrastructure sécurisée ✓</span>" },
+            { cmd: "./check_skills.sh", output: "[OK] Active Directory — Validé<br>[OK] Stormshield / Fortinet — Validé<br>[OK] PowerShell Automation — Validé<br>[OK] Prêt pour l'entreprise ✓" }
+        ];
+
+        const termContent = document.getElementById("terminal-content");
+        let terminalStarted = false;
+        let cmdIndex = 0;
+
+        function typeCommand() {
+            if (cmdIndex >= commands.length) {
+                termContent.innerHTML += `<div><span class="prompt">root@slim-sec:~$ </span><span class="cursor"></span></div>`;
+                return;
+            }
+            const current = commands[cmdIndex];
+            const lineDiv = document.createElement("div");
+            lineDiv.innerHTML = `<span class="prompt">root@slim-sec:~$ </span><span class="cmd"></span><span class="cursor"></span>`;
+            termContent.appendChild(lineDiv);
+
+            const cmdSpan = lineDiv.querySelector(".cmd");
+            const cursorSpan = lineDiv.querySelector(".cursor");
+            let charIndex = 0;
+
+            const typeInterval = setInterval(() => {
+                cmdSpan.textContent += current.cmd.charAt(charIndex);
+                charIndex++;
+                if (charIndex >= current.cmd.length) {
+                    clearInterval(typeInterval);
+                    cursorSpan.remove();
+                    setTimeout(() => {
+                        const outputDiv = document.createElement("div");
+                        outputDiv.className = "output";
+                        outputDiv.innerHTML = current.output;
+                        termContent.appendChild(outputDiv);
+                        cmdIndex++;
+                        setTimeout(typeCommand, 600);
+                    }, 400);
+                }
+            }, 50);
+        }
+
+        const terminalObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !terminalStarted) {
+                terminalStarted = true;
+                setTimeout(typeCommand, 500);
+            }
+        }, { threshold: 0.5 });
+        terminalObserver.observe(document.getElementById('terminal-trigger'));
+
+        // 3. FORMULAIRE CONTACT
+        var form = document.getElementById("my-form");
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("my-form-status");
+            var btn = document.getElementById("my-form-button");
+            var data = new FormData(event.target);
+            btn.innerHTML = "Envoi en cours...";
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
+
+            fetch(event.target.action, {
+                method: form.method, body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "✅ Message envoyé avec succès !";
+                    status.style.color = "var(--accent-neon)";
+                    form.reset();
+                } else {
+                    status.innerHTML = "❌ Erreur lors de l'envoi.";
+                    status.style.color = "#ff5f56";
+                }
+                btn.innerHTML = "Envoyer le message";
+                btn.style.opacity = "1";
+                btn.disabled = false;
+            }).catch(() => {
+                status.innerHTML = "❌ Erreur réseau.";
+                status.style.color = "#ff5f56";
+                btn.innerHTML = "Envoyer le message";
+                btn.style.opacity = "1";
+                btn.disabled = false;
+            });
+        }
+        form.addEventListener("submit", handleSubmit);
+
+        // 4. BOUTON RETOUR EN HAUT
+        const backToTopBtn = document.getElementById("backToTop");
+        window.addEventListener("scroll", () => {
+            backToTopBtn.classList.toggle("show", window.scrollY > 400);
+        });
+    </script>
 </body>
 </html>
 
