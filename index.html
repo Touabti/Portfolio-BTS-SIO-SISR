@@ -3,197 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Slim Touabti - BTS SIO SISR</title>
-    
-    <style>
-        /* ============================================================
-           PORTFOLIO SLIM TOUABTI - ONE-PAGE GLASSMORPHISM BLUE EDITION
-           ============================================================ */
-
-        :root {
-            --bg-dark: #020408;
-            --bg-panel: rgba(255, 255, 255, 0.03);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --accent-neon: #4d9fff;
-            --accent-glow: rgba(77, 159, 255, 0.3);
-            --accent-blue: #1e6fff;
-            --accent-white: #e0eeff;
-            --terminal-bg: rgba(5, 10, 20, 0.9);
-            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-
-        #bg-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -2; pointer-events: none;
-        }
-
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, transparent 0%, rgba(2, 4, 8, 0.85) 100%);
-            z-index: -1; pointer-events: none;
-        }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: rgba(77, 159, 255, 0.3); border-radius: 4px; }
-
-        /* --- NAVIGATION --- */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 40px; background-color: rgba(2, 4, 8, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            position: fixed; width: calc(100% - 40px); max-width: 1400px;
-            top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; border-radius: 100px;
-            border: 1px solid rgba(77, 159, 255, 0.15);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(77,159,255,0.05);
-        }
-
-        .logo {
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 1.3rem; font-weight: 700;
-            letter-spacing: 0px; text-transform: lowercase; text-decoration: none;
-        }
-        .logo .user { color: #4d9fff; text-shadow: 0 0 10px rgba(77, 159, 255, 0.6); }
-        .logo .at { color: var(--text-primary); }
-        .logo .host { color: #a0c8ff; text-shadow: 0 0 8px rgba(160, 200, 255, 0.4); }
-        .logo .cursor-blink { color: var(--accent-neon); animation: blink 1s step-end infinite; }
-
-        .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover { color: var(--text-primary); text-shadow: 0 0 5px var(--accent-neon); }
-
-        /* --- HERO --- */
-        .hero { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; }
-        .hero::before { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(30, 111, 255, 0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: -1; }
-        .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; line-height: 1.1; }
-        .hero h1 span { background: linear-gradient(90deg, #4d9fff, #a0d4ff, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 0 20px rgba(77, 159, 255, 0.5)); }
-        .hero h2 { font-size: 1.5rem; font-weight: 500; color: var(--text-primary); margin-top: 10px; }
-        .hero p { margin: 25px auto; max-width: 680px; font-size: 1.05rem; color: var(--text-secondary); }
-
-        .btn { display: inline-block; padding: 12px 30px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); color: var(--accent-neon); text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--accent-neon); transition: var(--transition-smooth); cursor: pointer; }
-        .btn:hover { color: #020408; background-color: var(--accent-neon); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
-
-        .scroll-down { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--accent-neon); text-decoration: none; animation: bounce 2s infinite; transition: 0.3s; opacity: 0.8; }
-        .scroll-down:hover { opacity: 1; text-shadow: 0 0 15px var(--accent-glow); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); } 40% { transform: translateY(-15px) translateX(-50%); } 60% { transform: translateY(-7px) translateX(-50%); } }
-
-        /* --- SECTIONS --- */
-        .section { padding: 100px 20px 40px 20px; max-width: 1200px; margin: auto; min-height: 80vh; position: relative; }
-        .section-title { margin-bottom: 50px; font-size: 2.5rem; font-weight: 900; color: var(--text-primary); position: relative; padding-left: 20px; }
-        .section-title::before { content: ''; position: absolute; left: 0; top: 5px; height: 80%; width: 4px; background: linear-gradient(to bottom, var(--accent-blue), var(--accent-neon)); border-radius: 2px; }
-
-        /* --- A PROPOS --- */
-        .grid-about { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: stretch; }
-        .about-text { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 1px solid var(--border-glass); }
-        .about-text p { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.05rem; }
-
-        .terminal-window { background: var(--terminal-bg); border-radius: 12px; border: 1px solid rgba(77,159,255,0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.5); overflow: hidden; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95rem; display: flex; flex-direction: column; }
-        .terminal-header { background: rgba(0,0,0,0.5); padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid rgba(77,159,255,0.1); }
-        .term-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
-        .dot-red { background-color: #ff5f56; } .dot-yellow { background-color: #ffbd2e; } .dot-green { background-color: #27c93f; }
-        .term-title { margin-left: auto; margin-right: auto; color: #64748b; font-size: 0.85rem; padding-right: 60px; }
-        .terminal-body { padding: 20px; color: #e2e8f0; flex: 1; }
-        .prompt { color: #4d9fff; font-weight: bold; } .cmd { color: #a0d4ff; }
-        .output { color: #cbd5e1; margin-bottom: 15px; padding-left: 10px; border-left: 2px solid #1e3a5f; margin-top: 5px; }
-        .highlight-output { color: #4d9fff; font-weight: bold; }
-        .cursor { display: inline-block; width: 8px; height: 18px; background-color: #4d9fff; vertical-align: middle; animation: blink 1s step-end infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* --- COMPETENCES --- */
-        .skill-item { margin-bottom: 20px; }
-        .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
-        .skill-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid var(--border-glass); overflow: hidden; }
-        .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-neon)); border-radius: 10px; box-shadow: 0 0 10px var(--accent-glow); }
-
-        /* Tool tags section */
-        .tools-section { margin-top: 40px; }
-        .tools-title { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; font-weight: 600; }
-        .tools-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tool-tag { background: rgba(77, 159, 255, 0.07); border: 1px solid rgba(77,159,255,0.2); color: var(--accent-neon); padding: 8px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; transition: 0.3s; }
-        .tool-tag:hover { background: rgba(77, 159, 255, 0.15); transform: translateY(-2px); }
-
-        /* --- PROJETS --- */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); position: relative; overflow: hidden; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); }
-        .card::after { content: ''; position: absolute; width: 100px; height: 100px; background: var(--accent-glow); border-radius: 50%; filter: blur(30px); opacity: 0; transition: var(--transition-smooth); top: -50px; right: -50px; z-index: -1; }
-        .card:hover { transform: translateY(-8px); border-color: rgba(77, 159, 255, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .card:hover::after { opacity: 1; }
-        .card h3 { margin-bottom: 20px; font-size: 1.2rem; color: var(--text-primary); }
-        .card p { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem; flex-grow: 1; }
-        .card .context { font-size: 0.8rem; color: rgba(77,159,255,0.7); margin-bottom: 15px; font-style: italic; }
-
-        .badge { display: inline-block; background-color: rgba(255,255,255,0.03); color: var(--text-secondary); padding: 6px 14px; border-radius: 40px; font-size: 0.75rem; font-weight: 500; margin: 0 6px 8px 0; border: 1px solid var(--border-glass); }
-        .card:hover .badge { border-color: rgba(77,159,255,0.25); color: var(--text-primary); }
-        .btn-view { margin-top: auto; align-self: flex-start; padding: 8px 20px; font-size: 0.8rem; }
-
-        /* --- CERTIFICATIONS --- */
-        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .cert-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; text-align: center; opacity: 0; transform: translateY(30px); }
-        .cert-card:hover { transform: translateY(-8px); border-color: rgba(77,159,255,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .cert-icon { font-size: 3rem; margin-bottom: 15px; }
-        .cert-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
-        .cert-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 15px; flex-grow: 1; }
-        .cert-status-ok { color: #27c93f; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(39,201,63,0.3); padding: 4px 14px; border-radius: 20px; background: rgba(39,201,63,0.07); }
-        .cert-status-wip { color: #ffbd2e; font-size: 0.85rem; font-weight: 700; border: 1px solid rgba(255,189,46,0.3); padding: 4px 14px; border-radius: 20px; background: rgba(255,189,46,0.07); }
-
-        /* --- VEILLE --- */
-        .veille-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); opacity: 0; transform: translateY(30px); display: flex; flex-direction: column; }
-        .veille-card:hover { transform: translateY(-6px); border-color: rgba(77,159,255,0.25); }
-        .veille-card h3 { font-size: 1.15rem; margin-bottom: 15px; color: var(--text-primary); }
-        .veille-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 10px; }
-        .veille-card p strong { color: var(--text-primary); }
-        .veille-sources { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-glass); }
-        .veille-sources p { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 5px; }
-        .veille-sources a { color: var(--accent-neon); text-decoration: none; font-size: 0.82rem; line-height: 2; }
-        .veille-sources a:hover { text-decoration: underline; }
-
-        /* --- CONTACT --- */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: var(--bg-panel); padding: 40px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); }
-        .contact-form { display: flex; flex-direction: column; gap: 20px; }
-        .contact-form div { display: flex; flex-direction: column; gap: 8px; }
-        .contact-form label { font-weight: 600; color: var(--text-secondary); font-size: 0.9rem; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid var(--border-glass); border-radius: 12px; background-color: rgba(0,0,0,0.4); color: var(--text-primary); font-size: 1rem; transition: var(--transition-smooth); }
-        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent-neon); box-shadow: 0 0 15px var(--accent-glow); }
-        .contact-form textarea { min-height: 150px; resize: vertical; }
-        .btn-submit { background: linear-gradient(90deg, var(--accent-blue), var(--accent-neon)); color: #020408; border: none; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1rem; }
-        .btn-submit:hover { box-shadow: 0 10px 30px var(--accent-glow); transform: translateY(-2px); }
-        .contact-info h3 { margin-bottom: 20px; color: var(--accent-neon); }
-        .contact-info p { color: var(--text-secondary); margin-bottom: 20px; }
-        .social-btn { display: block; text-align: center; margin-bottom: 15px; }
-
-        /* --- BACK TO TOP --- */
-        #backToTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: rgba(2,4,8,0.85); backdrop-filter: blur(10px); border: 1px solid var(--accent-neon); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--accent-neon); font-size: 1.5rem; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: var(--transition-smooth); opacity: 0; visibility: hidden; z-index: 999; }
-        #backToTop.show { opacity: 1; visibility: visible; }
-        #backToTop:hover { background-color: var(--accent-neon); color: #000; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-5px); }
-
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border-glass); margin-top: 50px; color: #4b5563; font-size: 0.85rem; }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            nav { padding: 15px 20px; flex-direction: column; gap: 10px; border-radius: 20px; }
-            .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
-            .hero h1 { font-size: 2.5rem; }
-            .grid-about, .contact-container { grid-template-columns: 1fr; }
-        }
-    </style>
+    <title>Portfolio — Slim Touabti — BTS SIO SISR</title>
+    <meta name="description" content="Portfolio BTS SIO option SISR — Slim Touabti — Administration systèmes, réseaux, cybersécurité et automatisation.">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon terminal/shield -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 </head>
 <body>
 
+    <!-- BARRE DE PROGRESSION -->
+    <div id="scroll-progress"></div>
+
+    <!-- FOND ANIMÉ -->
     <canvas id="bg-canvas"></canvas>
     <div class="bg-overlay"></div>
 
@@ -202,39 +23,47 @@
         <a href="#accueil" class="logo">
             <span class="user">&gt;_ root</span><span class="at">@</span><span class="host">slim.t:~</span><span class="cursor-blink">_</span>
         </a>
+        <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <ul class="nav-links">
             <li><a href="#about">À Propos</a></li>
             <li><a href="#competences">Compétences</a></li>
             <li><a href="#projets">Projets</a></li>
+            <li><a href="#situations">Situations E5</a></li>
             <li><a href="#certifications">Certifications</a></li>
             <li><a href="#veille">Veille</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
-    <!-- HERO -->
+    <!-- ═══════════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════════════════ -->
     <header id="accueil" class="hero">
         <div>
             <h1>Bonjour, je suis <span>Slim Touabti</span></h1>
-            <h2>Technicien Supérieur en Solutions d'Infrastructure, Systèmes et Réseaux.</h2>
-            <p>Étudiant en BTS SIO option SISR, passionné par la protection des infrastructures et la sécurisation des flux réseaux. 
-            <p></p>Mon objectif : concevoir des architectures résilientes et automatiser la détection de vulnérabilités.</p>
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <h2>Technicien Supérieur en Solutions d'Infrastructure, Systèmes et Réseaux</h2>
+            <p>Étudiant en BTS SIO option SISR, passionné par la protection des infrastructures et la sécurisation des flux réseaux. Mon objectif : concevoir des architectures résilientes et automatiser la détection de vulnérabilités.</p>
+            <div class="hero-btns">
                 <a href="#projets" class="btn">Voir mes réalisations</a>
-                <a href="https://touabti.github.io/Portfolio-BTS-SIO-SISR/" target="_blank" class="btn" style="border-color: #a0c8ff; color: #a0c8ff;">🌐 Portfolio en ligne</a>
+                <a href="#situations" class="btn" style="border-color:#a0c8ff;color:#a0c8ff;">Épreuve E5</a>
             </div>
         </div>
         <a href="#about" class="scroll-down" title="Découvrir mon profil">↓</a>
     </header>
 
-    <!-- À PROPOS -->
+    <!-- ═══════════════════════════════════════════════════
+         À PROPOS
+    ════════════════════════════════════════════════════════ -->
     <section id="about" class="section">
         <h2 class="section-title">À Propos de moi</h2>
         <div class="grid-about">
             <div class="about-text">
-                <p>Étudiant en BTS SIO option SISR, je me passionne pour la <strong style="color: var(--accent-neon);">protection des infrastructures</strong> et la sécurisation des flux réseaux.</p>
+                <p>Étudiant en BTS SIO option SISR, je me passionne pour la <strong style="color:var(--accent-neon)">protection des infrastructures</strong> et la sécurisation des flux réseaux.</p>
                 <p>Mon objectif est de concevoir des architectures résilientes, d'administrer des systèmes critiques et d'automatiser la détection de vulnérabilités pour garantir l'intégrité et la disponibilité des données.</p>
-                <p>À travers mes formations et expériences professionnelles, j'ai acquis des compétences solides en administration systèmes, réseaux, cybersécurité et automatisation — aussi bien en environnement Microsoft que Linux.</p>
+                <p>Mon parcours m'a permis de forger une polyvalence technique sur les environnements <strong style="color:var(--accent-neon)">Microsoft et Linux</strong>. Aujourd'hui, je maîtrise les leviers essentiels de l'administration système, de la gestion réseau et de la cybersécurité, avec une forte capacité à m'adapter aux infrastructures complexes.</p>
+                <p>Actuellement en quête de nouveaux défis, je recherche une <strong style="color:var(--accent-neon)">alternance</strong> pour accompagner ma poursuite d'études en école supérieure dès la rentrée prochaine.</p>
                 <br>
                 <a href="#" class="btn">📄 Télécharger mon CV (PDF)</a>
             </div>
@@ -251,96 +80,168 @@
         </div>
     </section>
 
-    <!-- COMPÉTENCES -->
+    <!-- ═══════════════════════════════════════════════════
+         COMPÉTENCES
+    ════════════════════════════════════════════════════════ -->
     <section id="competences" class="section">
         <h2 class="section-title">Mes Compétences</h2>
-        <div class="grid-container">
-
-            <div class="card">
-                <h3>🌐 Réseau & Infrastructure</h3>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Commutation & Routage (Cisco)</span><span>80%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Services TCP/IP (DNS, DHCP)</span><span>85%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>VLAN & Interconnexion</span><span>80%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Fortinet (UTM)</span><span>65%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 65%;"></div></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>🖥️ Systèmes & Virtualisation</h3>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Windows Server & Active Directory</span><span>88%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 88%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Linux (Debian / Samba 4)</span><span>80%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Virtualisation (VMware / VirtualBox)</span><span>82%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 82%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Exchange (messagerie)</span><span>70%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 70%;"></div></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>🛡️ Sécurité & Supervision</h3>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Pare-feu Stormshield (NAT, VPN)</span><span>80%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Analyse réseau (Wireshark / Nmap)</span><span>75%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Supervision (Centreon / Graylog)</span><span>70%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 70%;"></div></div>
-                </div>
-                <div class="skill-item">
-                    <div class="skill-info"><span>Ticketing & Inventaire (GLPI)</span><span>92%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 92%;"></div></div>
-                </div>
-            </div>
-
+        <!-- Légende des niveaux -->
+        <div class="skills-legend">
+            <span><span class="legend-dot dot-debutant"></span>Débutant</span>
+            <span><span class="legend-dot dot-intermediaire"></span>Intermédiaire</span>
+            <span><span class="legend-dot dot-avance"></span>Avancé</span>
+            <span><span class="legend-dot dot-expert"></span>Expert</span>
         </div>
 
-        <!-- Outils maîtrisés -->
-        <div class="tools-section">
-            <p class="tools-title">🔧 Autres outils maîtrisés :</p>
-            <div class="tools-grid">
-                <span class="tool-tag">Bitdefender</span>
-                <span class="tool-tag">Milestone (caméras IP)</span>
-                <span class="tool-tag">Centreon</span>
-                <span class="tool-tag">Graylog</span>
-                <span class="tool-tag">iParapheur</span>
-                <span class="tool-tag">XiVO (VoIP)</span>
-                <span class="tool-tag">TeamViewer</span>
-                <span class="tool-tag">Windows Backup</span>
-                <span class="tool-tag">PowerShell</span>
-                <span class="tool-tag">GPO</span>
-                <span class="tool-tag">OCS Inventory</span>
-                <span class="tool-tag">Atera (RMM)</span>
+        <div class="skills-grid">
+
+            <!-- Réseau & Infrastructure -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🌐</span>
+                    <span class="skill-card-title">Réseau & Infrastructure</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Administration réseau</span>
+                        <span class="skill-desc">Configuration et administration de switchs et routeurs managés</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Segmentation & Routage</span>
+                        <span class="skill-desc">Mise en place de VLANs, routage inter-VLAN et segmentation réseau</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Protocoles & Services</span>
+                        <span class="skill-desc">Configuration DNS et DHCP</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Sécurité Périmétrique</span>
+                        <span class="skill-desc">Paramétrage de pare-feu (Stormshield, pfSense) et configuration VPN IPsec</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Téléphonie sur IP</span>
+                        <span class="skill-desc">Connaissances en solutions VoIP avec XiVO</span>
+                    </div>
+                    <span class="skill-level level-debutant">Débutant</span>
+                </div>
             </div>
+
+            <!-- Systèmes & Virtualisation -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🖥️</span>
+                    <span class="skill-card-title">Systèmes & Virtualisation</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Environnements Windows</span>
+                        <span class="skill-desc">Windows Server 2019/2022, Active Directory, GPO</span>
+                    </div>
+                    <span class="skill-level level-expert">Expert</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Environnements Linux</span>
+                        <span class="skill-desc">Administration Debian et Ubuntu</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Virtualisation</span>
+                        <span class="skill-desc">Proxmox VE, VMware et VirtualBox</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Gestion des Données</span>
+                        <span class="skill-desc">Partages réseau NTFS, quotas, sauvegarde et restauration (Windows Backup)</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Scripts & Langages</span>
+                        <span class="skill-desc">Automatisation PowerShell et Bash, notions SQL et HTML</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+            </div>
+
+            <!-- Sécurisation & Supervision -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🛡️</span>
+                    <span class="skill-card-title">Sécurisation & Supervision</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Sécurisation des Accès</span>
+                        <span class="skill-desc">Gestion droits utilisateurs/groupes, PKI, protocoles LDAPS et HTTPS</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Supervision (Monitoring)</span>
+                        <span class="skill-desc">Zabbix, Centreon et Graylog</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Gestion de Parc & Support</span>
+                        <span class="skill-desc">Méthodologie ITIL, GLPI, OsTicket, OCS Inventory, TeamViewer</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Protection & Audit</span>
+                        <span class="skill-desc">Gestion des vulnérabilités, audits de sécurité, Bitdefender, Milestone</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- PROJETS -->
+    <!-- ═══════════════════════════════════════════════════
+         PROJETS TECHNIQUES
+    ════════════════════════════════════════════════════════ -->
     <section id="projets" class="section">
         <h2 class="section-title">Mes Projets Techniques</h2>
+        <p class="section-subtitle">
+            Réalisations en formation et en stage. Les projets issus des stages sont mis en avant (<span style="color:var(--color-stage);font-weight:600">couleur dorée</span>) car ils ont été conduits en conditions réelles de production.
+        </p>
         <div class="grid-container">
 
             <div class="card">
@@ -352,7 +253,7 @@
                     <span class="badge">AD DS</span>
                     <span class="badge">DNS / DHCP</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-ad">Voir le dossier →</button>
             </div>
 
             <div class="card">
@@ -365,7 +266,7 @@
                     <span class="badge">Filtrage URL</span>
                     <span class="badge">Cybersécurité</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-stormshield">Voir le dossier →</button>
             </div>
 
             <div class="card">
@@ -377,19 +278,19 @@
                     <span class="badge">Samba 4</span>
                     <span class="badge">Active Directory</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-samba">Voir le dossier →</button>
             </div>
 
-            <div class="card">
+            <div class="card card-stage">
                 <h3>⚙️ Onboarding Automatisé</h3>
-                <p class="context">Stage 2ème année</p>
+                <p class="context stage">⭐ Stage 2ème année — Mairie de Charenton-le-Pont</p>
                 <p>Développement et mise en production d'un système d'onboarding progressif automatisé pour les nouveaux agents, via PowerShell, le registre local et Exchange.</p>
                 <div>
                     <span class="badge">PowerShell</span>
                     <span class="badge">Exchange</span>
                     <span class="badge">Automatisation</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-onboarding">Voir le dossier →</button>
             </div>
 
             <div class="card">
@@ -401,19 +302,19 @@
                     <span class="badge">VLAN</span>
                     <span class="badge">Segmentation</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-vlan">Voir le dossier →</button>
             </div>
 
-            <div class="card">
+            <div class="card card-stage">
                 <h3>🎥 Infrastructure Milestone (Caméras)</h3>
-                <p class="context">Stage 1ère / 2ème année</p>
-                <p>Installation et mise en place du système de vidéosurveillance Milestone : configuration des caméras IP, du serveur d'enregistrement et des flux vidéo.</p>
+                <p class="context stage">⭐ Stage 1ère année — HTNS, Alger</p>
+                <p>Installation et mise en place du système de vidéosurveillance Milestone XProtect : configuration des caméras IP, du serveur d'enregistrement et des flux vidéo.</p>
                 <div>
                     <span class="badge">Milestone</span>
                     <span class="badge">Caméras IP</span>
                     <span class="badge">Réseau</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-milestone">Voir le dossier →</button>
             </div>
 
             <div class="card">
@@ -425,25 +326,354 @@
                     <span class="badge">VirtualBox</span>
                     <span class="badge">Virtualisation</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-virtualisation">Voir le dossier →</button>
             </div>
 
-            <div class="card">
+            <div class="card card-stage">
                 <h3>🎫 Support ITSM & Gestion de Parc</h3>
-                <p class="context">Stage 1ère année</p>
+                <p class="context stage">⭐ Stage 1ère année — HTNS, Alger</p>
                 <p>Prise en charge des demandes via GLPI, diagnostic à distance, gestion des droits AD, déploiement GPO imprimantes et inventaire complet du parc via OCS Inventory.</p>
                 <div>
                     <span class="badge">GLPI</span>
                     <span class="badge">OCS Inventory</span>
                     <span class="badge">Support N1/N2</span>
                 </div>
-                <a href="#" class="btn btn-view">Dossier Technique</a>
+                <button class="btn btn-view" data-modal="proj-itsm">Voir le dossier →</button>
             </div>
 
         </div>
     </section>
 
-    <!-- CERTIFICATIONS -->
+    <!-- ═══════════════════════════════════════════════════
+         SITUATIONS PROFESSIONNELLES — E5
+    ════════════════════════════════════════════════════════ -->
+    <section id="situations" class="section">
+        <h2 class="section-title">Situations Professionnelles — Épreuve E5</h2>
+        <div class="sp-intro">
+            <p>
+                L'épreuve E5 du BTS SIO SISR évalue la maîtrise des compétences du référentiel à travers des
+                <strong>situations professionnelles réelles</strong>, documentées lors des stages et des travaux pratiques.
+                Cliquez sur chaque carte pour accéder à la fiche complète : contexte, mission, actions, technologies et compétences couvertes.
+            </p>
+            <p style="margin-top:10px">
+                <span style="color:var(--color-stage);font-weight:600">■ Doré = Stage en entreprise</span>
+                &nbsp;·&nbsp;
+                <span style="color:var(--accent-neon);font-weight:600">■ Bleu = Formation (Lycée Louis Armand)</span>
+            </p>
+        </div>
+
+        <div class="sp-grid">
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP1</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Infrastructure Active Directory</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.5</span>
+                    <span class="comp-badge comp-b2">B2.2</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-ad">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP2</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Sécurisation Stormshield</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                    <span class="comp-badge comp-b2">B2.7</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-stormshield">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP3</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Interopérabilité Samba 4</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-samba">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card sp-card-stage">
+                <div class="sp-header">
+                    <span class="sp-number">SP4</span>
+                    <span class="sp-badge sp-badge-stage">Stage 2A</span>
+                </div>
+                <h3>Onboarding Automatisé PowerShell</h3>
+                <div class="sp-lieu">Mairie de Charenton-le-Pont · Direction du Numérique</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.2</span>
+                    <span class="comp-badge comp-b1">B1.4</span>
+                    <span class="comp-badge comp-b2">B2.2</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-onboarding">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP5</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Configuration VLAN Cisco</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-vlan">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card sp-card-stage">
+                <div class="sp-header">
+                    <span class="sp-number">SP6</span>
+                    <span class="sp-badge sp-badge-stage">Stage 1A</span>
+                </div>
+                <h3>Infrastructure Milestone (Caméras IP)</h3>
+                <div class="sp-lieu">HTNS — High Technology Network &amp; Security · Alger</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.1</span>
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-milestone">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP7</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Infrastructure Virtualisée</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-virtualisation">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card sp-card-stage">
+                <div class="sp-header">
+                    <span class="sp-number">SP8</span>
+                    <span class="sp-badge sp-badge-stage">Stage 1A</span>
+                </div>
+                <h3>Support ITSM &amp; Gestion de Parc</h3>
+                <div class="sp-lieu">HTNS — High Technology Network &amp; Security · Alger</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.1</span>
+                    <span class="comp-badge comp-b1">B1.2</span>
+                    <span class="comp-badge comp-b2">B2.1</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-itsm">Voir la fiche SP →</button>
+            </div>
+
+        </div>
+
+        <!-- TABLEAU DE SYNTHÈSE OFFICIEL BTS SIO 2026 -->
+        <h3 style="margin-top:60px;margin-bottom:12px;font-size:1.6rem;font-weight:800;color:var(--text-primary);padding-left:20px;border-left:4px solid var(--accent-neon);">
+            Tableau de Synthèse des Réalisations Professionnelles
+        </h3>
+        <p class="section-subtitle">Tableau officiel BTS SIO SESSION 2026 — Référentiel de compétences SISR</p>
+
+        <div class="bts-table-header">
+            <div class="bts-info-block">
+                <span class="bts-info-label">Diplôme / Session</span>
+                <span class="bts-info-value">BTS SIO — Session 2026</span>
+            </div>
+            <div class="bts-info-divider"></div>
+            <div class="bts-info-block">
+                <span class="bts-info-label">Candidat</span>
+                <span class="bts-info-value">TOUABTI Slim</span>
+            </div>
+            <div class="bts-info-divider"></div>
+            <div class="bts-info-block">
+                <span class="bts-info-label">Établissement</span>
+                <span class="bts-info-value">Lycée Louis Armand</span>
+            </div>
+            <div class="bts-info-divider"></div>
+            <div class="bts-info-block">
+                <span class="bts-info-label">Option</span>
+                <span class="bts-info-value">SISR — Solutions d'Infrastructure, Systèmes et Réseaux</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="synthese-table">
+                <thead>
+                    <tr>
+                        <th class="col-realisation">Réalisations Professionnelles</th>
+                        <th class="col-periode">Période</th>
+                        <th>Gérer le patrimoine informatique</th>
+                        <th>Répondre aux incidents et demandes d'assistance</th>
+                        <th>Développer la présence en ligne de l'organisation</th>
+                        <th>Travailler en mode projet</th>
+                        <th>Mettre à disposition des utilisateurs un service informatique</th>
+                        <th>Organiser son développement professionnel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ── Formation ── -->
+                    <tr class="synthese-group-row group-formation">
+                        <td colspan="8">📚 Formation — Lycée Louis Armand</td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Infrastructure Active Directory (AD DS, DNS, DHCP)</td>
+                        <td class="col-periode">2024–2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Sécurisation réseau — Stormshield &amp; VLAN Cisco</td>
+                        <td class="col-periode">2024–2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Interopérabilité — Samba 4 &amp; automatisation</td>
+                        <td class="col-periode">2024–2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Virtualisation — VMware &amp; Proxmox</td>
+                        <td class="col-periode">2024–2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Veille technologique &amp; identité numérique</td>
+                        <td class="col-periode">2024–2025</td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                    </tr>
+                    <!-- ── Stage 1A — HTNS ── -->
+                    <tr class="synthese-group-row group-stage1">
+                        <td colspan="8">⭐ Stage 1ère année — HTNS, Alger (Avr. 2024)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Support IT &amp; gestion de parc — GLPI / OCS Inventory</td>
+                        <td class="col-periode">Avr. 2024</td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Gestion des habilitations Active Directory</td>
+                        <td class="col-periode">Avr. 2024</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Maintenance Data Center &amp; supervision Zabbix</td>
+                        <td class="col-periode">Avr. 2024</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Déploiement imprimantes réseau &amp; GPO</td>
+                        <td class="col-periode">Avr. 2024</td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                    </tr>
+                    <!-- ── Stage 2A — Mairie de Charenton ── -->
+                    <tr class="synthese-group-row group-stage2">
+                        <td colspan="8">🏛️ Stage 2ème année — Mairie de Charenton-le-Pont, Direction du Numérique (Mar. 2025)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Onboarding automatisé — PowerShell, registre &amp; Exchange</td>
+                        <td class="col-periode">Mar. 2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Maintenance &amp; déploiement de postes de travail</td>
+                        <td class="col-periode">Mar. 2025</td>
+                        <td><span class="check-x">X</span></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="col-realisation">Compte-rendu de besoin &amp; remplacement matériel</td>
+                        <td class="col-periode">Mar. 2025</td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                        <td></td>
+                        <td><span class="check-x">X</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="synthese-footer">
+            <span>📚 Formation — Lycée Louis Armand</span>
+            <span>⭐ Stage 1A — HTNS, Alger (Avr. 2024)</span>
+            <span>🏛️ Stage 2A — Mairie de Charenton-le-Pont, Direction du Numérique (Mar. 2025)</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         CERTIFICATIONS
+    ════════════════════════════════════════════════════════ -->
     <section id="certifications" class="section">
         <h2 class="section-title">Certifications IT</h2>
         <div class="cert-grid">
@@ -465,110 +695,122 @@
         </div>
     </section>
 
-    <!-- VEILLE TECHNOLOGIQUE -->
+    <!-- ═══════════════════════════════════════════════════
+         VEILLE TECHNOLOGIQUE
+    ════════════════════════════════════════════════════════ -->
     <section id="veille" class="section">
         <h2 class="section-title">Veille Technologique (2026)</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; max-width: 900px;">
-            Thème principal : <strong>Sécurisation et automatisation des infrastructures systèmes et réseaux face aux menaces émergentes.</strong>
+        <p class="section-subtitle">
+            Thème principal : <strong style="color:var(--text-primary)">Sécurisation et automatisation des infrastructures systèmes et réseaux face aux menaces émergentes.</strong>
         </p>
+
+        <!-- Filtres -->
+        <div class="veille-filter">
+            <button class="veille-filter-btn active" data-filter="all">Tout afficher</button>
+            <button class="veille-filter-btn" data-filter="cybersecurite">Cybersécurité</button>
+            <button class="veille-filter-btn" data-filter="automatisation">Automatisation</button>
+            <button class="veille-filter-btn" data-filter="supervision">Supervision</button>
+            <button class="veille-filter-btn" data-filter="virtualisation">Virtualisation</button>
+            <button class="veille-filter-btn" data-filter="systeme">Système libre</button>
+        </div>
 
         <div class="grid-container">
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="cybersecurite">
                 <h3>🔐 ZTNA : La fin des VPN traditionnels</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Cybersécurité</span>
-                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Infrastructure</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Infrastructure</span>
                 </div>
                 <p><strong>L'actualité :</strong> Le Zero Trust Network Access (ZTNA) devient la norme en 2026 pour remplacer les VPN traditionnels jugés trop permissifs.</p>
                 <p><strong>Impact SISR :</strong> Contrairement au VPN qui ouvre l'accès à tout le réseau, le ZTNA n'autorise l'accès qu'à une application spécifique après vérification continue de l'identité et de l'état du poste — réduisant drastiquement les mouvements latéraux en cas d'attaque.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://messervices.cyber.gouv.fr/guides/zero-trust" target="_blank">ANSSI : Le modèle Zero Trust</a></li>
-                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank">Stormshield : ZTNA</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://messervices.cyber.gouv.fr/guides/zero-trust" target="_blank" rel="noopener">ANSSI : Le modèle Zero Trust</a></li>
+                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank" rel="noopener">Stormshield : ZTNA</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="automatisation">
                 <h3>⚡ PowerShell DSC : L'automatisation des configs</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Automatisation</span>
-                    <span class="badge" style="color: #39ff14; border-color: rgba(57,255,20,0.3);">Windows Server</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Automatisation</span>
+                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">Windows Server</span>
                 </div>
                 <p><strong>L'actualité :</strong> PowerShell DSC (Desired State Configuration) s'impose comme standard pour l'automatisation de la configuration d'infrastructures Windows à grande échelle.</p>
                 <p><strong>Impact SISR :</strong> Permet de garantir la conformité permanente des serveurs : si une configuration dérive, DSC la remet automatiquement à l'état souhaité. Idéal pour les déploiements AD et les onboardings automatisés.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://learn.microsoft.com/fr-fr/powershell/dsc/overview" target="_blank">Microsoft Learn : PowerShell DSC</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://learn.microsoft.com/fr-fr/powershell/dsc/overview" target="_blank" rel="noopener">Microsoft Learn : PowerShell DSC</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="supervision">
                 <h3>📊 SIEM Nouvelle Génération (Graylog / Wazuh)</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Supervision</span>
-                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Cybersécurité</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Supervision</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Cybersécurité</span>
                 </div>
                 <p><strong>L'actualité :</strong> Les solutions SIEM open-source comme Graylog et Wazuh s'imposent dans les PME et collectivités comme alternative accessible aux SIEM propriétaires coûteux.</p>
                 <p><strong>Impact SISR :</strong> Centralisation des logs de tous les équipements (serveurs, pare-feux, switches), corrélation d'événements et détection d'anomalies en temps réel. Un atout majeur pour la conformité RGPD et la réponse aux incidents.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://graylog.org/post/what-is-a-siem/" target="_blank">Graylog : What is a SIEM?</a></li>
-                        <li>🔗 <a href="https://wazuh.com/platform/siem/" target="_blank">Wazuh SIEM Platform</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://graylog.org/post/what-is-a-siem/" target="_blank" rel="noopener">Graylog : What is a SIEM?</a></li>
+                        <li>🔗 <a href="https://wazuh.com/platform/siem/" target="_blank" rel="noopener">Wazuh SIEM Platform</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="systeme">
                 <h3>🐧 Samba 4 et l'AD sous Linux en production</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #fbbc04; border-color: rgba(251,188,4,0.3);">Système Libre</span>
-                    <span class="badge" style="color: #39ff14; border-color: rgba(57,255,20,0.3);">Interopérabilité</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#fbbc04;border-color:rgba(251,188,4,0.3)">Système libre</span>
+                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">Interopérabilité</span>
                 </div>
                 <p><strong>L'actualité :</strong> Samba 4.x continue d'évoluer vers une compatibilité totale avec les dernières versions de Windows Server pour les environnements mixtes.</p>
                 <p><strong>Impact SISR :</strong> De plus en plus de DSI migrent leurs contrôleurs de domaine secondaires vers Linux/Samba pour réduire les coûts de licences Microsoft, tout en maintenant la compatibilité complète avec l'écosystème Active Directory.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://www.samba.org/samba/latest_news.html" target="_blank">Samba.org : Latest News</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.samba.org/samba/latest_news.html" target="_blank" rel="noopener">Samba.org : Latest News</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="cybersecurite">
                 <h3>🎯 Ethical Hacking & Bug Bounty en France</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #ff8833; border-color: rgba(255,136,51,0.3);">Cybersécurité</span>
-                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Offensive Security</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Offensive Security</span>
                 </div>
                 <p><strong>L'actualité :</strong> Le marché du Bug Bounty explose en France : l'ANSSI et de nombreuses grandes entreprises font appel à des hackers éthiques certifiés pour auditer leurs systèmes.</p>
                 <p><strong>Impact SISR :</strong> La maîtrise des outils offensifs (Nmap, Metasploit, Wireshark) devient une compétence attendue même côté défensif. Comprendre comment une attaque fonctionne permet de mieux protéger l'infrastructure.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://www.yeswehack.com/" target="_blank">YesWeHack : Bug Bounty France</a></li>
-                        <li>🔗 <a href="https://www.ssi.gouv.fr/" target="_blank">ANSSI : Sécurité Numérique</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.yeswehack.com/" target="_blank" rel="noopener">YesWeHack : Bug Bounty France</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/" target="_blank" rel="noopener">ANSSI : Sécurité Numérique</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="veille-card">
+            <div class="veille-card" data-category="virtualisation">
                 <h3>📡 Hyperconvergence & Proxmox VE</h3>
-                <div style="margin-bottom: 15px;">
-                    <span class="badge" style="color: #4d9fff; border-color: rgba(77,159,255,0.3);">Virtualisation</span>
-                    <span class="badge" style="color: #a0c8ff; border-color: rgba(160,200,255,0.3);">Infrastructure</span>
+                <div style="margin-bottom:12px">
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Virtualisation</span>
+                    <span class="badge" style="color:#a0c8ff;border-color:rgba(160,200,255,0.3)">Infrastructure</span>
                 </div>
                 <p><strong>L'actualité :</strong> Suite au rachat de VMware par Broadcom et la hausse massive des licences, Proxmox VE s'impose comme alternative open-source dans les collectivités et PME.</p>
                 <p><strong>Impact SISR :</strong> Les administrateurs système doivent désormais maîtriser plusieurs hyperviseurs. Proxmox offre clustering, haute disponibilité et sauvegarde intégrée — des fonctionnalités VMware Enterprise à coût quasi nul.</p>
                 <div class="veille-sources">
                     <p>Sources :</p>
-                    <ul style="list-style: none;">
-                        <li>🔗 <a href="https://www.proxmox.com/en/news" target="_blank">Proxmox : Actualités</a></li>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.proxmox.com/en/news" target="_blank" rel="noopener">Proxmox : Actualités</a></li>
                     </ul>
                 </div>
             </div>
@@ -576,7 +818,9 @@
         </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- ═══════════════════════════════════════════════════
+         CONTACT
+    ════════════════════════════════════════════════════════ -->
     <section id="contact" class="section">
         <h2 class="section-title">Me Contacter</h2>
         <div class="contact-container">
@@ -585,20 +829,17 @@
                 <p>Je suis à la recherche de nouvelles opportunités pour mettre en pratique mes compétences en infrastructure, sécurité et automatisation.</p>
                 <p>N'hésitez pas à me contacter pour une offre, un échange sur mes projets, ou toute question sur mon parcours.</p>
                 <br>
-                <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" class="btn social-btn">🔗 Mon profil LinkedIn</a>
-                <a href="https://github.com/Touabti" target="_blank" class="btn social-btn" style="border-color: #f1f5f9; color: #f1f5f9;">💻 Mon profil GitHub</a>
-                <div title="Cliquez pour sélectionner l'e-mail"
-                     onclick="window.getSelection().selectAllChildren(this);"
-                     style="display: block; text-align: center; margin-bottom: 15px; padding: 12px 30px;
-                            background: rgba(77,159,255,0.05); color: var(--accent-neon); border-radius: 50px;
-                            font-weight: 600; font-size: 0.9rem; font-family: 'Consolas', monospace;
-                            border: 1px solid rgba(77,159,255,0.3); cursor: pointer;
-                            transition: 0.3s; user-select: all; -webkit-user-select: all;">
+                <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" rel="noopener" class="btn social-btn">🔗 Mon profil LinkedIn</a>
+                <a href="https://github.com/Touabti" target="_blank" rel="noopener" class="btn social-btn" style="border-color:#f1f5f9;color:#f1f5f9">💻 Mon profil GitHub</a>
+                <div class="email-click"
+                     title="Cliquez pour sélectionner l'e-mail"
+                     onclick="window.getSelection().selectAllChildren(this);">
                     slim.touabti.sio@gmail.com
                 </div>
             </div>
 
-            <form id="my-form" action="https://formspree.io/f/VOTRE_ID" method="POST" class="contact-form">
+            <!-- TODO : remplacer VOTRE_ID par votre identifiant Formspree sur https://formspree.io -->
+            <form id="my-form" action="https://formspree.io/f/maqlaekj" method="POST" class="contact-form">
                 <div>
                     <label for="name">Nom complet</label>
                     <input type="text" id="name" name="name" placeholder="Votre nom" required>
@@ -612,157 +853,36 @@
                     <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
                 </div>
                 <button type="submit" id="my-form-button" class="btn-submit">Envoyer le message</button>
-                <p id="my-form-status" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+                <p id="my-form-status" style="margin-top:12px;text-align:center;font-weight:bold"></p>
             </form>
         </div>
     </section>
 
+    <!-- BOUTON RETOUR EN HAUT -->
     <a href="#accueil" id="backToTop" title="Retour en haut">↑</a>
 
+    <!-- FOOTER -->
     <footer>
-        <p>© 2026 — Slim Touabti — Portfolio BTS SIO SISR — Lycée Louis Armand</p>
+        <p>© 2026 — <strong>Slim Touabti</strong> — Portfolio BTS SIO SISR — Lycée Louis Armand</p>
+        <p style="margin-top:6px">
+            <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" rel="noopener">LinkedIn</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/Touabti" target="_blank" rel="noopener">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="https://touabti.github.io/Portfolio-BTS-SIO-SISR/" target="_blank" rel="noopener">Portfolio en ligne</a>
+        </p>
     </footer>
 
-    <script>
-        // 0. ANIMATION CANVAS (PLUIE BINAIRE - TONS BLEUS)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    <!-- ═══════════════════════════════════════════════════
+         MODALE GÉNÉRIQUE
+    ════════════════════════════════════════════════════════ -->
+    <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <button id="modal-close-btn" class="modal-close" aria-label="Fermer">✕</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
 
-        const letters = '01';
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
-
-        function drawRain() {
-            ctx.fillStyle = 'rgba(2, 4, 8, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = fontSize + 'px Consolas';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                const rand = Math.random();
-                if (rand > 0.7) ctx.fillStyle = 'rgba(77, 159, 255, 0.25)';
-                else if (rand > 0.4) ctx.fillStyle = 'rgba(160, 200, 255, 0.15)';
-                else ctx.fillStyle = 'rgba(224, 238, 255, 0.08)';
-
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(drawRain, 50);
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-
-        // 1. SCROLL REVEAL
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.card, .cert-card, .veille-card, .contact-container').forEach(el => revealObserver.observe(el));
-
-        // 2. TERMINAL ANIMÉ
-        const commands = [
-            { cmd: "whoami", output: "Slim Touabti — Admin Sys & Réseaux Junior" },
-            { cmd: "cat objectif.txt", output: "Concevoir des architectures résilientes.<br>Automatiser la détection de vulnérabilités.<br>Sécuriser les flux et les données critiques." },
-            { cmd: "nmap -sV localhost", output: "PORT     STATE  SERVICE<br>22/tcp   open   ssh (OpenSSH 9.x)<br>443/tcp  open   https<br><span class='highlight-output'>Résultat : Infrastructure sécurisée ✓</span>" },
-            { cmd: "./check_skills.sh", output: "[OK] Active Directory — Validé<br>[OK] Stormshield / Fortinet — Validé<br>[OK] PowerShell Automation — Validé<br>[OK] Prêt pour l'entreprise ✓" }
-        ];
-
-        const termContent = document.getElementById("terminal-content");
-        let terminalStarted = false;
-        let cmdIndex = 0;
-
-        function typeCommand() {
-            if (cmdIndex >= commands.length) {
-                termContent.innerHTML += `<div><span class="prompt">root@slim-sec:~$ </span><span class="cursor"></span></div>`;
-                return;
-            }
-            const current = commands[cmdIndex];
-            const lineDiv = document.createElement("div");
-            lineDiv.innerHTML = `<span class="prompt">root@slim-sec:~$ </span><span class="cmd"></span><span class="cursor"></span>`;
-            termContent.appendChild(lineDiv);
-
-            const cmdSpan = lineDiv.querySelector(".cmd");
-            const cursorSpan = lineDiv.querySelector(".cursor");
-            let charIndex = 0;
-
-            const typeInterval = setInterval(() => {
-                cmdSpan.textContent += current.cmd.charAt(charIndex);
-                charIndex++;
-                if (charIndex >= current.cmd.length) {
-                    clearInterval(typeInterval);
-                    cursorSpan.remove();
-                    setTimeout(() => {
-                        const outputDiv = document.createElement("div");
-                        outputDiv.className = "output";
-                        outputDiv.innerHTML = current.output;
-                        termContent.appendChild(outputDiv);
-                        cmdIndex++;
-                        setTimeout(typeCommand, 600);
-                    }, 400);
-                }
-            }, 50);
-        }
-
-        const terminalObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !terminalStarted) {
-                terminalStarted = true;
-                setTimeout(typeCommand, 500);
-            }
-        }, { threshold: 0.5 });
-        terminalObserver.observe(document.getElementById('terminal-trigger'));
-
-        // 3. FORMULAIRE CONTACT
-        var form = document.getElementById("my-form");
-        async function handleSubmit(event) {
-            event.preventDefault();
-            var status = document.getElementById("my-form-status");
-            var btn = document.getElementById("my-form-button");
-            var data = new FormData(event.target);
-            btn.innerHTML = "Envoi en cours...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-
-            fetch(event.target.action, {
-                method: form.method, body: data,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) {
-                    status.innerHTML = "✅ Message envoyé avec succès !";
-                    status.style.color = "var(--accent-neon)";
-                    form.reset();
-                } else {
-                    status.innerHTML = "❌ Erreur lors de l'envoi.";
-                    status.style.color = "#ff5f56";
-                }
-                btn.innerHTML = "Envoyer le message";
-                btn.style.opacity = "1";
-                btn.disabled = false;
-            }).catch(() => {
-                status.innerHTML = "❌ Erreur réseau.";
-                status.style.color = "#ff5f56";
-                btn.innerHTML = "Envoyer le message";
-                btn.style.opacity = "1";
-                btn.disabled = false;
-            });
-        }
-        form.addEventListener("submit", handleSubmit);
-
-        // 4. BOUTON RETOUR EN HAUT
-        const backToTopBtn = document.getElementById("backToTop");
-        window.addEventListener("scroll", () => {
-            backToTopBtn.classList.toggle("show", window.scrollY > 400);
-        });
-    </script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>
-
