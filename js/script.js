@@ -793,90 +793,100 @@ function buildCompBadges(comps) {
 
 function openModal(key) {
     const d = modalData[key];
-    if (!d) return;
+    if (!d) {
+        console.error(`Modal data not found for key: ${key}`);
+        alert(`Erreur : Les données du projet "${key}" sont manquantes.`);
+        return;
+    }
 
-    const actionsHtml = d.actions.map(a => `<li>${a}</li>`).join('');
-    const toolsHtml   = d.tools.map(t => `<span class="modal-tag">${t}</span>`).join('');
-    const compsHtml   = buildCompBadges(d.competences);
-    const badgeClass  = d.isStage ? 'sp-badge-stage' : 'sp-badge-formation';
-    const badgeLabel  = d.isStage ? 'Stage' : 'Formation';
+    try {
+        const actionsHtml = d.actions.map(a => `<li>${a}</li>`).join('');
+        const toolsHtml   = d.tools.map(t => `<span class="modal-tag">${t}</span>`).join('');
+        const compsHtml   = buildCompBadges(d.competences);
+        const badgeClass  = d.isStage ? 'sp-badge-stage' : 'sp-badge-formation';
+        const badgeLabel  = d.isStage ? 'Stage' : 'Formation';
 
-    const docsHtml = (d.docs && d.docs.length) ? `
-        <div class="modal-section">
-            <div class="modal-section-title">Documents & Livrables</div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-                ${d.docs.map(doc => `<a href="${doc.url}" target="_blank" rel="noopener" class="modal-pdf-link">📄 ${doc.label}</a>`).join('')}
+        const docsHtml = (d.docs && d.docs.length) ? `
+            <div class="modal-section">
+                <div class="modal-section-title">Documents & Livrables</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                    ${d.docs.map(doc => `<a href="${doc.url}" target="_blank" rel="noopener" class="modal-pdf-link">📄 ${doc.label}</a>`).join('')}
+                </div>
+            </div>` : '';
+
+        const ganttHtml = d.gantt ? `
+            <div class="modal-section">
+                <div class="modal-section-title">Planification du projet</div>
+                ${buildGantt(d.gantt)}
+            </div>` : '';
+
+        const qqocpqHtml = d.qqocpq ? `
+            <div class="modal-section">
+                <div class="modal-section-title">📋 Analyse QQOCPQ</div>
+                <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px"><em>Cadre d'analyse pour décortiquer le projet selon la méthode BTS</em></p>
+                ${buildQQOCPQ(d.qqocpq)}
+            </div>` : '';
+
+        const scriptHtml = d.script ? `
+            <div class="modal-section">
+                <div class="modal-section-title">📝 Code Source</div>
+                <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px"><em>Script PowerShell déployé en production</em></p>
+                ${buildScript(d.script)}
+            </div>` : '';
+
+        modalContent.innerHTML = `
+            <div class="modal-header">
+                <div class="modal-header-top">
+                    <span class="modal-sp-number">${d.spNumber}</span>
+                    <span class="sp-badge ${badgeClass}">${badgeLabel}</span>
+                </div>
+                <h2>${d.title}</h2>
+                <div class="modal-lieu">${d.lieu}</div>
             </div>
-        </div>` : '';
 
-    const ganttHtml = d.gantt ? `
-        <div class="modal-section">
-            <div class="modal-section-title">Planification du projet</div>
-            ${buildGantt(d.gantt)}
-        </div>` : '';
-
-    const qqocpqHtml = d.qqocpq ? `
-        <div class="modal-section">
-            <div class="modal-section-title">📋 Analyse QQOCPQ</div>
-            <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px"><em>Cadre d'analyse pour décortiquer le projet selon la méthode BTS</em></p>
-            ${buildQQOCPQ(d.qqocpq)}
-        </div>` : '';
-
-    const scriptHtml = d.script ? `
-        <div class="modal-section">
-            <div class="modal-section-title">📝 Code Source</div>
-            <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px"><em>Script PowerShell déployé en production</em></p>
-            ${buildScript(d.script)}
-        </div>` : '';
-
-    modalContent.innerHTML = `
-        <div class="modal-header">
-            <div class="modal-header-top">
-                <span class="modal-sp-number">${d.spNumber}</span>
-                <span class="sp-badge ${badgeClass}">${badgeLabel}</span>
+            <div class="modal-section">
+                <div class="modal-section-title">Contexte</div>
+                <p>${d.context}</p>
             </div>
-            <h2>${d.title}</h2>
-            <div class="modal-lieu">${d.lieu}</div>
-        </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Contexte</div>
-            <p>${d.context}</p>
-        </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Mission confiée</div>
+                <p>${d.mission}</p>
+            </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Mission confiée</div>
-            <p>${d.mission}</p>
-        </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Actions réalisées</div>
+                <ul>${actionsHtml}</ul>
+            </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Actions réalisées</div>
-            <ul>${actionsHtml}</ul>
-        </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Technologies utilisées</div>
+                <div class="modal-tags">${toolsHtml}</div>
+            </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Technologies utilisées</div>
-            <div class="modal-tags">${toolsHtml}</div>
-        </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Compétences BTS SIO couvertes</div>
+                <div class="modal-comp-tags">${compsHtml}</div>
+            </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Compétences BTS SIO couvertes</div>
-            <div class="modal-comp-tags">${compsHtml}</div>
-        </div>
+            <div class="modal-section">
+                <div class="modal-section-title">Résultats & Livrables</div>
+                <p>${d.results}</p>
+            </div>
 
-        <div class="modal-section">
-            <div class="modal-section-title">Résultats & Livrables</div>
-            <p>${d.results}</p>
-        </div>
+            ${docsHtml}
+            ${scriptHtml}
+            ${ganttHtml}
+            ${qqocpqHtml}
+        `;
 
-        ${docsHtml}
-        ${scriptHtml}
-        ${ganttHtml}
-        ${qqocpqHtml}
-    `;
-
-    modalOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        console.log(`Modal opened: ${key}`);
+    } catch (error) {
+        console.error(`Error opening modal ${key}:`, error);
+        alert(`Erreur lors de l'ouverture du modal: ${error.message}`);
+    }
 }
 
 function closeModal() {
