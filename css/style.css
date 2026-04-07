@@ -203,7 +203,7 @@ nav {
 .skill-card {
     background: var(--bg-panel); backdrop-filter: blur(10px); padding: 28px;
     border-radius: 16px; border: 1px solid var(--border-glass);
-    transition: var(--transition-smooth); opacity: 0; transform: translateY(30px);
+    transition: var(--transition-smooth);
 }
 .skill-card:hover { transform: translateY(-6px); border-color: rgba(77,159,255,0.25); box-shadow: 0 15px 35px rgba(0,0,0,0.35); }
 
@@ -251,7 +251,6 @@ nav {
     background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px;
     border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth);
     position: relative; overflow: hidden; display: flex; flex-direction: column;
-    opacity: 0; transform: translateY(30px);
 }
 .card::after { content: ''; position: absolute; width: 100px; height: 100px; background: var(--accent-glow); border-radius: 50%; filter: blur(30px); opacity: 0; transition: var(--transition-smooth); top: -50px; right: -50px; z-index: -1; }
 .card:hover { transform: translateY(-8px); border-color: rgba(77, 159, 255, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
@@ -395,7 +394,6 @@ nav {
     background: var(--bg-panel); backdrop-filter: blur(10px); padding: 22px;
     border-radius: 14px; border: 1px solid var(--border-glass);
     transition: var(--transition-smooth); display: flex; flex-direction: column; gap: 10px;
-    opacity: 0; transform: translateY(30px);
 }
 .sp-card:hover { transform: translateY(-6px); border-color: rgba(77,159,255,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
 .sp-card-stage { border-color: rgba(245, 158, 11, 0.15); }
@@ -501,7 +499,7 @@ nav {
    CERTIFICATIONS
    ============================================================ */
 .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-.cert-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; text-align: center; opacity: 0; transform: translateY(30px); }
+.cert-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; text-align: center; }
 .cert-card:hover { transform: translateY(-8px); border-color: rgba(77,159,255,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 .cert-icon { font-size: 3rem; margin-bottom: 15px; }
 .cert-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
@@ -579,7 +577,7 @@ nav {
 .veille-filter-btn:hover { border-color: rgba(77,159,255,0.3); color: var(--text-primary); }
 .veille-filter-btn.active { background: rgba(77,159,255,0.1); border-color: rgba(77,159,255,0.4); color: var(--accent-neon); }
 
-.veille-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 28px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); opacity: 0; transform: translateY(30px); display: flex; flex-direction: column; }
+.veille-card { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 28px; border-radius: 16px; border: 1px solid var(--border-glass); transition: var(--transition-smooth); display: flex; flex-direction: column; }
 .veille-card:hover { transform: translateY(-6px); border-color: rgba(77,159,255,0.25); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
 .veille-card h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text-primary); }
 .veille-card p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 10px; line-height: 1.65; }
@@ -611,7 +609,7 @@ nav {
 /* ============================================================
    CONTACT
    ============================================================ */
-.contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: var(--bg-panel); padding: 40px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); opacity: 0; transform: translateY(30px); }
+.contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: var(--bg-panel); padding: 40px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); }
 .contact-form { display: flex; flex-direction: column; gap: 20px; }
 .contact-form div { display: flex; flex-direction: column; gap: 8px; }
 .contact-form label { font-weight: 600; color: var(--text-secondary); font-size: 0.9rem; }
