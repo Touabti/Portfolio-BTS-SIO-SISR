@@ -349,6 +349,7 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
     New-ItemProperty -Path $RegPath -Name "Step3_Sent" -Value 1 -Force | Out-Null
 }`
         },
+        gantt: {
             title: 'Diagramme de Gantt \u2014 Onboarding Progressif Automatisé',
             subtitle: '05 janvier au 30 janvier 2026',
             sprints: [
