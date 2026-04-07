@@ -370,7 +370,10 @@
                     <span class="comp-badge comp-b2">B2.2</span>
                     <span class="comp-badge comp-b2">B2.4</span>
                 </div>
-                <button class="btn btn-sp" data-modal="proj-onboarding">Voir la fiche SP →</button>
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-sp" data-modal="proj-onboarding">Voir la fiche SP →</button>
+                    <button class="btn btn-sp btn-presentation" id="open-presentation-onboarding">🎯 Présentation</button>
+                </div>
             </div>
 
             <div class="sp-card">
@@ -1055,6 +1058,25 @@
         <div class="modal-box">
             <button id="modal-close-btn" class="modal-close" aria-label="Fermer">✕</button>
             <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MODALE PRÉSENTATION
+    ════════════════════════════════════════════════════════ -->
+    <div id="presentation-overlay" class="presentation-overlay" role="dialog" aria-modal="true">
+        <div class="presentation-box">
+            <button id="close-presentation-btn" class="presentation-close" aria-label="Fermer la présentation">✕</button>
+            <div class="presentation-slide" id="presentation-slide"></div>
+            <div class="presentation-controls">
+                <button id="prev-slide-btn" class="presentation-nav-btn" aria-label="Slide précédente">
+                    ← Précédent
+                </button>
+                <span id="slide-counter" class="slide-counter">1 / 10</span>
+                <button id="next-slide-btn" class="presentation-nav-btn" aria-label="Slide suivante">
+                    Suivant →
+                </button>
+            </div>
         </div>
     </div>
 

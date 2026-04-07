@@ -990,8 +990,260 @@ if (openSynthesePdf && pdfModalOverlay) {
     });
 }
 
-/* ─── 12. NAV SYNTHÈSE → OUVRE LA MODALE PDF ─────────────── */
-document.getElementById('nav-synthese-btn')?.addEventListener('click', e => {
-    e.preventDefault();
-    document.getElementById('open-synthese-pdf')?.click();
+
+/* ─── 13. PRÉSENTATION ONBOARDING ──────────────────────────── */
+
+const presentationSlides = [
+    {
+        title: '⚙️ Onboarding Automatisé',
+        subtitle: 'Mairie de Charenton-le-Pont — Stage 2ème année',
+        content: '<div class="slide-intro"><h3>Un projet de transformation digitale</h3><p>Automatisation du processus d\'intégration des nouveaux agents municipaux par PowerShell.</p></div>',
+        color: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
+    },
+    {
+        title: '❌ Le Problème',
+        subtitle: 'Avant l\'automatisation',
+        content: `<div class="slide-problem">
+            <div class="problem-stat">
+                <strong>48 heures</strong>
+                <span>Délai d\'intégration manuel</span>
+            </div>
+            <div class="problem-stat">
+                <strong>18 étapes</strong>
+                <span>Procédures répétitives</span>
+            </div>
+            <div class="problem-stat">
+                <strong>Erreurs récurrentes</strong>
+                <span>Boîte mail oubliée, droits incomplets</span>
+            </div>
+            <p style="margin-top:20px;color:#ffd700"><em>→ Impact : friction utilisateur et pertes de productivité</em></p>
+        </div>`,
+        color: 'linear-gradient(135deg, #2d1b3d 0%, #1a0a2e 100%)'
+    },
+    {
+        title: '✅ La Solution',
+        subtitle: 'Onboarding Progressif — J0, J+3, J+7',
+        content: `<div class="slide-solution">
+            <div class="sol-item">
+                <span class="sol-icon">📧</span>
+                <div>
+                    <strong>Création automatique AD + Exchange</strong>
+                    <p>Compte utilisateur + boîte mail en 6 minutes</p>
+                </div>
+            </div>
+            <div class="sol-item">
+                <span class="sol-icon">📅</span>
+                <div>
+                    <strong>3 phases progressives</strong>
+                    <p>Notifications guidées aux jalons J0, J+3, J+7</p>
+                </div>
+            </div>
+            <div class="sol-item">
+                <span class="sol-icon">🔐</span>
+                <div>
+                    <strong>Sécurisée et traçable</strong>
+                    <p>Logs détaillés, alertes administrateur</p>
+                </div>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #1a3a2e 0%, #0f2619 100%)'
+    },
+    {
+        title: '🏗️ Architecture Technique',
+        subtitle: 'PowerShell + Registry + Exchange',
+        content: `<div class="slide-arch">
+            <div class="arch-box">
+                <strong>Déploiement</strong>
+                <p>GPO + Script PowerShell sur 50 postes administratifs</p>
+            </div>
+            <div class="arch-box">
+                <strong>Détection</strong>
+                <p>Attribut immuable logonCount (nouveau compte : &lt;20)</p>
+            </div>
+            <div class="arch-box">
+                <strong>Stockage</strong>
+                <p>Registre local (HKCU) pour persistance des jalons</p>
+            </div>
+            <div class="arch-box">
+                <strong>Notif</strong>
+                <p>Emails SMTP via exchange.charenton.fr</p>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #1f1a2e 0%, #16213e 100%)'
+    },
+    {
+        title: '📬 Phase 1 — J0 : Bienvenue',
+        subtitle: 'Premier jour — Mise en place',
+        content: `<div class="slide-phase">
+            <div class="phase-content">
+                <h4>Que se passe-t-il ?</h4>
+                <ul>
+                    <li>✓ Création du compte AD automatique</li>
+                    <li>✓ Génération de la boîte mail Exchange</li>
+                    <li>✓ Accès aux partages réseau</li>
+                    <li>✓ Email de bienvenue avec lien Intranet</li>
+                </ul>
+                <p style="margin-top:15px;color:#4d9fff"><strong>Durée : ~6 heures</strong> (vs 48h avant)</p>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #1a2a4e 0%, #0f1929 100%)'
+    },
+    {
+        title: '🛠️ Phase 2 — J+3 : Maîtrisez vos outils',
+        subtitle: 'Premiers jours — Configuration utilisateur',
+        content: `<div class="slide-phase">
+            <div class="phase-content">
+                <h4>Que se passe-t-il ?</h4>
+                <ul>
+                    <li>✓ Rappel automatique des tutoriels</li>
+                    <li>✓ Configuration signature mail</li>
+                    <li>✓ Accès imprimantes réseau</li>
+                    <li>✓ Email avec liens KnowledgeBase</li>
+                </ul>
+                <p style="margin-top:15px;color:#ff8833"><strong>Le nouvel agent est opérationnel</strong></p>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #2e1a1a 0%, #1a0a0a 100%)'
+    },
+    {
+        title: '🔐 Phase 3 — J+7 : Sécurité et procédures',
+        subtitle: 'Fin de la première semaine — Autonomie',
+        content: `<div class="slide-phase">
+            <div class="phase-content">
+                <h4>Que se passe-t-il ?</h4>
+                <ul>
+                    <li>✓ Formation sécurité IT appliquée</li>
+                    <li>✓ Gestion des congés (portail RH)</li>
+                    <li>✓ Policy de retenue sur incident</li>
+                    <li>✓ Email récapitulatif</li>
+                </ul>
+                <p style="margin-top:15px;color:#39ff14"><strong>Le nouvel agent maîtrise les bonnes pratiques</strong></p>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #1a3a2e 0%, #0f1a15 100%)'
+    },
+    {
+        title: '📊 Résultats & Impact',
+        subtitle: 'Mesurables et concrets',
+        content: `<div class="slide-results">
+            <div class="result-card">
+                <span class="result-number">48h → 6h</span>
+                <span class="result-label">Réduction du délai d\'intégration</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">0</span>
+                <span class="result-label">Incident d\'oubli de config (pilote)</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">150+</span>
+                <span class="result-label">Agents/an impactés</span>
+            </div>
+            <div class="result-card">
+                <span class="result-number">✅</span>
+                <span class="result-label">Retour positif Direction du Numérique</span>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #1a4e2e 0%, #0a2a1a 100%)'
+    },
+    {
+        title: '🎯 Compétences BTS SIO couvertes',
+        subtitle: 'Validation du référentiel',
+        content: `<div class="slide-competences">
+            <div class="comp-group">
+                <strong>B1.2</strong> — Répondre aux incidents et demandes
+                <p>Automatisation d\'une demande récurrente</p>
+            </div>
+            <div class="comp-group">
+                <strong>B1.4</strong> — Travailler en mode projet
+                <p>Méthodologie agile, itérations, tests, déploiement</p>
+            </div>
+            <div class="comp-group">
+                <strong>B2.2</strong> — Mettre en place une infrastructure
+                <p>Intégration AD, Exchange, GPO</p>
+            </div>
+            <div class="comp-group">
+                <strong>B2.4</strong> — Exploiter une infrastructure
+                <p>Monitoring, escalade, support post-déploiement</p>
+            </div>
+        </div>`,
+        color: 'linear-gradient(135deg, #2e1a4e 0%, #1a0a2e 100%)'
+    },
+    {
+        title: '🚀 Conclusion',
+        subtitle: 'De l\'idée à la production',
+        content: `<div class="slide-conclusion">
+            <h4>Leçons apprises</h4>
+            <ul>
+                <li><strong>Automatiser c\'est déléguer,</strong> pas supprimer</li>
+                <li><strong>Valider chaque étape</strong> avant production</li>
+                <li><strong>Documenter les pièges</strong> pour les autres admins</li>
+                <li><strong>Mesurer l\'impact</strong> pour justifier l\'effort</li>
+            </ul>
+            <hr style="margin:20px 0;opacity:0.3">
+            <p style="text-align:center;color:#4d9fff"><em>Un projet probant justifiant ma position en alternance « Admin Systèmes »</em></p>
+        </div>`,
+        color: 'linear-gradient(135deg, #1a2a4e 0%, #0f1529 100%)'
+    }
+];
+
+let currentSlide = 0;
+
+function renderSlide(index) {
+    if (index < 0 || index >= presentationSlides.length) return;
+    currentSlide = index;
+    const slide = presentationSlides[index];
+    const slideEl = document.getElementById('presentation-slide');
+    slideEl.innerHTML = `
+        <div class="slide-background" style="background: ${slide.color}"></div>
+        <div class="slide-content">
+            <h2 class="slide-title">${slide.title}</h2>
+            <h3 class="slide-subtitle">${slide.subtitle}</h3>
+            <div class="slide-body">${slide.content}</div>
+        </div>
+    `;
+    document.getElementById('slide-counter').textContent = `${index + 1} / ${presentationSlides.length}`;
+}
+
+document.getElementById('open-presentation-onboarding')?.addEventListener('click', () => {
+    const overlay = document.getElementById('presentation-overlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    currentSlide = 0;
+    renderSlide(0);
 });
+
+document.getElementById('close-presentation-btn')?.addEventListener('click', () => {
+    document.getElementById('presentation-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('next-slide-btn')?.addEventListener('click', () => {
+    renderSlide(currentSlide + 1);
+});
+
+document.getElementById('prev-slide-btn')?.addEventListener('click', () => {
+    renderSlide(currentSlide - 1);
+});
+
+document.getElementById('presentation-overlay')?.addEventListener('click', (e) => {
+    if (e.target.id === 'presentation-overlay') {
+        e.target.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (document.getElementById('presentation-overlay').classList.contains('open')) {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            renderSlide(currentSlide + 1);
+            e.preventDefault();
+        } else if (e.key === 'ArrowLeft') {
+            renderSlide(currentSlide - 1);
+            e.preventDefault();
+        } else if (e.key === 'Escape') {
+            document.getElementById('presentation-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    }
+});
+
