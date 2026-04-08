@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio — Slim Touabti — BTS SIO SISR</title>
+    <meta name="description" content="Portfolio BTS SIO option SISR — Slim Touabti — Administration systèmes, réseaux, cybersécurité et automatisation.">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon terminal/shield -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+
+    <!-- BARRE DE PROGRESSION -->
+    <div id="scroll-progress"></div>
+
+    <!-- FOND ANIMÉ -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="bg-overlay"></div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#accueil" class="logo">
+            <span class="user">&gt;_ root</span><span class="at">@</span><span class="host">slim.t:~</span><span class="cursor-blink">_</span>
+        </a>
+        <button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#about"><span class="nav-icon">👤</span>À Propos</a></li>
+            <li><a href="#competences"><span class="nav-icon">⚡</span>Compétences</a></li>
+            <li><a href="#projets"><span class="nav-icon">🖥️</span>Projets</a></li>
+            <li><a href="#situations"><span class="nav-icon">📋</span>Situations E5</a></li>
+            <li><a href="#certifications"><span class="nav-icon">🏆</span>Certifs</a></li>
+            <li><a href="#veille"><span class="nav-icon">🔍</span>Veille</a></li>
+            <li><a href="#" id="nav-synthese-btn"><span class="nav-icon">📊</span>Synthèse E5</a></li>
+            <li><a href="#contact"><span class="nav-icon">📧</span>Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════════════════ -->
+    <header id="accueil" class="hero">
+        <div>
+            <h1>Bonjour, je suis <span>Slim Touabti</span></h1>
+            <h2>Technicien Supérieur en Solutions d'Infrastructure, Systèmes et Réseaux</h2>
+            <p>Étudiant en BTS SIO option SISR, passionné par la protection des infrastructures et la sécurisation des flux réseaux. Mon objectif : concevoir des architectures résilientes et automatiser la détection de vulnérabilités.</p>
+            <div class="hero-btns">
+                <a href="#projets" class="btn">🖥️ Voir mes réalisations</a>
+                <a href="#situations" class="btn">📋 Épreuve E5</a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down" title="Découvrir mon profil">↓</a>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════
+         À PROPOS
+    ════════════════════════════════════════════════════════ -->
+    <section id="about" class="section">
+        <h2 class="section-title">À Propos de moi</h2>
+        <div class="grid-about">
+            <div class="about-text">
+                <p>Étudiant en BTS SIO option SISR, je me passionne pour la <strong style="color:var(--accent-neon)">protection des infrastructures</strong> et la sécurisation des flux réseaux.</p>
+                <p>Mon objectif est de concevoir des architectures résilientes, d'administrer des systèmes critiques et d'automatiser la détection de vulnérabilités pour garantir l'intégrité et la disponibilité des données.</p>
+                <p>Mon parcours m'a permis de forger une polyvalence technique sur les environnements <strong style="color:var(--accent-neon)">Microsoft et Linux</strong>. Aujourd'hui, je maîtrise les leviers essentiels de l'administration système, de la gestion réseau et de la cybersécurité, avec une forte capacité à m'adapter aux infrastructures complexes.</p>
+                <p>Actuellement en quête de nouveaux défis, je prépare ma <strong style="color:var(--accent-neon)">poursuite d'études</strong> en école supérieure spécialisée en cybersécurité et infrastructures. Mon objectif : décrocher une alternance en administration systèmes, réseaux ou SOC dès la rentrée prochaine.</p>
+                <br>
+                <a href="assets/cv-Touabti-Slim.pdf" target="_blank" class="btn">📄 Télécharger mon CV</a>
+            </div>
+
+            <div class="terminal-window" id="terminal-trigger">
+                <div class="terminal-header">
+                    <div class="term-dot dot-red"></div>
+                    <div class="term-dot dot-yellow"></div>
+                    <div class="term-dot dot-green"></div>
+                    <div class="term-title">root@slim-sec:~</div>
+                </div>
+                <div class="terminal-body" id="terminal-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         COMPÉTENCES
+    ════════════════════════════════════════════════════════ -->
+    <section id="competences" class="section">
+        <h2 class="section-title">Mes Compétences</h2>
+        <!-- Légende des niveaux -->
+        <div class="skills-legend">
+            <span><span class="legend-dot dot-debutant"></span>Débutant</span>
+            <span><span class="legend-dot dot-intermediaire"></span>Intermédiaire</span>
+            <span><span class="legend-dot dot-avance"></span>Avancé</span>
+            <span><span class="legend-dot dot-expert"></span>Expert</span>
+        </div>
+
+        <div class="skills-grid">
+
+            <!-- Réseau & Infrastructure -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🌐</span>
+                    <span class="skill-card-title">Réseau & Infrastructure</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Administration réseau</span>
+                        <span class="skill-desc">Configuration et administration de switchs et routeurs managés</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Segmentation & Routage</span>
+                        <span class="skill-desc">Mise en place de VLANs, routage inter-VLAN et segmentation réseau</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Protocoles & Services</span>
+                        <span class="skill-desc">Configuration DNS et DHCP</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Sécurité Périmétrique</span>
+                        <span class="skill-desc">Paramétrage de pare-feu (Stormshield, pfSense) et configuration VPN IPsec</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Téléphonie sur IP</span>
+                        <span class="skill-desc">Connaissances en solutions VoIP avec XiVO</span>
+                    </div>
+                    <span class="skill-level level-debutant">Débutant</span>
+                </div>
+            </div>
+
+            <!-- Systèmes & Virtualisation -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🖥️</span>
+                    <span class="skill-card-title">Systèmes & Virtualisation</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Environnements Windows</span>
+                        <span class="skill-desc">Windows Server 2019/2022, Active Directory, GPO</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Environnements Linux</span>
+                        <span class="skill-desc">Administration Debian et Ubuntu</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Virtualisation</span>
+                        <span class="skill-desc">Proxmox VE, VMware et VirtualBox</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Gestion des Données</span>
+                        <span class="skill-desc">Partages réseau NTFS, quotas, sauvegarde et restauration (Windows Backup)</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Scripts & Langages</span>
+                        <span class="skill-desc">Automatisation PowerShell et Bash, notions SQL et HTML</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+            </div>
+
+            <!-- Sécurisation & Supervision -->
+            <div class="skill-card">
+                <div class="skill-card-header">
+                    <span class="skill-card-icon">🛡️</span>
+                    <span class="skill-card-title">Sécurisation & Supervision</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Sécurisation des Accès</span>
+                        <span class="skill-desc">Gestion droits utilisateurs/groupes, PKI, protocoles LDAPS et HTTPS</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Supervision (Monitoring)</span>
+                        <span class="skill-desc">Zabbix, Centreon et Graylog</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Gestion de Parc & Support</span>
+                        <span class="skill-desc">Méthodologie ITIL, GLPI, OsTicket, OCS Inventory, TeamViewer</span>
+                    </div>
+                    <span class="skill-level level-avance">Avancé</span>
+                </div>
+
+                <div class="skill-row">
+                    <div class="skill-row-info">
+                        <span class="skill-name">Protection & Audit</span>
+                        <span class="skill-desc">Gestion des vulnérabilités, audits de sécurité, Bitdefender, Milestone</span>
+                    </div>
+                    <span class="skill-level level-intermediaire">Intermédiaire</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         PROJETS TECHNIQUES
+    ════════════════════════════════════════════════════════ -->
+    <section id="projets" class="section">
+        <h2 class="section-title">Mes Projets Techniques</h2>
+        <p class="section-subtitle">
+            Réalisations en formation et en stage. Les projets issus des stages sont mis en avant (<span style="color:var(--color-stage);font-weight:600">couleur dorée</span>) car ils ont été conduits en conditions réelles de production.
+        </p>
+        <div class="grid-container">
+
+            <div class="card">
+                <h3>🎨 Création du Portfolio BTS SIO SISR</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Conception et déploiement d'une vitrine professionnelle interactive pour présenter compétences, projets et situations E5 avec design terminal moderne et animations fluides.</p>
+                <div>
+                    <span class="badge">HTML5 / CSS3</span>
+                    <span class="badge">JavaScript</span>
+                    <span class="badge">GitHub Pages</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-portfolio">Voir le dossier →</button>
+            </div>
+
+            <div class="card card-stage">
+                <h3>⚙️ Onboarding Automatisé</h3>
+                <p class="context stage">⭐ Stage 2ème année — Mairie de Charenton-le-Pont</p>
+                <p>Développement et mise en production d'un système d'onboarding progressif automatisé pour les nouveaux agents, via PowerShell, le registre local et Exchange.</p>
+                <div>
+                    <span class="badge">PowerShell</span>
+                    <span class="badge">Exchange</span>
+                    <span class="badge">Automatisation</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-onboarding">Voir le dossier →</button>
+            </div>
+
+            <div class="card">
+                <h3>🐧 Interopérabilité Samba 4</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Configuration d'un contrôleur de domaine Active Directory sous Linux via Samba 4 pour gérer un parc hétérogène (Windows + Linux).</p>
+                <div>
+                    <span class="badge">Linux</span>
+                    <span class="badge">Samba 4</span>
+                    <span class="badge">Active Directory</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-samba">Voir le dossier →</button>
+            </div>
+
+            <div class="card">
+                <h3>🔥 Sécurisation Stormshield</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Mise en œuvre de politiques de filtrage (Firewall), translation d'adresses (NAT) et filtrage URL pour sécuriser le périmètre réseau d'une infrastructure.</p>
+                <div>
+                    <span class="badge">Stormshield</span>
+                    <span class="badge">NAT</span>
+                    <span class="badge">Filtrage URL</span>
+                    <span class="badge">Cybersécurité</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-stormshield">Voir le dossier →</button>
+            </div>
+
+
+            <div class="card">
+                <h3>🖥️ Infrastructure Virtualisée</h3>
+                <p class="context">Réalisation en cours de formation</p>
+                <p>Création et gestion de machines virtuelles (VM) sous VMware et VirtualBox pour optimiser les ressources matérielles et simuler des environnements de production.</p>
+                <div>
+                    <span class="badge">VMware</span>
+                    <span class="badge">VirtualBox</span>
+                    <span class="badge">Virtualisation</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-virtualisation">Voir le dossier →</button>
+            </div>
+
+            <div class="card card-stage">
+                <h3>🎫 Support ITSM & Gestion de Parc</h3>
+                <p class="context stage">⭐ Stage 1ère année — HTNS</p>
+                <p>Prise en charge des demandes via GLPI, diagnostic à distance, gestion des droits AD, déploiement GPO imprimantes et inventaire complet du parc via OCS Inventory.</p>
+                <div>
+                    <span class="badge">GLPI</span>
+                    <span class="badge">OCS Inventory</span>
+                    <span class="badge">Support N1/N2</span>
+                </div>
+                <button class="btn btn-view" data-modal="proj-itsm">Voir le dossier →</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         SITUATIONS PROFESSIONNELLES — E5
+    ════════════════════════════════════════════════════════ -->
+    <section id="situations" class="section">
+        <h2 class="section-title">Situations Professionnelles — Épreuve E5</h2>
+        <div class="sp-intro">
+            <p>
+                L'épreuve E5 du BTS SIO SISR évalue la maîtrise des compétences du référentiel à travers des
+                <strong>situations professionnelles réelles</strong>, documentées lors des stages et des travaux pratiques.
+                Cliquez sur chaque carte pour accéder à la fiche complète : contexte, mission, actions, technologies et compétences couvertes.
+            </p>
+            <p style="margin-top:10px">
+                <span style="color:var(--color-stage);font-weight:600">■ Doré = Stage en entreprise</span>
+                &nbsp;·&nbsp;
+                <span style="color:var(--accent-neon);font-weight:600">■ Bleu = Formation (Lycée Louis Armand)</span>
+            </p>
+        </div>
+
+        <div class="sp-grid">
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP1</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Création du Portfolio BTS SIO SISR</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.3</span>
+                    <span class="comp-badge comp-b1">B1.6</span>
+                    <span class="comp-badge comp-b2">B2.1</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-portfolio">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card sp-card-stage">
+                <div class="sp-header">
+                    <span class="sp-number">SP2</span>
+                    <span class="sp-badge sp-badge-stage">Stage 2A</span>
+                </div>
+                <h3>Onboarding Automatisé PowerShell</h3>
+                <div class="sp-lieu">Mairie de Charenton-le-Pont · Direction du Numérique</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.2</span>
+                    <span class="comp-badge comp-b1">B1.4</span>
+                    <span class="comp-badge comp-b2">B2.2</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                </div>
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-sp" data-modal="proj-onboarding">Voir la fiche SP →</button>
+                    <button class="btn btn-sp btn-presentation" id="open-presentation-onboarding">🎯 Présentation</button>
+                </div>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP3</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Interopérabilité Samba 4</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-samba">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP4</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Sécurisation Stormshield</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.6</span>
+                    <span class="comp-badge comp-b2">B2.7</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-stormshield">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP5</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Infrastructure Virtualisée</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2">B2.3</span>
+                    <span class="comp-badge comp-b2">B2.4</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-virtualisation">Voir la fiche SP →</button>
+            </div>
+
+            <div class="sp-card sp-card-stage">
+                <div class="sp-header">
+                    <span class="sp-number">SP6</span>
+                    <span class="sp-badge sp-badge-stage">Stage 1A</span>
+                </div>
+                <h3>Support ITSM &amp; Gestion de Parc</h3>
+                <div class="sp-lieu">HTNS — High Technology Network &amp; Security</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b1">B1.1</span>
+                    <span class="comp-badge comp-b1">B1.2</span>
+                    <span class="comp-badge comp-b2">B2.1</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-itsm">Voir la fiche SP →</button>
+            </div>
+
+        </div>
+
+        <!-- TABLEAU DE SYNTHÈSE — BOUTON PDF -->
+        <div class="synthese-pdf-block">
+            <p class="synthese-pdf-desc">
+                Retrouvez la vue complète des réalisations professionnelles et des compétences BTS SIO SISR couvertes dans le document officiel SESSION 2026.
+            </p>
+            <button class="btn btn-synthese-pdf" id="open-synthese-pdf">
+                <span class="btn-synthese-icon">📊</span>
+                Tableau de Synthèse
+            </button>
+        </div>
+
+        <!-- MODALE PDF TABLEAU DE SYNTHÈSE -->
+        <div id="pdf-modal-overlay" class="pdf-modal-overlay" role="dialog" aria-modal="true" aria-label="Tableau de synthèse PDF">
+            <div class="pdf-modal-box">
+                <div class="pdf-modal-header">
+                    <span class="pdf-modal-title">📊 Tableau de Synthèse — BTS SIO SESSION 2026</span>
+                    <div class="pdf-modal-actions">
+                        <a href="assets/Tableau de synthèse Épreuve E5.pdf" download class="btn pdf-dl-btn">⬇ Télécharger</a>
+                        <button id="close-synthese-pdf" class="pdf-modal-close" aria-label="Fermer">✕</button>
+                    </div>
+                </div>
+                <iframe
+                    id="pdf-frame"
+                    class="pdf-frame"
+                    title="Tableau de Synthèse BTS SIO 2026"
+                ></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         CERTIFICATIONS
+    ════════════════════════════════════════════════════════ -->
+    <section id="certifications" class="section">
+        <h2 class="section-title">Certifications IT</h2>
+        <div class="cert-grid">
+
+            <div class="cert-card">
+                <div class="cert-icon">🛡️</div>
+                <h3>Cisco — Introduction à la Cybersécurité</h3>
+                <p>Compétences fondamentales en sécurité des réseaux, protection des données et identification des cybermenaces.</p>
+                <span class="cert-status-ok">✅ Obtenue</span>
+                <a href="assets/Certificat-Certif-Intro-Cyber.pdf" target="_blank" class="modal-pdf-link" style="margin-top:14px">📄 Voir le certificat</a>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🎯</div>
+                <h3>Cisco — Ethical Hacker</h3>
+                <p>Sécurité offensive : identifier les vulnérabilités et cybermenaces avant les cybercriminels. Techniques de pentest et d'audit.</p>
+                <span class="cert-status-wip">⏳ En cours d'obtention</span>
+            </div>
+
+
+            <div class="cert-card">
+                <div class="cert-icon">🐛</div>
+                <h3>Bug Bounty — Programmes de récompenses</h3>
+                <p>Participation à des programmes de bug bounty sur mon temps libre. L'idée : mettre en pratique les compétences offensives acquises en formation sur des environnements réels, légalement, en recherchant des vulnérabilités pour le compte d'organisations qui les récompensent.</p>
+                <span class="cert-status-target">🎯 Objectif personnel</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         VEILLE TECHNOLOGIQUE
+    ════════════════════════════════════════════════════════ -->
+    <section id="veille" class="section">
+        <h2 class="section-title">Veille Technologique (2026)</h2>
+        <p class="section-subtitle">
+            Thème principal : <strong style="color:var(--text-primary)">Sécurisation et automatisation des infrastructures systèmes et réseaux face aux menaces émergentes.</strong>
+        </p>
+
+        <!-- INTRO VEILLE -->
+        <div class="veille-intro">
+            <p class="veille-def">
+                La <strong>veille technologique</strong> consiste à surveiller les évolutions techniques, les nouvelles solutions et les tendances du secteur IT, afin d'orienter les choix d'infrastructure et d'anticiper les menaces émergentes.
+            </p>
+            <div class="veille-etapes">
+                <div class="veille-etape veille-etape-1">
+                    <span class="veille-etape-num">1</span>
+                    <span>Déterminer<br>les objectifs</span>
+                </div>
+                <div class="veille-etape-arrow">→</div>
+                <div class="veille-etape veille-etape-2">
+                    <span class="veille-etape-num">2</span>
+                    <span>Collecter<br>les informations</span>
+                </div>
+                <div class="veille-etape-arrow">→</div>
+                <div class="veille-etape veille-etape-3">
+                    <span class="veille-etape-num">3</span>
+                    <span>Traiter<br>les informations</span>
+                </div>
+                <div class="veille-etape-arrow">→</div>
+                <div class="veille-etape veille-etape-4">
+                    <span class="veille-etape-num">4</span>
+                    <span>Partager<br>les résultats</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="veille-filter">
+            <button class="veille-filter-btn active" data-filter="all">Tout afficher</button>
+            <button class="veille-filter-btn" data-filter="cybersecurite">Cybersécurité</button>
+            <button class="veille-filter-btn" data-filter="supervision">Supervision</button>
+            <button class="veille-filter-btn" data-filter="virtualisation">Virtualisation</button>
+            <button class="veille-filter-btn" data-filter="systeme">Système libre</button>
+        </div>
+
+        <div class="grid-container">
+
+            <div class="veille-card veille-card-featured" data-category="cybersecurite">
+                <div class="veille-card-top">
+                    <h3>🔐 Le Modèle Zero Trust (ZTA)</h3>
+                    <span class="veille-periode">Veille 2024–2025</span>
+                </div>
+                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Administration Réseau</span>
+                    <span class="badge" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">Identité & Accès</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Problématique</div>
+                    <p>Le VPN traditionnel accorde un accès complet au réseau une fois connecté — si un compte est compromis, l'attaquant peut se déplacer librement sur l'ensemble du SI.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Comment remplacer le VPN pour offrir un accès distant sécurisé sans exposer l'ensemble du réseau interne ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">VPN vs ZTNA — Le changement de paradigme</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">❌</span>
+                            <div>
+                                <strong>VPN traditionnel</strong>
+                                <span>Tunnel vers tout le réseau — un seul compte compromis = accès total</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">✅</span>
+                            <div>
+                                <strong>ZTNA (Zero Trust Network Access)</strong>
+                                <span>Accès uniquement à l'application autorisée, après vérification continue de l'identité et de l'état du poste</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🛡️</span>
+                            <div>
+                                <strong>Conformité posturale</strong>
+                                <span>Accès refusé si l'antivirus est désactivé, le poste non patché ou la localisation anormale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Impact sur le métier SISR</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Migration :</strong> Remplacement progressif des VPN IPsec/SSL par des solutions ZTNA (Stormshield, Zscaler, Cloudflare Access)</li>
+                        <li><strong>Identité centrale :</strong> Le ZTNA s'appuie sur l'AD / Entra ID pour valider chaque connexion — compétence clé SISR</li>
+                        <li><strong>Micro-segmentation :</strong> Chaque utilisateur n'accède qu'aux ressources strictement nécessaires à son rôle</li>
+                        <li><strong>2025 :</strong> L'IA analyse les comportements en temps réel — une connexion inhabituelle déclenche une ré-authentification automatique</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/le-modele-zero-trust/" target="_blank" rel="noopener">ANSSI — Recommandations Zero Trust (Référence institutionnelle FR)</a></li>
+                        <li>🔗 <a href="https://csrc.nist.gov/publications/detail/sp/800-207/final" target="_blank" rel="noopener">NIST SP 800-207 — Zero Trust Architecture (Référence mondiale)</a></li>
+                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank" rel="noopener">Stormshield — ZTNA (Solution souveraine française)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card" data-category="cybersecurite">
+                <div class="veille-card-top">
+                    <h3>🎣 Spear Phishing : les attaques ciblées explosent</h3>
+                    <span class="veille-periode">2025</span>
+                </div>
+                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#ff5f56;border-color:rgba(255,95,86,0.3)">Ingénierie Sociale</span>
+                    <span class="badge" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">Sensibilisation</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Contexte & Problématique</div>
+                    <p>Le spear phishing (hameçonnage ciblé) a progressé de <strong>40% en 2024</strong>. Contrairement au phishing de masse envoyé aléatoirement, les attaquants réalisent en amont un travail de renseignement (OSINT) sur LinkedIn, les sites d'entreprise et les réseaux sociaux pour construire des messages ultra-personnalisés — prénom, poste occupé, projet en cours, nom du manager. Le taux de succès est sans comparaison avec le phishing classique.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Comment un administrateur SISR peut-il se prémunir contre une attaque qui exploite des informations légitimes ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Mécanisme d'attaque</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🔍</span>
+                            <div>
+                                <strong>Phase 1 — Reconnaissance OSINT</strong>
+                                <span>Collecte de données sur LinkedIn, WHOIS, site corporate, organigramme public, signatures de mail trouvées en ligne</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">✉️</span>
+                            <div>
+                                <strong>Phase 2 — Usurpation ciblée</strong>
+                                <span>Mail frauduleux imitant un dirigeant, un fournisseur ou un collègue — pièce jointe malveillante ou lien vers page de phishing clonée</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">💀</span>
+                            <div>
+                                <strong>Phase 3 — Compromission</strong>
+                                <span>Vol de credentials, dépôt de malware/ransomware, ou virement frauduleux (BEC — Business Email Compromise)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Réponses techniques SISR</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Filtrage SMTP :</strong> Déployer SPF, DKIM et DMARC sur le domaine mail — empêche l'usurpation d'expéditeur et rejette les mails non authentifiés</li>
+                        <li><strong>Anti-phishing Exchange/M365 :</strong> Activer les politiques ATP (Advanced Threat Protection) — analyse des liens et pièces jointes en sandbox avant distribution</li>
+                        <li><strong>MFA obligatoire :</strong> Même avec des credentials volés, un MFA bien configuré (Authenticator, clé FIDO2) bloque la connexion non autorisée</li>
+                        <li><strong>Supervision SIEM :</strong> Corrélation des connexions inhabituelles (pays inconnu, heure anormale, device inconnu) pour détecter une compromission post-phishing</li>
+                        <li><strong>Sensibilisation :</strong> Campagnes de phishing simulé (GoPhish) pour entraîner les utilisateurs — premier rempart contre l'ingénierie sociale</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources & outils de veille :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.lemondeinformatique.fr" target="_blank" rel="noopener">Le Monde Informatique — Spear phishing : les attaques ciblées explosent (2025)</a></li>
+                        <li>🔗 <a href="https://www.cert.ssi.gouv.fr/actualite/CERTFR-2024-ACT-001/" target="_blank" rel="noopener">CERT-FR — Hameçonnage et ingénierie sociale : tendances 2024</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/la-cybersecurite-pour-les-tpe-pme-en-12-questions/" target="_blank" rel="noopener">ANSSI — Cybersécurité pour les PME : sensibilisation au phishing</a></li>
+                    </ul>
+                    <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : abonnement aux alertes CERT-FR par e-mail · flux RSS Le Monde Informatique via Feedly · Google Alerts "spear phishing 2025"</p>
+                </div>
+            </div>
+
+            <div class="veille-card" data-category="supervision">
+                <div class="veille-card-top">
+                    <h3>📊 SIEM Open-Source : Graylog & Wazuh en PME</h3>
+                    <span class="veille-periode">2024–2025</span>
+                </div>
+                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Supervision</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">SOC / Détection</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Contexte & Problématique</div>
+                    <p>Les SIEM propriétaires (Splunk, IBM QRadar) atteignent plusieurs dizaines de milliers d'euros par an — inaccessibles pour les PME et collectivités. Face à l'explosion des cyberattaques, ces organisations ont besoin de centraliser leurs logs et de détecter les anomalies sans exploser leur budget IT. Graylog et Wazuh comblent ce vide comme alternatives open-source crédibles.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Comment détecter une intrusion en temps réel sur une infrastructure Windows sans payer une licence SIEM propriétaire ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Wazuh vs Graylog — Deux approches complémentaires</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🤖</span>
+                            <div>
+                                <strong>Wazuh — SIEM orienté sécurité</strong>
+                                <span>Agents déployés sur chaque machine (Windows/Linux), détection d'intrusion (HIDS), analyse des logs Windows Event, conformité RGPD/PCI-DSS automatisée</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">📥</span>
+                            <div>
+                                <strong>Graylog — Agrégateur de logs centralisé</strong>
+                                <span>Collecte via Syslog/GELF depuis pare-feux, switches, serveurs. Tableaux de bord personnalisables, alertes sur patterns, recherche full-text dans les logs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Impact sur le métier SISR</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Windows Event Forwarding :</strong> Configurer via GPO la collecte centralisée des logs des postes AD vers le SIEM — sans agent supplémentaire</li>
+                        <li><strong>Détection en temps réel :</strong> Règles de corrélation : X tentatives de connexion échouées sur un compte AD = alerte automatique → possible brute force</li>
+                        <li><strong>Conformité RGPD :</strong> Conservation des logs d'accès aux données personnelles pendant 12 mois — exigence légale tracée automatiquement par le SIEM</li>
+                        <li><strong>Réponse aux incidents :</strong> Timeline complète de l'attaque reconstruite depuis les logs — indispensable pour l'investigation post-incident</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources & outils de veille :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://graylog.org/post/what-is-a-siem/" target="_blank" rel="noopener">Graylog — What is a SIEM? (documentation officielle)</a></li>
+                        <li>🔗 <a href="https://wazuh.com/platform/siem/" target="_blank" rel="noopener">Wazuh — SIEM & XDR Platform</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/recommandations-de-securite-pour-la-journalisation-des-systemes-microsoft-windows-en-environnement-active-directory/" target="_blank" rel="noopener">ANSSI — Journalisation et supervision Windows / Active Directory</a></li>
+                    </ul>
+                    <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : GitHub releases Wazuh (notifications activées) · newsletter Graylog · guide ANSSI journalisation · communauté Reddit r/sysadmin</p>
+                </div>
+            </div>
+
+            <div class="veille-card" data-category="systeme">
+                <div class="veille-card-top">
+                    <h3>🐧 Samba 4 : contrôleur de domaine AD sous Linux</h3>
+                    <span class="veille-periode">2024–2025</span>
+                </div>
+                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#fbbc04;border-color:rgba(251,188,4,0.3)">Système libre</span>
+                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">Interopérabilité</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Active Directory</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Contexte & Problématique</div>
+                    <p>Les licences Windows Server représentent un poste de coût majeur pour les PME et collectivités. Samba 4, en mode <strong>Active Directory Domain Controller</strong>, permet de remplacer un contrôleur de domaine Microsoft par un serveur Linux Debian — à coût quasi nul. Le contexte post-rachat de VMware par Broadcom a accéléré cette réflexion : les DSI cherchent à réduire leur dépendance aux éditeurs propriétaires.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Est-il possible de gérer un domaine Windows complet depuis Linux, sans licence Microsoft Server ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Ce que permet Samba 4 concrètement</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🏠</span>
+                            <div>
+                                <strong>Contrôleur de domaine complet</strong>
+                                <span>Gestion des comptes AD, groupes, GPO, authentification Kerberos 5, DNS intégré — identique à Windows Server, manageable depuis RSAT</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🔗</span>
+                            <div>
+                                <strong>Interopérabilité totale</strong>
+                                <span>Jonction de postes Windows 10/11 au domaine Samba, authentification SSO, partages SMB — aucune différence visible pour l'utilisateur final</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">💰</span>
+                            <div>
+                                <strong>Réduction des coûts</strong>
+                                <span>Remplacement d'un Windows Server Standard (~500€/an) par un Debian + Samba 4 à coût licences = 0€ — stratégique pour les collectivités à budget contraint</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Impact sur le métier SISR</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Déploiement :</strong> Provisioning via <code>samba-tool domain provision</code> sur Debian — configuration Kerberos, DNS backend (BIND9 ou interne), Winbind pour la résolution SID</li>
+                        <li><strong>Administration hybride :</strong> Les outils RSAT Windows fonctionnent nativement sur le domaine Samba — l'admin garde son interface habituelle</li>
+                        <li><strong>Limites à connaître :</strong> Pas de support natif des niveaux fonctionnels 2019 — prévoir Samba 4.17+ pour la compatibilité maximale avec les derniers clients Windows</li>
+                        <li><strong>Cas d'usage réel :</strong> Cette veille m'a directement servi lors de la SP3 — déploiement Samba 4 en DC pour un parc hétérogène Windows + Linux en formation</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources & outils de veille :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.samba.org/samba/latest_news.html" target="_blank" rel="noopener">Samba.org — Changelog et notes de version officielles</a></li>
+                        <li>🔗 <a href="https://wiki.debian.org/SambaActiveDirectory" target="_blank" rel="noopener">Debian Wiki — Samba Active Directory Domain Controller</a></li>
+                        <li>🔗 <a href="https://www.lemondeinformatique.fr/actualites/lire-pourquoi-samba-4-s-impose-dans-les-infrastructures-hybrides-93701.html" target="_blank" rel="noopener">Le Monde Informatique — Samba 4 dans les infrastructures hybrides</a></li>
+                    </ul>
+                    <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : flux RSS samba.org · Debian Wiki (référence technique) · expérimentation directe en lab VirtualBox lors de la SP3</p>
+                </div>
+            </div>
+
+            <div class="veille-card veille-card-featured" data-category="cybersecurite">
+                <div class="veille-card-top">
+                    <h3>🔐 Microsoft Edge supprime "Monitor Passwords"</h3>
+                    <span class="veille-periode">Février 2026</span>
+                </div>
+                <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Gestion des identités</span>
+                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">Politiques de sécurité</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Problématique</div>
+                    <p>Microsoft annonce la suppression progressive de la fonctionnalité <strong>"Monitor Passwords"</strong> dans Edge, qui alertait automatiquement les utilisateurs si leurs identifiants apparaissaient dans une fuite de données connue. Retrait effectif à partir de <strong>mars 2026</strong>. Microsoft oriente ses utilisateurs vers <strong>Microsoft Defender</strong> comme alternative — un outil non disponible dans toutes les éditions et encore peu déployé en entreprise.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Quand un éditeur retire une protection native, qui prend le relais pour surveiller la compromission des comptes en entreprise ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Ce que ça change concrètement</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">❌</span>
+                            <div>
+                                <strong>Fonctionnalité retirée</strong>
+                                <span>Surveillance automatique des mots de passe compromis dans les fuites connues (HaveIBeenPwned, bases Microsoft)</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">⚠️</span>
+                            <div>
+                                <strong>Risque utilisateur final</strong>
+                                <span>Les utilisateurs non formés ne vérifieront plus leurs credentials — les comptes compromis resteront actifs plus longtemps</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🏢</span>
+                            <div>
+                                <strong>Impact en entreprise</strong>
+                                <span>Un compte AD dont le mot de passe est dans une base leak peut être réutilisé pour des attaques par credential stuffing sur le VPN ou l'Entra ID</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Impact sur le métier SISR & réponses techniques</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Politique de mots de passe AD :</strong> Renforcer les GPO — longueur minimale 14 caractères, blocage des mots de passe courants via Password Filter ou Azure AD Password Protection</li>
+                        <li><strong>Gestionnaires de mots de passe :</strong> Déployer une solution centralisée (Bitwarden Teams, KeePass avec partage sécurisé) pour remplacer la surveillance native supprimée</li>
+                        <li><strong>Vérification des fuites :</strong> Intégrer HaveIBeenPwned dans les processus d'audit périodique ou via l'API dans un script PowerShell de contrôle des comptes AD</li>
+                        <li><strong>MFA obligatoire :</strong> Même si un mot de passe est compromis, le MFA sur Exchange/M365/VPN constitue le dernier rempart — sa généralisation devient non négociable</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.clubic.com" target="_blank" rel="noopener">Clubic — Microsoft Edge supprime l'option de surveillance des mots de passe (Février 2026)</a></li>
+                        <li>🔗 <a href="https://learn.microsoft.com/fr-fr/deployedge/microsoft-edge-policies" target="_blank" rel="noopener">Microsoft Learn — Politiques de sécurité Edge en entreprise</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/recommandations-relatives-a-lauthentification-multifacteur-et-aux-mots-de-passe/" target="_blank" rel="noopener">ANSSI — Recommandations sur l'authentification et la gestion des mots de passe</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="veille-card" data-category="cybersecurite">
+                <div class="veille-card-top">
+                    <h3>🎯 Ethical Hacking & Bug Bounty en France</h3>
+                    <span class="veille-periode">2024–2025</span>
+                </div>
+                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
+                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Cybersécurité</span>
+                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Offensive Security</span>
+                    <span class="badge" style="color:#ff5f56;border-color:rgba(255,95,86,0.3)">Pentest</span>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Contexte & Problématique</div>
+                    <p>Le marché du Bug Bounty explose en France : l'ANSSI recense plus de 300 programmes actifs en 2024, portés par des plateformes comme YesWeHack (française) ou HackerOne. Des entreprises comme Orange, La Poste, la DGFIP et même des ministères font appel à des hackers éthiques pour identifier les failles <em>avant</em> les attaquants. Le cadre légal (article L2321-4 du Code de la défense, dispositif ANSSI) sécurise désormais cette démarche en France.</p>
+                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Comment un technicien SISR peut-il intégrer une démarche offensive pour mieux défendre son infrastructure ?"</em></p>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Méthodologie & outils d'un audit éthique</div>
+                    <div class="veille-pillars">
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">🔎</span>
+                            <div>
+                                <strong>Reconnaissance</strong>
+                                <span>OSINT (theHarvester, Shodan), scan réseau Nmap (-sV -sC), énumération des services exposés</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">⚔️</span>
+                            <div>
+                                <strong>Exploitation</strong>
+                                <span>Metasploit Framework, Burp Suite (injection web), Hydra (brute force), Nikto (audit serveur web)</span>
+                            </div>
+                        </div>
+                        <div class="veille-pillar">
+                            <span class="veille-pillar-icon">📋</span>
+                            <div>
+                                <strong>Rapport & remédiation</strong>
+                                <span>Rédaction d'un rapport structuré (CVSS score, preuve de concept, recommandations) — le livrables final du bug bounty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="veille-section">
+                    <div class="veille-section-title">Impact sur le métier SISR</div>
+                    <ul class="veille-impacts">
+                        <li><strong>Posture défensive renforcée :</strong> Comprendre Nmap, Metasploit et Wireshark du côté attaquant permet de mieux configurer les règles pare-feu, les ACL et les politiques de détection SIEM</li>
+                        <li><strong>CVE & patch management :</strong> Suivre les CVE publiées sur NVD/CERT-FR et vérifier l'exposition de son infrastructure avant qu'un attaquant ne le fasse</li>
+                        <li><strong>Objectif personnel :</strong> Participer à des programmes bug bounty sur YesWeHack sur mon temps libre — appliquer légalement les techniques offensives acquises en formation sur des environnements réels</li>
+                    </ul>
+                </div>
+
+                <div class="veille-sources">
+                    <p>Sources & outils de veille :</p>
+                    <ul style="list-style:none">
+                        <li>🔗 <a href="https://www.yeswehack.com/" target="_blank" rel="noopener">YesWeHack — Plateforme Bug Bounty française (programmes actifs)</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/actualite/lanssi-publie-un-cadre-de-reference-pour-le-bug-bounty/" target="_blank" rel="noopener">ANSSI — Cadre de référence pour les programmes de Bug Bounty</a></li>
+                        <li>🔗 <a href="https://nvd.nist.gov/" target="_blank" rel="noopener">NVD (NIST) — Base nationale des vulnérabilités (CVE)</a></li>
+                    </ul>
+                    <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : suivi CVE via NVD RSS + CERT-FR · blog YesWeHack · labs pratiques TryHackMe & HackTheBox · Kali Linux en VM de test</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         CONTACT
+    ════════════════════════════════════════════════════════ -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Me Contacter</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Discutons de mon profil !</h3>
+                <p>Je suis à la recherche de nouvelles opportunités pour mettre en pratique mes compétences en infrastructure, sécurité et automatisation.</p>
+                <p>N'hésitez pas à me contacter pour une offre, un échange sur mes projets, ou toute question sur mon parcours.</p>
+                <br>
+                <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" rel="noopener" class="btn social-btn">🔗 Mon profil LinkedIn</a>
+                <a href="https://github.com/Touabti" target="_blank" rel="noopener" class="btn social-btn">💻 Mon profil GitHub</a>
+                <div class="email-click"
+                     title="Cliquez pour sélectionner l'e-mail"
+                     onclick="window.getSelection().selectAllChildren(this);">
+                    slim.touabti.sio@gmail.com
+                </div>
+            </div>
+
+            <form id="my-form" action="https://formspree.io/f/maqlaekj" method="POST" class="contact-form">
+                <div>
+                    <label for="name">Nom complet</label>
+                    <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                </div>
+                <div>
+                    <label for="email">Adresse E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                </div>
+                <div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
+                </div>
+                <button type="submit" id="my-form-button" class="btn-submit">Envoyer le message</button>
+                <p id="my-form-status" style="margin-top:12px;text-align:center;font-weight:bold"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- BOUTON RETOUR EN HAUT -->
+    <a href="#accueil" id="backToTop" title="Retour en haut">↑</a>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 — <strong>Slim Touabti</strong> — Portfolio BTS SIO SISR — Lycée Louis Armand</p>
+        <p style="margin-top:6px">
+            <a href="https://www.linkedin.com/in/touabti-slim" target="_blank" rel="noopener">LinkedIn</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/Touabti" target="_blank" rel="noopener">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="https://touabti.github.io/Portfolio-BTS-SIO-SISR/" target="_blank" rel="noopener">Portfolio en ligne</a>
+        </p>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+         MODALE GÉNÉRIQUE
+    ════════════════════════════════════════════════════════ -->
+    <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-box">
+            <button id="modal-close-btn" class="modal-close" aria-label="Fermer">✕</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MODALE PRÉSENTATION
+    ════════════════════════════════════════════════════════ -->
+    <div id="presentation-overlay" class="presentation-overlay" role="dialog" aria-modal="true">
+        <div class="presentation-box">
+            <button id="close-presentation-btn" class="presentation-close" aria-label="Fermer la présentation">✕</button>
+            <div class="presentation-slide" id="presentation-slide"></div>
+            <div class="presentation-controls">
+                <button id="prev-slide-btn" class="presentation-nav-btn" aria-label="Slide précédente">
+                    ← Précédent
+                </button>
+                <span id="slide-counter" class="slide-counter">1 / 10</span>
+                <button id="next-slide-btn" class="presentation-nav-btn" aria-label="Slide suivante">
+                    Suivant →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>
