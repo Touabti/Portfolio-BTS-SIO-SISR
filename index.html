@@ -388,7 +388,7 @@
                     <span class="comp-badge comp-b2">B2.4</span>
                     <span class="comp-badge comp-b2">B2.6</span>
                 </div>
-                <button class="btn btn-sp" data-modal="proj-samba">Voir la fiche SP →</button>
+                <a href="fiche-sp-samba4.html" target="_blank" class="btn btn-sp">Voir la fiche SP →</a>
             </div>
 
             <div class="sp-card">
@@ -541,8 +541,7 @@
         <div class="veille-filter">
             <button class="veille-filter-btn active" data-filter="all">Tout afficher</button>
             <button class="veille-filter-btn" data-filter="cybersecurite">Cybersécurité</button>
-            <button class="veille-filter-btn" data-filter="supervision">Supervision</button>
-            <button class="veille-filter-btn" data-filter="virtualisation">Virtualisation</button>
+
             <button class="veille-filter-btn" data-filter="systeme">Système libre</button>
         </div>
 
@@ -675,64 +674,6 @@
                         <li>🔗 <a href="https://www.ssi.gouv.fr/guide/la-cybersecurite-pour-les-tpe-pme-en-12-questions/" target="_blank" rel="noopener">ANSSI — Cybersécurité pour les PME : sensibilisation au phishing</a></li>
                     </ul>
                     <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : abonnement aux alertes CERT-FR par e-mail · flux RSS Le Monde Informatique via Feedly · Google Alerts "spear phishing 2025"</p>
-                </div>
-            </div>
-
-            <div class="veille-card" data-category="supervision">
-                <div class="veille-card-top">
-                    <h3>📊 SIEM Open-Source : Graylog & Wazuh en PME</h3>
-                    <span class="veille-periode">2024–2025</span>
-                </div>
-                <div style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px">
-                    <span class="badge" style="color:#ff8833;border-color:rgba(255,136,51,0.3)">Supervision</span>
-                    <span class="badge" style="color:#4d9fff;border-color:rgba(77,159,255,0.3)">Cybersécurité</span>
-                    <span class="badge" style="color:#39ff14;border-color:rgba(57,255,20,0.3)">SOC / Détection</span>
-                </div>
-
-                <div class="veille-section">
-                    <div class="veille-section-title">Contexte & Problématique</div>
-                    <p>Les SIEM propriétaires (Splunk, IBM QRadar) atteignent plusieurs dizaines de milliers d'euros par an — inaccessibles pour les PME et collectivités. Face à l'explosion des cyberattaques, ces organisations ont besoin de centraliser leurs logs et de détecter les anomalies sans exploser leur budget IT. Graylog et Wazuh comblent ce vide comme alternatives open-source crédibles.</p>
-                    <p style="margin-top:8px"><em style="color:var(--accent-neon)">"Comment détecter une intrusion en temps réel sur une infrastructure Windows sans payer une licence SIEM propriétaire ?"</em></p>
-                </div>
-
-                <div class="veille-section">
-                    <div class="veille-section-title">Wazuh vs Graylog — Deux approches complémentaires</div>
-                    <div class="veille-pillars">
-                        <div class="veille-pillar">
-                            <span class="veille-pillar-icon">🤖</span>
-                            <div>
-                                <strong>Wazuh — SIEM orienté sécurité</strong>
-                                <span>Agents déployés sur chaque machine (Windows/Linux), détection d'intrusion (HIDS), analyse des logs Windows Event, conformité RGPD/PCI-DSS automatisée</span>
-                            </div>
-                        </div>
-                        <div class="veille-pillar">
-                            <span class="veille-pillar-icon">📥</span>
-                            <div>
-                                <strong>Graylog — Agrégateur de logs centralisé</strong>
-                                <span>Collecte via Syslog/GELF depuis pare-feux, switches, serveurs. Tableaux de bord personnalisables, alertes sur patterns, recherche full-text dans les logs</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="veille-section">
-                    <div class="veille-section-title">Impact sur le métier SISR</div>
-                    <ul class="veille-impacts">
-                        <li><strong>Windows Event Forwarding :</strong> Configurer via GPO la collecte centralisée des logs des postes AD vers le SIEM — sans agent supplémentaire</li>
-                        <li><strong>Détection en temps réel :</strong> Règles de corrélation : X tentatives de connexion échouées sur un compte AD = alerte automatique → possible brute force</li>
-                        <li><strong>Conformité RGPD :</strong> Conservation des logs d'accès aux données personnelles pendant 12 mois — exigence légale tracée automatiquement par le SIEM</li>
-                        <li><strong>Réponse aux incidents :</strong> Timeline complète de l'attaque reconstruite depuis les logs — indispensable pour l'investigation post-incident</li>
-                    </ul>
-                </div>
-
-                <div class="veille-sources">
-                    <p>Sources & outils de veille :</p>
-                    <ul style="list-style:none">
-                        <li>🔗 <a href="https://graylog.org/post/what-is-a-siem/" target="_blank" rel="noopener">Graylog — What is a SIEM? (documentation officielle)</a></li>
-                        <li>🔗 <a href="https://wazuh.com/platform/siem/" target="_blank" rel="noopener">Wazuh — SIEM & XDR Platform</a></li>
-                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/recommandations-de-securite-pour-la-journalisation-des-systemes-microsoft-windows-en-environnement-active-directory/" target="_blank" rel="noopener">ANSSI — Journalisation et supervision Windows / Active Directory</a></li>
-                    </ul>
-                    <p style="margin-top:8px;font-size:0.8rem;color:var(--text-muted)">🛠 Outils utilisés : GitHub releases Wazuh (notifications activées) · newsletter Graylog · guide ANSSI journalisation · communauté Reddit r/sysadmin</p>
                 </div>
             </div>
 

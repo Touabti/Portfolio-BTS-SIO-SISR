@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche SP — Active Directory Samba4 sous Linux</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f6fa;
+    color: #1a1a2e;
+    line-height: 1.7;
+  }
+  .page {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1a2a4e, #0f1529);
+    color: #fff;
+    padding: 32px 40px 24px 40px;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(77,159,255,0.18);
+    border: 1px solid #4d9fff;
+    color: #4d9fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  header .meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    font-size: 0.88rem;
+    color: #b0c4de;
+  }
+  header .meta span { display: flex; align-items: center; gap: 6px; }
+  .body { padding: 32px 40px; }
+  .section {
+    margin-bottom: 30px;
+  }
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1a2a4e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-left: 4px solid #4d9fff;
+    padding-left: 12px;
+    margin-bottom: 14px;
+  }
+  .section-title.green { border-color: #27c93f; }
+  .section-title.orange { border-color: #f97316; }
+  .section-title.red { border-color: #ef4444; }
+  .section-title.purple { border-color: #8b5cf6; }
+
+  .env-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .env-card {
+    background: #f0f4ff;
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 3px solid #4d9fff;
+  }
+  .env-card .role { font-weight: 700; font-size: 0.85rem; color: #1a2a4e; }
+  .env-card .detail { font-size: 0.82rem; color: #555; margin-top: 2px; }
+  .env-card .ip { font-family: monospace; color: #4d9fff; font-size: 0.82rem; }
+
+  .obj-list { list-style: none; counter-reset: obj; }
+  .obj-list li {
+    counter-increment: obj;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .obj-list li::before {
+    content: counter(obj);
+    background: #1a2a4e;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .real-block {
+    background: #f8faff;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-left: 3px solid #4d9fff;
+  }
+  .real-block.green { border-color: #27c93f; background: #f5fff7; }
+  .real-block.orange { border-color: #f97316; background: #fff8f0; }
+  .real-block .real-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #1a2a4e;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .real-block .real-title .num {
+    background: #1a2a4e;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 700;
+  }
+  .real-block ul { padding-left: 18px; }
+  .real-block li { font-size: 0.88rem; color: #333; margin-bottom: 3px; }
+  code {
+    background: #e8edf5;
+    color: #1a2a4e;
+    font-family: 'Consolas', monospace;
+    font-size: 0.82rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .alert-block {
+    background: #fff8e7;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+  }
+  .alert-block strong { color: #b45309; }
+
+  .pb-block {
+    background: #fff0f0;
+    border-left: 4px solid #ef4444;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+  }
+  .pb-block strong { color: #b91c1c; }
+  .pb-block .solution { color: #166534; margin-top: 4px; }
+
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .comp-card {
+    background: #f0f4ff;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .comp-card .code { font-weight: 800; color: #4d9fff; font-size: 0.88rem; }
+  .comp-card .desc { font-size: 0.83rem; color: #333; margin-top: 4px; }
+
+  .result-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+  }
+  .result-row .check { color: #27c93f; font-weight: 700; font-size: 1rem; }
+
+  .key-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .key-card {
+    background: #f8faff;
+    border-radius: 8px;
+    padding: 11px 14px;
+    border-top: 3px solid #8b5cf6;
+    font-size: 0.85rem;
+  }
+  .key-card strong { display: block; color: #5b21b6; font-size: 0.88rem; margin-bottom: 4px; }
+
+  footer {
+    background: #f0f4ff;
+    padding: 16px 40px;
+    font-size: 0.82rem;
+    color: #666;
+    text-align: center;
+    border-top: 1px solid #dde4f5;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="badge">BTS SIO — SISR — Fiche Situation Professionnelle</div>
+    <h1>Active Directory Samba4 sous Linux<br>GPO + Automatisation comptes + Portail reset</h1>
+    <div class="meta">
+      <span>&#128197; Projet personnel BTS SIO</span>
+      <span>&#127970; Environnement Proxmox (labo)</span>
+      <span>&#128187; Debian 12 + Windows 11</span>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- CONTEXTE -->
+    <div class="section">
+      <div class="section-title">Contexte</div>
+      <p style="font-size:0.94rem;">
+        Windows Server peut etre couteux, demande une maintenance reguliere et reste une cible frequente des attaques.
+        L'objectif de ce projet est de demontrer qu'il est possible de deployer un <strong>Active Directory complet et compatible Windows</strong>
+        en utilisant uniquement <strong>Samba4 sur Linux (Debian 12)</strong>, sans aucune licence propriataire.
+        Le projet couvre l'ensemble du cycle : installation du DC, gestion des GPO, automatisation des comptes eleves,
+        delegation de droits aux professeurs et portail de reinitialisation.
+      </p>
+    </div>
+
+    <!-- ENVIRONNEMENT TECHNIQUE -->
+    <div class="section">
+      <div class="section-title">Environnement technique</div>
+      <div class="env-grid">
+        <div class="env-card">
+          <div class="role">LINUX-DC — Controleur de domaine</div>
+          <div class="ip">192.168.26.10</div>
+          <div class="detail">Debian 12 · Samba4 AD DC · DNS interne</div>
+        </div>
+        <div class="env-card">
+          <div class="role">WIN-ADMIN — Administration</div>
+          <div class="ip">192.168.26.20</div>
+          <div class="detail">Windows 11 · RSAT · dsa.msc · gpmc.msc</div>
+        </div>
+        <div class="env-card">
+          <div class="role">WIN-CLIENT — Poste eleve</div>
+          <div class="ip">192.168.26.30</div>
+          <div class="detail">Windows 11 · joint au domaine · tests GPO</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:0.85rem;color:#555;">
+        Reseau interne Proxmox : <code>192.168.26.0/24</code> &mdash; Domaine : <code>BTS-SIO.LOCAL</code> &mdash; NetBIOS : <code>BTS-SIO</code>
+      </div>
+    </div>
+
+    <!-- OBJECTIFS -->
+    <div class="section">
+      <div class="section-title green">Objectifs</div>
+      <ul class="obj-list">
+        <li>Installer et configurer un <strong>controleur de domaine Samba4</strong> sur Debian avec DNS interne (SRV LDAP + Kerberos)</li>
+        <li>Creer une <strong>structure AD</strong> : OU Eleves (SIO1, SIO2), OU Enseignants, OU Groupes</li>
+        <li><strong>Joindre un poste Windows</strong> au domaine BTS-SIO.LOCAL</li>
+        <li>Mettre en place une <strong>GPO eleves</strong> : fond d'ecran impose + restrictions (CMD, Regedit, Task Manager, Panneau de config)</li>
+        <li><strong>Automatiser la creation de 60 comptes</strong> (30 SIO1 + 30 SIO2) avec mot de passe provisoire et changement obligatoire a la 1ere connexion</li>
+        <li>Preparer un <strong>script de reinitialisation annuelle</strong> + export CSV pour distribution aux eleves</li>
+        <li>Permettre aux professeurs de <strong>reinitialiser les mots de passe</strong> via delegation AD et portail web (LAM)</li>
+      </ul>
+    </div>
+
+    <!-- REALISATIONS -->
+    <div class="section">
+      <div class="section-title">Realisations</div>
+
+      <div class="real-block">
+        <div class="real-title"><span class="num">1</span> Configuration reseau et installation Samba4</div>
+        <ul>
+          <li>IP fixe sur Debian via NetworkManager : <code>192.168.26.10/24</code>, gateway <code>192.168.26.254</code></li>
+          <li>Synchronisation heure avec <code>chrony</code> (Kerberos echoue si decalage &gt; 5 min)</li>
+          <li>Installation : <code>samba smbclient winbind krb5-user dnsutils</code></li>
+          <li>Desactivation des services legacy (<code>smbd nmbd winbind</code>) pour eviter les conflits</li>
+          <li>Provisionnement : <code>samba-tool domain provision --use-rfc2307 --interactive</code></li>
+          <li>DNS forwarder vers <code>8.8.8.8</code> pour la resolution internet</li>
+        </ul>
+      </div>
+
+      <div class="real-block">
+        <div class="real-title"><span class="num">2</span> Verification DNS (point critique AD)</div>
+        <ul>
+          <li>Le DNS est le coeur de l'AD : sans enregistrements SRV corrects, rien ne fonctionne</li>
+          <li>Verification SRV LDAP (port 389) et Kerberos (port 88) depuis le DC : <code>host -t SRV _ldap._tcp.bts-sio.local 127.0.0.1</code></li>
+          <li>Verification depuis Windows : <code>nslookup -type=SRV _ldap._tcp.bts-sio.local 192.168.26.10</code></li>
+          <li>Verification partages SYSVOL et NETLOGON : <code>smbclient -L localhost -N</code></li>
+        </ul>
+      </div>
+
+      <div class="real-block">
+        <div class="real-title"><span class="num">3</span> Structure Active Directory</div>
+        <ul>
+          <li>Creation des OU avec <code>samba-tool ou create</code> : Eleves, SIO1, SIO2, Enseignants, Groupes</li>
+          <li>Verification visuelle dans <code>dsa.msc</code> (RSAT installe sur WIN-ADMIN)</li>
+          <li>Installation RSAT : <code>Add-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0</code></li>
+        </ul>
+      </div>
+
+      <div class="real-block">
+        <div class="real-title"><span class="num">4</span> Jointure domaine Windows</div>
+        <ul>
+          <li>Prerequis absolu : DNS du poste Windows = <code>192.168.26.10</code> (sans ca, jointure impossible)</li>
+          <li>Jointure via <code>sysdm.cpl</code> &rarr; domaine <code>bts-sio.local</code> &rarr; identifiants <code>BTS-SIO\Administrator</code></li>
+          <li>Verification : <code>nslookup bts-sio.local 192.168.26.10</code> depuis Windows</li>
+        </ul>
+      </div>
+
+      <div class="real-block green">
+        <div class="real-title"><span class="num">5</span> GPO eleves — GPO_ELEVES_RESTRICTION</div>
+        <ul>
+          <li>Creation et liaison dans <code>gpmc.msc</code> sur OU=SIO1 et OU=SIO2</li>
+          <li>Fond d'ecran impose : chemin UNC <code>\\bts-sio.local\sysvol\bts-sio.local\scripts\fond_ecran\fond.jpg</code></li>
+          <li>Restrictions : Panneau de config, Gestionnaire des taches, Regedit, CMD — tous bloques</li>
+          <li>Filtrage securite : <strong>Authenticated Users doit rester present</strong> (sinon GPO refusee)</li>
+          <li>Verification : <code>gpupdate /force</code> puis <code>gpresult /r</code> — GPO_ELEVES_RESTRICTION doit apparaitre dans "appliquees"</li>
+          <li>Preuve : <code>gpresult /h C:\gpresult.html</code></li>
+        </ul>
+      </div>
+
+      <div class="real-block green">
+        <div class="real-title"><span class="num">6</span> Automatisation des 60 comptes eleves (script bash)</div>
+        <ul>
+          <li>Script <code>create_eleves_sio.sh</code> : idempotent (cree ou met a jour si le compte existe deja)</li>
+          <li>30 comptes SIO1 : <code>sio1-01</code> a <code>sio1-30</code> dans <code>OU=SIO1,OU=Eleves</code></li>
+          <li>30 comptes SIO2 : <code>sio2-01</code> a <code>sio2-30</code> dans <code>OU=SIO2,OU=Eleves</code></li>
+          <li>Mot de passe provisoire : <code>Eleve@2025</code> + flag <code>--must-change-at-next-login</code></li>
+          <li>Compte active explicitement apres creation (evite "compte desactive" au login)</li>
+          <li>Verification : <code>samba-tool user list | egrep '^sio[12]-'</code></li>
+        </ul>
+      </div>
+
+      <div class="real-block">
+        <div class="real-title"><span class="num">7</span> Reset annuel + export CSV</div>
+        <ul>
+          <li>Script <code>reset_eleves_passwords.sh</code> : reinitialise tous les comptes <code>sio[12]-*</code> en une commande</li>
+          <li>Script <code>export_eleves_csv.sh</code> : genere un CSV <code>login;classe;motdepasse_provisoire</code> pour distribution</li>
+        </ul>
+      </div>
+
+      <div class="real-block orange">
+        <div class="real-title"><span class="num">8</span> Delegation professeurs (principe du moindre privilege)</div>
+        <ul>
+          <li>Groupes <code>Prof_ResetPwd_SIO1</code> et <code>Prof_ResetPwd_SIO2</code> crees dans l'AD</li>
+          <li>Delegation dans <code>dsa.msc</code> sur OU=SIO1/SIO2 : reset password uniquement, sans droits admin</li>
+          <li>Option portail LAM (LDAP Account Manager) : <code>apache2 + php-ldap + ldap-account-manager</code></li>
+          <li>Le prof se connecte au portail et ses droits sont limites par la delegation</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- POINTS CLES -->
+    <div class="section">
+      <div class="section-title purple">Points techniques cles a retenir</div>
+      <div class="key-points">
+        <div class="key-card">
+          <strong>DNS = coeur de l'AD</strong>
+          Sans SRV LDAP (port 389) et Kerberos (port 88) corrects, le domaine ne fonctionne pas.
+          Toujours verifier avec <code>host -t SRV</code> depuis le DC.
+        </div>
+        <div class="key-card">
+          <strong>Kerberos et l'heure</strong>
+          Si le decalage horaire entre machines depasse 5 minutes, Kerberos refuse l'authentification.
+          Solution : <code>chrony</code> sur le DC.
+        </div>
+        <div class="key-card">
+          <strong>GPO_ELEVES_RESTRICTION</strong>
+          Le filtrage securite doit conserver <strong>Authenticated Users</strong>.
+          Si ce groupe est supprime, la GPO est systematiquement refusee.
+        </div>
+        <div class="key-card">
+          <strong>samba-tool gpo setlink</strong>
+          Ordre important : <strong>DN de l'OU en premier</strong>, nom de la GPO en second.
+          Sinon erreur "does not exist".
+        </div>
+      </div>
+    </div>
+
+    <!-- DIFFICULTES -->
+    <div class="section">
+      <div class="section-title red">Difficultes rencontrees et solutions</div>
+
+      <div class="pb-block">
+        <strong>Probleme 1 — nslookup timeout / jointure domaine impossible</strong>
+        <div class="solution">
+          Cause : DNS du poste Windows non pointe sur 192.168.26.10.<br>
+          Solution : <code>ipconfig /all</code> pour verifier, puis forcer DNS = IP du DC. Verifier aussi que samba-ad-dc ecoute sur le port 53 : <code>sudo ss -tulpn | grep ':53'</code>
+        </div>
+      </div>
+
+      <div class="pb-block">
+        <strong>Probleme 2 — GPO refusee (gpresult montre "Refusee")</strong>
+        <div class="solution">
+          Causes possibles : GPO pas liee a la bonne OU, utilisateur pas dans l'OU ciblee, Authenticated Users supprime du filtrage de securite, pas de gpupdate apres modification.<br>
+          Solution : verifier dans dsa.msc et gpmc.msc, puis <code>gpupdate /force</code>.
+        </div>
+      </div>
+
+      <div class="pb-block">
+        <strong>Probleme 3 — Fond d'ecran non applique malgre GPO active</strong>
+        <div class="solution">
+          Cause : chemin local au lieu de chemin UNC.<br>
+          Chemin correct : <code>\\bts-sio.local\sysvol\bts-sio.local\scripts\fond_ecran\fond.jpg</code><br>
+          Test : copier le chemin dans l'explorateur Windows — le fichier doit apparaitre.
+        </div>
+      </div>
+
+      <div class="pb-block">
+        <strong>Probleme 4 — Compte "desactive" au login</strong>
+        <div class="solution">
+          Diagnostic : <code>samba-tool user show sio1-05 | grep -i userAccountControl</code><br>
+          Solution : <code>samba-tool user enable sio1-05</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTATS -->
+    <div class="section">
+      <div class="section-title green">Resultats</div>
+      <div class="result-row"><span class="check">&#10003;</span> Controleur de domaine Samba4 operationnel sur Debian, compatible Windows 11</div>
+      <div class="result-row"><span class="check">&#10003;</span> 60 comptes eleves crees et fonctionnels — changement de mot de passe a la 1ere connexion confirme</div>
+      <div class="result-row"><span class="check">&#10003;</span> GPO_ELEVES_RESTRICTION appliquee sur SIO1 et SIO2 — fond d'ecran + restrictions verifiees</div>
+      <div class="result-row"><span class="check">&#10003;</span> Reset annuel scriptable en une commande, export CSV pret pour distribution</div>
+      <div class="result-row"><span class="check">&#10003;</span> Delegation professeurs fonctionnelle — principe du moindre privilege respecte</div>
+      <div class="result-row"><span class="check">&#10003;</span> Solution 100% open-source — zero licence Windows Server</div>
+    </div>
+
+    <!-- COMPETENCES BTS SIO -->
+    <div class="section">
+      <div class="section-title">Competences BTS SIO SISR couvertes</div>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="code">B2.2 — Mettre en place une solution d'infrastructure</div>
+          <div class="desc">Deploiement AD Samba4, DNS SRV, Kerberos, SYSVOL/NETLOGON, GPO, jointure domaine Windows</div>
+        </div>
+        <div class="comp-card">
+          <div class="code">B2.4 — Exploiter une solution d'infrastructure</div>
+          <div class="desc">Scripts bash automatises, samba-tool, gestion des comptes, reinitialisation annuelle, export CSV</div>
+        </div>
+        <div class="comp-card">
+          <div class="code">B1.4 — Travailler en mode projet</div>
+          <div class="desc">Documentation structuree, wiki de depannage, tests valides etape par etape</div>
+        </div>
+        <div class="comp-card">
+          <div class="code">B2.6 — Securite de l'infrastructure</div>
+          <div class="desc">Delegation avec moindre privilege, restrictions GPO, portail LAM avec droits limites</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMANDES CLES -->
+    <div class="section">
+      <div class="section-title purple">Commandes cles a maitriser pour l'oral</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.83rem;">
+        <div class="alert-block"><strong>Verifier le DC :</strong><br><code>sudo systemctl status samba-ad-dc --no-pager</code></div>
+        <div class="alert-block"><strong>Verifier DNS SRV :</strong><br><code>host -t SRV _ldap._tcp.bts-sio.local 127.0.0.1</code></div>
+        <div class="alert-block"><strong>Lister les comptes eleves :</strong><br><code>samba-tool user list | egrep '^sio[12]-'</code></div>
+        <div class="alert-block"><strong>Forcer GPO Windows :</strong><br><code>gpupdate /force &amp;&amp; gpresult /r</code></div>
+        <div class="alert-block"><strong>Activer un compte :</strong><br><code>samba-tool user enable sio1-05</code></div>
+        <div class="alert-block"><strong>Reinitialiser mdp :</strong><br><code>samba-tool user setpassword sio1-05 --newpassword="Eleve@2025" --must-change-at-next-login</code></div>
+      </div>
+    </div>
+
+  </div><!-- end body -->
+
+  <footer>
+    Slim Touabti &mdash; BTS SIO SISR &mdash; Fiche Situation Professionnelle &mdash; Samba4 AD DC sous Linux
+  </footer>
+
+</div>
+</body>
+</html>
