@@ -170,6 +170,16 @@ nav {
 /* ============================================================
    À PROPOS
    ============================================================ */
+/* ── PARCOURS TIMELINE ── */
+.parcours-timeline { display: flex; flex-direction: column; gap: 0; max-width: 600px; margin: 0 auto; position: relative; padding-left: 20px; }
+.parcours-timeline::before { content: ''; position: absolute; left: 20px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(to bottom, var(--accent-neon), rgba(56,189,248,0.1)); }
+.parcours-item { display: flex; align-items: flex-start; gap: 20px; padding: 18px 0; position: relative; }
+.parcours-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent-neon); border: 2px solid var(--bg-main); box-shadow: 0 0 8px var(--accent-neon); flex-shrink: 0; margin-top: 4px; position: relative; z-index: 1; }
+.parcours-content { background: var(--bg-panel); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px 20px; flex: 1; }
+.parcours-period { font-size: 0.78rem; color: var(--accent-neon); font-weight: 700; font-family: 'Consolas', monospace; margin-bottom: 4px; }
+.parcours-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+.parcours-school { font-size: 0.88rem; color: var(--text-muted); }
+
 .grid-about { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: stretch; }
 .about-text { background: var(--bg-panel); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; border: 1px solid var(--border-glass); }
 .about-text p { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.05rem; }
@@ -389,7 +399,7 @@ nav {
     background: #fff;
 }
 
-.sp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+.sp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
 .sp-card {
     background: var(--bg-panel); backdrop-filter: blur(12px); padding: 26px;
@@ -409,10 +419,11 @@ nav {
 .sp-card h3 { font-size: 1rem; color: var(--text-primary); line-height: 1.35; margin: 0; }
 .sp-lieu { font-size: 0.78rem; color: var(--text-secondary); font-style: italic; }
 
-.sp-comp-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
-.comp-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 11px; border-radius: 20px; font-family: 'Consolas', monospace; letter-spacing: 0.02em; }
-.comp-b1 { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.28); }
-.comp-b2 { background: rgba(56, 189, 248, 0.1); color: var(--accent-neon); border: 1px solid rgba(56,189,248,0.28); }
+.sp-comp-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; margin-bottom: 4px; }
+.comp-badge { font-size: 0.72rem; font-weight: 500; padding: 4px 10px; border-radius: 5px; font-family: 'Segoe UI', sans-serif; letter-spacing: 0.01em; line-height: 1.4; }
+.comp-b1 { background: rgba(168, 201, 138, 0.15); color: #a8c98a; border: 1px solid rgba(168,201,138,0.35); }
+.comp-b2 { background: rgba(168, 201, 138, 0.15); color: #a8c98a; border: 1px solid rgba(168,201,138,0.35); }
+.comp-code { font-weight: 700; font-size: 0.68rem; opacity: 0.6; margin-right: 5px; font-family: 'Consolas', monospace; }
 
 .btn-sp { margin-top: 14px; width: 100%; text-align: center; padding: 13px 20px; font-size: 0.88rem; border-radius: 50px; }
 
@@ -671,10 +682,8 @@ nav {
 .modal-tag { background: rgba(77,159,255,0.07); border: 1px solid rgba(77,159,255,0.2); color: var(--accent-neon); padding: 4px 13px; border-radius: 30px; font-size: 0.77rem; font-weight: 500; }
 
 .modal-comp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.modal-comp-b1 { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.28); color: #34d399; padding: 5px 14px; border-radius: 30px; font-size: 0.78rem; font-weight: 700; font-family: 'Consolas', monospace; cursor: default; }
-.modal-comp-b2 { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.28); color: var(--accent-neon); padding: 5px 14px; border-radius: 30px; font-size: 0.78rem; font-weight: 700; font-family: 'Consolas', monospace; cursor: default; }
-.modal-comp-legend { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-.comp-legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+.modal-comp-b1 { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.28); color: #34d399; padding: 6px 16px; border-radius: 30px; font-size: 0.82rem; font-weight: 600; font-family: 'Consolas', monospace; cursor: default; display: inline-block; }
+.modal-comp-b2 { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.28); color: var(--accent-neon); padding: 6px 16px; border-radius: 30px; font-size: 0.82rem; font-weight: 600; font-family: 'Consolas', monospace; cursor: default; display: inline-block; }
 .comp-legend-code { padding: 2px 9px; font-size: 0.72rem; }
 .comp-legend-label { color: var(--text-secondary); }
 

@@ -28,6 +28,7 @@
         </button>
         <ul class="nav-links">
             <li><a href="#about"><span class="nav-icon">👤</span>À Propos</a></li>
+            <li><a href="#parcours"><span class="nav-icon">🎓</span>Parcours</a></li>
             <li><a href="#competences"><span class="nav-icon">⚡</span>Compétences</a></li>
             <li><a href="#projets"><span class="nav-icon">🖥️</span>Projets</a></li>
             <li><a href="#situations"><span class="nav-icon">📋</span>Situations E5</a></li>
@@ -78,6 +79,43 @@
                 </div>
                 <div class="terminal-body" id="terminal-content"></div>
             </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         PARCOURS
+    ════════════════════════════════════════════════════════ -->
+    <section id="parcours" class="section">
+        <h2 class="section-title">Mon Parcours</h2>
+        <div class="parcours-timeline">
+
+            <div class="parcours-item">
+                <div class="parcours-dot"></div>
+                <div class="parcours-content">
+                    <div class="parcours-period">2024 – 2026</div>
+                    <div class="parcours-title">BTS SIO SISR</div>
+                    <div class="parcours-school">Lycée Louis Armand, Nogent-sur-Marne</div>
+                </div>
+            </div>
+
+            <div class="parcours-item">
+                <div class="parcours-dot"></div>
+                <div class="parcours-content">
+                    <div class="parcours-period">2021 – 2023</div>
+                    <div class="parcours-title">BAC STI2D Option ITEC</div>
+                    <div class="parcours-school">Lycée Edouard Branly, Créteil</div>
+                </div>
+            </div>
+
+            <div class="parcours-item">
+                <div class="parcours-dot"></div>
+                <div class="parcours-content">
+                    <div class="parcours-period">2020 – 2021</div>
+                    <div class="parcours-title">BAC Générale</div>
+                    <div class="parcours-school">Lycée Condorcet, Saint-Maur</div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -342,33 +380,19 @@
 
         <div class="sp-grid">
 
-            <div class="sp-card">
-                <div class="sp-header">
-                    <span class="sp-number">SP1</span>
-                    <span class="sp-badge sp-badge-formation">Formation</span>
-                </div>
-                <h3>Création du Portfolio BTS SIO SISR</h3>
-                <div class="sp-lieu">Lycée Louis Armand</div>
-                <div class="sp-comp-list">
-                    <span class="comp-badge comp-b1">B1.3</span>
-                    <span class="comp-badge comp-b1">B1.6</span>
-                    <span class="comp-badge comp-b2">B2.1</span>
-                </div>
-                <button class="btn btn-sp" data-modal="proj-portfolio">Voir la fiche SP →</button>
-            </div>
-
+            <!-- SP1 : Onboarding -->
             <div class="sp-card sp-card-stage">
                 <div class="sp-header">
-                    <span class="sp-number">SP2</span>
+                    <span class="sp-number">SP1</span>
                     <span class="sp-badge sp-badge-stage">Stage 2A</span>
                 </div>
-                <h3>Onboarding Automatisé PowerShell</h3>
+                <h3>Onboarding Progressif Automatisé</h3>
                 <div class="sp-lieu">Mairie de Charenton-le-Pont · Direction du Numérique</div>
                 <div class="sp-comp-list">
-                    <span class="comp-badge comp-b1">B1.2</span>
-                    <span class="comp-badge comp-b1">B1.4</span>
-                    <span class="comp-badge comp-b2">B2.2</span>
-                    <span class="comp-badge comp-b2">B2.4</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.2</span>Répondre aux incidents et demandes</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.4</span>Travailler en mode projet</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.2</span>Mettre en place une solution d'infrastructure</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.4</span>Exploiter une solution d'infrastructure</span>
                 </div>
                 <div style="display:flex;gap:8px">
                     <button class="btn btn-sp" data-modal="proj-onboarding">Voir la fiche SP →</button>
@@ -376,63 +400,81 @@
                 </div>
             </div>
 
+            <!-- SP2 : Samba4 -->
             <div class="sp-card">
                 <div class="sp-header">
-                    <span class="sp-number">SP3</span>
+                    <span class="sp-number">SP2</span>
                     <span class="sp-badge sp-badge-formation">Formation</span>
                 </div>
                 <h3>Interopérabilité Samba 4</h3>
                 <div class="sp-lieu">Lycée Louis Armand</div>
                 <div class="sp-comp-list">
-                    <span class="comp-badge comp-b2">B2.3</span>
-                    <span class="comp-badge comp-b2">B2.4</span>
-                    <span class="comp-badge comp-b2">B2.6</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.3</span>Faire évoluer une solution d'infrastructure</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.4</span>Exploiter une solution d'infrastructure</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.6</span>Sécuriser l'infrastructure</span>
                 </div>
-                <a href="fiche-sp-samba4.html" target="_blank" class="btn btn-sp">Voir la fiche SP →</a>
+                <button class="btn btn-sp" data-modal="proj-samba">Voir la fiche SP →</button>
             </div>
 
+            <!-- SP3 : Portfolio -->
             <div class="sp-card">
                 <div class="sp-header">
-                    <span class="sp-number">SP4</span>
+                    <span class="sp-number">SP3</span>
                     <span class="sp-badge sp-badge-formation">Formation</span>
                 </div>
-                <h3>Sécurisation Stormshield</h3>
+                <h3>Création du Portfolio BTS SIO SISR</h3>
                 <div class="sp-lieu">Lycée Louis Armand</div>
                 <div class="sp-comp-list">
-                    <span class="comp-badge comp-b2">B2.3</span>
-                    <span class="comp-badge comp-b2">B2.6</span>
-                    <span class="comp-badge comp-b2">B2.7</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.3</span>Développer la présence en ligne</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.6</span>Organiser son développement professionnel</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.1</span>Exploiter des référentiels, normes et standards</span>
                 </div>
-                <button class="btn btn-sp" data-modal="proj-stormshield">Voir la fiche SP →</button>
+                <button class="btn btn-sp" data-modal="proj-portfolio">Voir la fiche SP →</button>
             </div>
 
-            <div class="sp-card">
-                <div class="sp-header">
-                    <span class="sp-number">SP5</span>
-                    <span class="sp-badge sp-badge-formation">Formation</span>
-                </div>
-                <h3>Infrastructure Virtualisée</h3>
-                <div class="sp-lieu">Lycée Louis Armand</div>
-                <div class="sp-comp-list">
-                    <span class="comp-badge comp-b2">B2.3</span>
-                    <span class="comp-badge comp-b2">B2.4</span>
-                </div>
-                <button class="btn btn-sp" data-modal="proj-virtualisation">Voir la fiche SP →</button>
-            </div>
-
+            <!-- SP4 : Support ITSM -->
             <div class="sp-card sp-card-stage">
                 <div class="sp-header">
-                    <span class="sp-number">SP6</span>
+                    <span class="sp-number">SP4</span>
                     <span class="sp-badge sp-badge-stage">Stage 1A</span>
                 </div>
                 <h3>Support ITSM &amp; Gestion de Parc</h3>
                 <div class="sp-lieu">HTNS — High Technology Network &amp; Security</div>
                 <div class="sp-comp-list">
-                    <span class="comp-badge comp-b1">B1.1</span>
-                    <span class="comp-badge comp-b1">B1.2</span>
-                    <span class="comp-badge comp-b2">B2.1</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.1</span>Gérer le patrimoine informatique</span>
+                    <span class="comp-badge comp-b1"><span class="comp-code">B1.2</span>Répondre aux incidents et demandes</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.1</span>Exploiter des référentiels, normes et standards</span>
                 </div>
                 <button class="btn btn-sp" data-modal="proj-itsm">Voir la fiche SP →</button>
+            </div>
+
+            <!-- SP5 : Stormshield -->
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP5</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Sécurisation Stormshield</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.3</span>Faire évoluer une solution d'infrastructure</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-stormshield">Voir la fiche SP →</button>
+            </div>
+
+            <!-- SP6 : Infrastructure Virtualisée -->
+            <div class="sp-card">
+                <div class="sp-header">
+                    <span class="sp-number">SP6</span>
+                    <span class="sp-badge sp-badge-formation">Formation</span>
+                </div>
+                <h3>Infrastructure Virtualisée</h3>
+                <div class="sp-lieu">Lycée Louis Armand</div>
+                <div class="sp-comp-list">
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.2</span>Mettre en place une solution d'infrastructure</span>
+                    <span class="comp-badge comp-b2"><span class="comp-code">B2.4</span>Exploiter une solution d'infrastructure</span>
+                </div>
+                <button class="btn btn-sp" data-modal="proj-virtualisation">Voir la fiche SP →</button>
             </div>
 
         </div>
@@ -604,9 +646,10 @@
                 <div class="veille-sources">
                     <p>Sources :</p>
                     <ul style="list-style:none">
-                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/le-modele-zero-trust/" target="_blank" rel="noopener">ANSSI — Recommandations Zero Trust (Référence institutionnelle FR)</a></li>
-                        <li>🔗 <a href="https://csrc.nist.gov/publications/detail/sp/800-207/final" target="_blank" rel="noopener">NIST SP 800-207 — Zero Trust Architecture (Référence mondiale)</a></li>
-                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank" rel="noopener">Stormshield — ZTNA (Solution souveraine française)</a></li>
+                        <li>🔗 <a href="https://www.ssi.gouv.fr/guide/le-modele-zero-trust/" target="_blank" rel="noopener">ANSSI — Recommandations Zero Trust, 2024 (Référence institutionnelle FR)</a></li>
+                        <li>🔗 <a href="https://csrc.nist.gov/publications/detail/sp/800-207/final" target="_blank" rel="noopener">NIST SP 800-207 — Zero Trust Architecture, août 2020 (Référence mondiale)</a></li>
+                        <li>🔗 <a href="https://www.stormshield.com/fr/nos-produits/ztna/" target="_blank" rel="noopener">Stormshield — ZTNA, consulté mars 2025 (Solution souveraine française)</a></li>
+                        <li>🔗 <a href="https://www.lemagit.fr/actualites/Zero-Trust-en-2025-les-tendances-et-defis-pour-les-DSI" target="_blank" rel="noopener">LeMagIT — Zero Trust en 2025 : tendances et défis pour les DSI, janvier 2025</a></li>
                     </ul>
                 </div>
             </div>

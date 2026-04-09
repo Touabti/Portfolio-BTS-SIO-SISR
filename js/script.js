@@ -47,7 +47,7 @@ const modalData = {
         ],
         tools: ['HTML5', 'CSS3', 'JavaScript vanilla', 'Canvas API', 'GitHub Pages', 'Figma (proto)', 'Lighthouse'],
         competences: { b1: ['B1.3', 'B1.6'], b2: ['B2.1'] },
-        results: 'Portfolio opérationnel et accessible en ligne via GitHub Pages. Outil de présentation personnelle pour communiquer auprès des recruteurs IT et valoriser les compétences BTS SIO SISR acquises.',
+        results: 'Portfolio opérationnel en ligne via GitHub Pages. 6 situations professionnelles documentées avec modales interactives, diagrammes Gantt, script PowerShell embarqué et section veille technologique. Responsive mobile/desktop. Présentation E5 intégrée (slides déclenchables). Score Lighthouse performance > 90.',
         docs: [
             { label: 'Repository GitHub — Portfolio-BTS-SIO-SISR', url: 'https://github.com/Touabti/Portfolio-BTS-SIO-SISR' },
             { label: 'Portfolio en ligne (GitHub Pages)', url: 'https://touabti.github.io/Portfolio-BTS-SIO-SISR/' }
@@ -74,18 +74,17 @@ const modalData = {
             'Création et application des règles de filtrage stateful (12 règles prioritaires)',
             'Mise en place du NAT source (sortie Internet) et NAT destination (accès services DMZ)',
             'Activation du filtrage URL par catégories (éducatif, réseaux sociaux, malware…) — bloc 15 catégories à risque',
-            'Configuration de logs syslogs et supervision temps réel des flux filtrés — détection d\'attaques classiques',
-            'Tests de connectivité complets, audit exhaustif des règles et validation conformité CNIL'
+            'Tests de connectivité complets et validation des règles'
         ],
         tools: ['Stormshield SNS', 'Console d\'administration SMA', 'Wireshark', 'tcpdump'],
         competences: { b1: [], b2: ['B2.3'] },
-        results: 'Infrastructure périmétrique sécurisée, accès Internet contrôlé et filtré par catégories, 12 règles NAT opérationnelles, aucune fuite de trafic non autorisé. Logs centralisés prouvant conformité.',
+        results: 'Infrastructure périmétrique sécurisée, accès Internet contrôlé et filtré par catégories, règles NAT opérationnelles.',
         docs: [],
         qqocpq: {
             qui: 'Slim Touabti en tant que technicien réseau et administrateur sécurité, encadré par les formateurs BTS SIO SISR du Lycée Louis Armand.',
-            quoi: 'Un pare-feu Stormshield SNS configuré et opérationnel avec 12 règles de filtrage NAT, filtrage URL avancé par catégories (15 catégories bloquées) et supervision temps réel des flux réseau.',
+            quoi: 'Un pare-feu Stormshield SNS configuré et opérationnel avec règles de filtrage NAT et filtrage URL avancé par catégories.',
             ou: 'Environnement de formation au Lycée Louis Armand (infralab ou rack didactique). Infrastructure simulée protégeant un réseau LAN/WAN d\'entreprise fictive.',
-            quand: 'Projet de formation 2024-2025, déploiement/test sur 2-3 semaines en conditions contrôlées de lab.',
+            quand: 'Projet de formation 2024-2025, en conditions contrôlées de lab.',
             comment: 'Configuration via console d\'administration Stormshield SMA. Approche défense en profondeur : identification des flux (L4), stateful inspection, NAT (translation d\'adresses), contrôle applicatif (filtrage URL). Tests empiriques via Wireshark et tcpdump pour valider les règles.',
             pourquoi: 'Démontrer la maîtrise de B2.3 (faire évoluer une solution d\'infrastructure sécurisée) et la compétence clé SISR : sécurisation du périmètre réseau. Application concrète de la politique de sécurité (pare-feu = premier rempart).'
         }
@@ -96,21 +95,21 @@ const modalData = {
         title: 'Interopérabilité Samba 4',
         lieu: 'Formation — Lycée Louis Armand',
         isStage: false,
-        context: 'Déploiement d\'un contrôleur de domaine sous Linux/Samba 4 pour gérer un parc hétérogène (Windows + Linux) sans coût de licence supplémentaire, dans un contexte de réduction budgétaire. Protège les identités numériques (B3.2) via Kerberos 5 en cross-platform et assure l\'authentification sécurisée sans délai de synchronisation.',
-        mission: 'Configurer Samba 4 en mode Active Directory Domain Controller sous Debian pour intégrer postes Windows et Linux au sein d\'un même domaine d\'entreprise avec authentification centralisée.',
+        context: 'Déploiement d\'un contrôleur de domaine sous Linux/Samba 4 pour gérer un parc hétérogène (Windows + Linux) sans coût de licence supplémentaire, dans un contexte de réduction budgétaire. Le script de provisionnement développé permet la création automatisée de comptes utilisateurs, appliqué ici sur 60 comptes dans le cadre du projet de formation.',
+        mission: 'Configurer Samba 4 en mode Active Directory Domain Controller sous Debian pour intégrer postes Windows et Linux au sein d\'un même domaine d\'entreprise avec authentification centralisée et provisionnement automatisé des comptes.',
         actions: [
-            'Installation Debian Server 11 sur hyperviseur KVM avec dimensionnement 2x4GB RAM + SSD 50GB',
+            'Installation Debian Server 11 sur hyperviseur Proxmox',
             'Déploiement provisioning complet AD via `samba-tool domain provision` avec niveau fonctionnel 2012 R2',
-            'Configuration Kerberos 5 (`krb5.conf`) : KDC sur localhost, TLS opportuniste, renew lifetime 604800s',
-            'Synchronisation NTP critique via Chrony : drift < 1ms (CBS DC replication requiert ±5s max)',
-            'Configuration Winbind pour liaison identifier SID Windows ↔ UID/GID Linux (RFC 2307)',
-            'Installation RSAT sur postes Windows + tests dsa.msc navigation, creation OU from Windows clients',
-            'Déploiement 60 comptes utilisateurs : CSV import via `samba-tool user bulk create`, chiffrement mot de passe SSHA',
+            'Configuration Kerberos 5 (`krb5.conf`) : KDC sur localhost, TLS opportuniste',
+            'Synchronisation NTP critique via Chrony : drift < 1ms (DC replication requiert ±5s max)',
+            'Configuration Winbind pour liaison identifiants SID Windows ↔ UID/GID Linux',
+            'Installation RSAT sur postes Windows + tests dsa.msc navigation, création OU depuis clients Windows',
+            'Déploiement 60 comptes utilisateurs via script et `samba-tool user create`',
             'Tests cross-plateforme : jonction Debian client via `net ads join`, accès SMB/CIFS depuis Windows, kinit interop'
         ],
-        tools: ['Debian 11', 'Samba 4', 'Kerberos 5', 'Winbind', 'RSAT', 'DNS BIND9', 'VirtualBox', 'OpenLDAP cli-tools'],
+        tools: ['Debian 11', 'Samba 4', 'Kerberos 5', 'Winbind', 'RSAT', 'DNS BIND9', 'Proxmox', 'OpenLDAP cli-tools'],
         competences: { b1: [], b2: ['B2.3', 'B2.4', 'B2.6'] },
-        results: 'Contrôleur de domaine AD compatible Active Directory opérationnel sous Linux. 60 postes clients (Windows 10 + Debian) intégrés au domaine Samba avec authentification Kerberos unifiée. Remplacement open-source d\'une licence Windows Server Standard (~€500/an).',
+        results: 'Contrôleur de domaine AD opérationnel sous Linux. 60 comptes provisionnés via script automatisé. Postes Windows 10 et Debian joints au domaine avec authentification Kerberos unifiée. Économie estimée : ~500€/an (remplacement licence Windows Server Standard).',
         docs: [
             { label: 'Dossier technique — Active Directory sous Linux avec Samba', url: 'assets/TOUABTI-Slim-Active-Directory-sous-Linux-avec-samba.pdf' }
         ],
@@ -204,9 +203,9 @@ const modalData = {
         qqocpq: {
             qui: 'Slim Touabti en tant que technicien infrastructure/réseaux, accompagné par les formateurs du Lycée Louis Armand. Utilisateurs finaux : 60 clients (Windows 10 + clients Linux) intégrés au domaine.',
             quoi: 'Un contrôleur de domaine Active Directory complet sous Linux via Samba 4, gérant 60 comptes utilisateurs, authentification Kerberos 5 centralisée, GPO appliquées, et infrastructure open-source sans licence Microsoft.',
-            ou: 'Lycée Louis Armand, environnement de formation sur infrastructures virtualisées (VirtualBox/KVM). Contexte : gestion d\'un parc hétérogène (Windows 10 + Linux Debian) selon un besoin d\'interopérabilité.',
-            quand: 'Projet de formation 2024-2025, ~7 semaines de développement progressif en lab didactique, avec étapes critiques : provisioning S3 → intégration Windows S4 → déploiement comptes S5.',
-            comment: 'Déploiement Samba 4 en mode Active Directory Domain Controller sur Debian via `samba-tool domain provision`. Configuration NTP/Kerberos 5 (±1ms sync). RSAT pour gestion AD depuis clients Windows. Scripts d\'automatisation pour provisionning 60 comptes. GPO déployées via SYSVOL. Approche modulaire : séparation des phases infra → réseautage → identité.',
+            ou: 'Lycée Louis Armand, environnement de formation sur infrastructures virtualisées (Proxmox). Contexte : gestion d\'un parc hétérogène (Windows 10 + Linux Debian) selon un besoin d\'interopérabilité.',
+            quand: 'Projet de formation 2024-2025, avec étapes critiques : provisioning S3 → intégration Windows S4 → déploiement comptes S5.',
+            comment: 'Déploiement Samba 4 en mode Active Directory Domain Controller sur Debian via `samba-tool domain provision`. Configuration NTP/Kerberos 5. RSAT pour gestion AD depuis clients Windows. Scripts d\'automatisation pour provisionnement 60 comptes. GPO déployées via SYSVOL.',
             pourquoi: 'Démontrer la maîtrise de B2.3 (faire évoluer une infra) et B2.6 (sécuriser l\'infra). Cas d\'usage réel : réduction des coûts de licence Microsoft Server pour collectivités/PME. Apprentissage cross-platform : comprendre Active Directory sous Windows ET sous Linux. Compétence SISR clé : importer une identité centralisée dans un contexte multi-OS.'
         }
     },
@@ -216,19 +215,19 @@ const modalData = {
         title: 'Onboarding Automatisé PowerShell',
         lieu: 'Stage 2ème année — Mairie de Charenton-le-Pont · Direction du Numérique',
         isStage: true,
-        context: 'La Direction du Numérique de la Mairie de Charenton-le-Pont (commune ~30 000 hab., Val-de-Marne) gérait l\'intégration des nouveaux agents de façon entièrement manuelle. Ce processus générait des délais allant jusqu\'à 48h et des oublis récurrents (boîte mail, profil AD, droits réseau), sources de friction. La solution protège les données personnelles (B3.1) des nouveaux agents dès la prise de fonction via automatisation et chiffrement des credentials.',
-        mission: 'Concevoir et mettre en production un système d\'onboarding progressif automatisé pour 150+ agents municipaux, réduisant significativement le délai de mise en service (de 48h à ~6h).',
+        context: 'La Direction du Numérique de la Mairie de Charenton-le-Pont (commune ~30 000 hab., Val-de-Marne) gérait l\'intégration des nouveaux agents de façon entièrement manuelle. Ce processus générait des délais allant jusqu\'à 48h et des oublis récurrents (boîte mail, profil AD, droits réseau), sources de friction. La solution protège les données personnelles (B3.1) des nouveaux agents dès la prise de fonction via automatisation.',
+        mission: 'Concevoir et mettre en production un système d\'onboarding progressif automatisé pour les 900+ agents municipaux, réduisant significativement le délai de mise en service (de 48h à ~6h).',
         actions: [
-            'Audit du processus existant et cartographie des 18 étapes manuelles à automatiser',
-            'Conception architecture modulaire PowerShell : 4 modules distincts (AD, Exchange, Téléphonesignaling, Ticketing)',
-            'Développement du moteur AD : création automatique de compte (UPN sanitisation), attribution OU par service via HashTable mappings',
-            'Intégration Exchange : création boîte mail, alias multiples (prenom.nom + initialesciviles), Auto-Reply pour congés',
-            'Implémentation du mécanisme progressif : détection logonCount via registry (immutable counter > 15 = connu)',
-            'Phase de tests en environnement recette : 3 agents pilotes, rollback procédures valident',
-            'Déploiement en production : Distribution GPO à 50 postes + formation 5 responsables RH',
-            'Monitoring post-prod : tableau de bord Excel + alertes Slack sur anomalies'
+            'Audit du processus existant et cartographie des étapes manuelles à automatiser',
+            'Conception du script PowerShell d\'onboarding : création automatique de compte AD, attribution OU par service',
+            'Intégration Exchange : création de la boîte mail professionnelle de l\'agent',
+            'Implémentation du mécanisme progressif : détection logonCount via registre Windows pour identifier les nouveaux agents',
+            'Envoi automatique d\'emails de bienvenue aux jalons J0, J+3 et J+7 après la première connexion',
+            'Phase de tests sur agents pilotes et ajustements avant mise en production',
+            'Déploiement en production via GPO',
+            'Documentation du script et de la procédure pour la Direction du Numérique'
         ],
-        tools: ['PowerShell', 'Microsoft Exchange', 'Active Directory', 'Registre Windows', 'GPO', 'Windows Server 2019', 'Slack API'],
+        tools: ['PowerShell', 'Microsoft Exchange', 'Active Directory', 'Registre Windows', 'GPO', 'Windows Server 2019'],
         competences: { b1: ['B1.2', 'B1.4'], b2: ['B2.2', 'B2.4'] },
         results: 'Solution déployée en production à la Mairie. Onboarding entièrement automatisé, délai de mise en service réduit de 48h à ~6h. Aucun incident d\'oubli de configuration signalé durant le pilote (février 2025). Retours de la Direction du Numérique positifs.',
         docs: [
@@ -410,10 +409,10 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
         },
         qqocpq: {
             qui: 'Slim Touabti en tant que technicien IT, stagiaire à la Mairie de Charenton-le-Pont (Direction du Numérique). Maitrise d\'ouvrage : Direction du Numérique et RH. Bénéficiaires : 150+ nouveaux agents municipaux par an.',
-            quoi: 'Un système d\'onboarding automatisé en PowerShell qui configure en 3 phases (J0, J+3, J+7) : compte AD, boîte mail Exchange, accès imprimantes/partages réseau, téléphonie VoIP, et notifiations. Remplace un processus manuel de 48h par une automatisation de 6h.',
-            ou: 'Mairie de Charenton-le-Pont (commune 30k habitants, Val-de-Marne), infrastructure IT 150+ postes Windows Server 2019/AD/Exchange. Déploiement via GPO sur 50 postes administratifs et 50 matériel RH.',
+            quoi: 'Un système d\'onboarding automatisé en PowerShell qui configure en 3 phases (J0, J+3, J+7) : compte AD, boîte mail Exchange. Remplace un processus manuel de 48h par une automatisation de 6h pour les 900+ agents municipaux.',
+            ou: 'Mairie de Charenton-le-Pont (commune 30k habitants, Val-de-Marne), infrastructure IT Windows Server 2019/AD/Exchange. Déploiement via GPO.',
             quand: 'Stage 2ème année (janvier-février 2026), 4 semaines. Phases : audit S1 → conception V1 S2 → pivot technique S3-S4 → développement S5 → tests S6 → déploiement prod S7-S8.',
-            comment: 'Méthodologie agile avec itérations courtes. Architecture modulaire PowerShell : 4 modules autonomes (AD, Exchange, VoIP, Ticketing). Mécanique progressive basée sur attribut immuable logonCount (détection nouveau compte vs existant). Distribution via GPO pour exécution transparente. Monitoring via Excel + alertes Slack.',
+            comment: 'Méthodologie agile avec itérations courtes. Script PowerShell avec mécanique progressive basée sur logonCount (détection nouveau compte vs existant). Distribution via GPO pour exécution transparente à chaque connexion.',
             pourquoi: 'Démonter B1.2 (répondre aux incidents/demandes) et B1.4 (travailler en mode projet). Cas réel : augmente la productivité RH (réduction 48h→6h) et élimine les erreurs humaines. Compétence SISR clé : l\'automatisation d\'une tâche répétitive administrative. Stage probant justifiant la position « administration systèmes » en alternance.'
         }
     },
@@ -445,7 +444,7 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
             quoi: '6 machines virtuelles complètes (Windows 10, Samba 4 DC, Kali Linux, Ubuntu, Labtainer, Stormshield virtuel) déployées sur hyperviseur Proxmox du lycée, offrant un lab infrastructure hétérogène et sécurisé.',
             ou: 'Lycée Louis Armand, sur hyperviseur Proxmox VE disponible en lab. Infrastructure isolée du réseau pédagogique principal (réseau privé virtualisation).',
             quand: 'Projet de formation 2024-2025, déploiement progressif au fil des TP (septembre-avril), avec maintenance continue et snapshots avant mise à jour.',
-            comment: 'Déploiement via Proxmox VE avec allocation ressources adaptées (vCPU, RAM, stockage SSD). VMs en réseau isolé (intra-lab) pour sécurité des tests. Snapshots créés après chaque étape critique. Automatisation provisioning via cloud-init. Gestion des snapshots pour rollback rapide.',
+            comment: 'Déploiement via Proxmox VE avec allocation ressources adaptées (vCPU, RAM, stockage SSD). VMs en réseau isolé (intra-lab) pour sécurité des tests. Snapshots créés après chaque étape critique. Gestion des snapshots pour rollback rapide.',
             pourquoi: 'Démontrer B2.2 (mettre en place une solution d\'infrastructure) et B2.4 (exploiter une infra). Cas pédagogique : permettre à tous les apprenants de disposer d\'un environnement reproductible pour les TP complexes (AD, pare-feu, pentest). Compétence SISR : la virtualisation comme levier d\'efficacité en administration.'
         }
     },
@@ -453,7 +452,7 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
     'proj-itsm': {
         spNumber: 'SP6',
         title: 'Support ITSM & Gestion de Parc',
-        lieu: 'Stage 1ère année — HTNS · High Technology Network & Security',
+        lieu: 'Stage 1ère année — HTNS · High Technology Network & Security (26/05/25 – 04/07/25)',
         isStage: true,
         context: 'HTNS assure le support IT managé (managed services) pour plusieurs clients de grands comptes. En tant que stagiaire technicien, participation aux équipes N1/N2 avec traitement de tickets d\'incidents variés (30+ tickets résolus durant le stage) et gestion du parc informatique des clients HTNS avec MTTR moyen de 45 minutes.',
         mission: 'Prendre en charge les incidents et demandes opérationnelles (niveaux N1 et N2), diagnostiquer et résoudre les problèmes utilisateurs, et assurer la gestion du parc informatique des clients.',
@@ -462,7 +461,6 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
             'Diagnostic et résolution à distance des incidents via TeamViewer et Atera (RMM)',
             'Gestion des comptes utilisateurs : création, réinitialisation de mots de passe, gestion des droits AD',
             'Déploiement de stratégies GPO : imprimantes réseau, logiciels, restrictions de sécurité',
-            'Inventaire du parc matériel et logiciel via OCS Inventory',
             'Escalade N2 sur incidents complexes et rédaction de fiches de troubleshooting',
             'Documentation et formation utilisateurs pour améliorer autonomie'
         ],
@@ -474,9 +472,9 @@ if (($null -eq $Step3_Done) -and ($DaysSinceStart -ge 7)) {
         ],
         qqocpq: {
             qui: 'Slim Touabti en tant que technicien support N1/N2, stagiaire au sein de l\'équipe managed services d\'HTNS (High Technology Network & Security). Superviseurs : responsables N2 d\'HTNS. Clients : grands comptes (KPMG, Mercedes-Benz, collectivités).',
-            quoi: 'Traitement de 30+ incidents IT (support N1/N2) couvrant diagnostique distant, gestion des droits AD, déploiement GPO, troubleshooting réseau, inventaire parc OCS. Maintenance du SLA (MTTR ~45min) et satisfaction client selon standards ITIL.',
-            ou: 'HTNS (Alger), centre de support IT managé. Clients distants dans la région avec accès via TeamViewer, RMM Atera, et outils GLPI en ligne.',
-            quand: 'Stage 1ère année (sept-oct 2024), 4 semaines. Activité continue avec tickets incidents quotidiens (moyenne 8-10 tickets/jour).',
+            quoi: 'Traitement de 30+ incidents IT (support N1/N2) couvrant diagnostique distant, gestion des droits AD, déploiement GPO et troubleshooting réseau.',
+            ou: 'HTNS, centre de support IT managé. Clients distants avec accès via TeamViewer, RMM Atera, et outils GLPI en ligne.',
+            quand: 'Stage 1ère année — 26/05/2025 au 04/07/2025.',
             comment: 'Méthodologie ITIL : réception ticket GLPI → tri par sévérité → diagnostic via TeamViewer/RMM → escalade N2 si nécessaire → documentation → fermeture. Outils : GLPI (ticketing), OCS Inventory (inventaire), Active Directory (gestion comptes), GPO (déploiement config), Office 365 (support messagerie).',
             pourquoi: 'Démontrer B1.1 (gérer patrimoine IT) et B1.2 (répondre aux incidents). Cas professionnel réel : comprendre le quotidien d\'un support N1/N2 en environnement managé. Compétence SISR : capacité à diagnostiquer rapidement et à escalader efficacement. Premier stage = première expérience du support IT en entreprise.'
         }
@@ -784,12 +782,9 @@ function buildCompBadges(comps) {
         ...comps.b2.map(c => ({ code: c, cls: 'modal-comp-b2' }))
     ];
     const badges = all.map(({ code, cls }) =>
-        `<span class="${cls}" title="${COMP_LABELS[code] || ''}">${code}</span>`
+        `<span class="${cls}">${code} — ${COMP_LABELS[code] || ''}</span>`
     ).join('');
-    const legend = all.map(({ code, cls }) =>
-        `<div class="comp-legend-item"><span class="${cls} comp-legend-code">${code}</span><span class="comp-legend-label">${COMP_LABELS[code] || ''}</span></div>`
-    ).join('');
-    return `${badges}<div class="modal-comp-legend">${legend}</div>`;
+    return badges;
 }
 
 function openModal(key) {
